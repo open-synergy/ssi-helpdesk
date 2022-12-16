@@ -7,3 +7,4 @@ opnsynid-hr-employee-directory https://github.com/open-synergy/opnsynid-hr-emplo
 opnsynid-server-tools https://github.com/open-synergy/opnsynid-server-tools.git 14.0
 oca-reporting-engine https://github.com/OCA/reporting-engine.git 14.0
 opnsynid-hr-timesheet https://github.com/open-synergy/opnsynid-hr-timesheet.git 14.0
+opnsynid-project https://github.com/open-synergy/opnsynid-project.git 14.0
