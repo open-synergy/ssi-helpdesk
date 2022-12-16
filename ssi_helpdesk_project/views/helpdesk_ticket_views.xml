@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2022 OpenSynergy Indonesia
+     Copyright 2022 PT. Simetri Sinergi Indonesia
+     License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl). -->
+<odoo>
+<record id="helpdesk_ticket_view_form" model="ir.ui.view">
+     <field name="name">helpdesk_ticket form</field>
+     <field name="model">helpdesk_ticket</field>
+     <field name="inherit_id" ref="ssi_helpdesk.helpdesk_ticket_view_form" />
+     <field name="mode">extension</field>
+     <field name="arch" type="xml">
+          <data>
+               <xpath expr="//page[1]" position="after">
+                    <page name="task" string="Tasks">
+                         <group name="task" colspan="4" col="2">
+                              <field name="total_task" />
+                         </group>
+                         <field name="task_ids" />
+                    </page>
+               </xpath>
+          </data>
+     </field>
+</record>
+</odoo>
