@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2022 OpenSynergy Indonesia
+     Copyright 2022 PT. Simetri Sinergi Indonesia
+     License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl). -->
+<odoo>
+<record id="helpdesk_ticket_view_search" model="ir.ui.view">
+    <field name="name">helpdesk_ticket - search</field>
+    <field name="model">helpdesk_ticket</field>
+    <field name="mode">primary</field>
+    <field
+            name="inherit_id"
+            ref="ssi_transaction_mixin.mixin_transaction_view_search"
+        />
+    <field name="arch" type="xml">
+        <data />
+    </field>
+</record>
+
+<record id="helpdesk_ticket_view_tree" model="ir.ui.view">
+    <field name="name">helpdesk_ticket.tree</field>
+    <field name="model">helpdesk_ticket</field>
+    <field name="mode">primary</field>
+    <field name="inherit_id" ref="ssi_transaction_mixin.mixin_transaction_view_tree" />
+    <field name="arch" type="xml">
+        <data>
+            <xpath expr="//field[@name='company_id']" position="after">
+                <field name="title" />
+                <field name="partner_id" />
+                <field name="commercial_partner_id" />
+                <field name="date" />
+                <field name="type_id" />
+            </xpath>
+        </data>
+    </field>
+</record>
+
+    <record id="helpdesk_ticket_view_form" model="ir.ui.view">
+        <field name="name">helpdesk_ticket.form</field>
+        <field name="model">helpdesk_ticket</field>
+        <field name="mode">primary</field>
+        <field
+            name="inherit_id"
+            ref="ssi_transaction_mixin.mixin_transaction_view_form"
+        />
+        <field name="arch" type="xml">
+            <data>
+                <xpath expr="//field[@name='user_id']" position="after">
+                    <field name="partner_id" />
+                    <field name="commercial_partner_id" />
+                    <field name="date" />
+                </xpath>
+                <xpath expr="//group[@name='header_right']" position="inside">
+                    <field name="type_id" />
+                    <field name="type_category_id" />
+                </xpath>
+                <xpath expr="//group[@name='header_center']" position="inside">
+                    <label for="title" colspan="2" />
+                    <field name="title" nolabel="1" colspan="2" />
+                </xpath>
+                <xpath expr="//page[1]" position="before">
+                    <page name="description" string="Description">
+                        <group name="description" colspan="4" col="2">
+                            <field
+                                name="description"
+                                widget="html"
+                                nolabel="1"
+                                colspan="2"
+                            />
+                        </group>
+                    </page>
+                    <page name="communication" string="Communications">
+                        <button
+                            name="action_create_finishing_communication"
+                            string="Finishing Email"
+                            type="object"
+                            icon="fa-paper-plane"
+                            class="oe_highlight"
+                            attrs="{'invisible':['|',('state','!=','open'),'&amp;',('state','=','open'),('finishing_communication_id','!=',False)]}"
+                        />
+                        <group name="communication_1" colspan="4" col="2">
+                            <field name="starting_communication_id" />
+                            <field name="finishing_communication_id" />
+                            <field name="finishing_communication_state" invisible="1" />
+                        </group>
+                        <field name="communication_ids" />
+                    </page>
+                </xpath>
+            </data>
+        </field>
+    </record>
+
+    <record id="helpdesk_ticket_action" model="ir.actions.act_window">
+        <field name="name">Helpdesk Tickets</field>
+        <field name="res_model">helpdesk_ticket</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem
+        id="helpdesk_ticket_menu"
+        name="Tickets"
+        parent="menu_root_helpdesk"
+        action="helpdesk_ticket_action"
+        groups="helpdesk_ticket_viewer_group"
+        sequence="10"
+    />
+</odoo>
