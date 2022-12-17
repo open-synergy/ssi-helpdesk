@@ -43,7 +43,7 @@
 </record>
 
 <record id="helpdesk_channel_action" model="ir.actions.act_window">
-    <field name="name">Types</field>
+    <field name="name">Helpdesk Channels</field>
     <field name="type">ir.actions.act_window</field>
     <field name="res_model">helpdesk_channel</field>
     <field name="view_mode">tree,form</field>
