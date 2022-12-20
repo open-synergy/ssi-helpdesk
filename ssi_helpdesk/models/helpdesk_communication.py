@@ -2,7 +2,7 @@
 # Copyright 2022 PT. Simetri Sinergi Indonesia
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl).
 
-from odoo import api, fields, models
+from odoo import _, api, fields, models, tools
 
 
 class HelpdeskCommunication(models.Model):
@@ -185,6 +185,43 @@ class HelpdeskCommunication(models.Model):
         required=True,
         readonly=True,
     )
+
+    @api.model
+    def message_new(self, msg, custom_values=None):
+        create_context = dict(self.env.context or {})
+        create_context["default_user_id"] = False
+        if custom_values is None:
+            custom_values = {}
+        defaults = {
+            "name": "/",
+            "title": msg.get("subject") or _("No Subject"),
+            "date": fields.Date.today(),
+            "partner_id": msg.get("author_id"),
+        }
+        defaults.update(custom_values)
+
+        helpdeks_communication = super(
+            HelpdeskCommunication, self.with_context(create_context)
+        ).message_new(msg, custom_values=defaults)
+        email_list = helpdeks_communication.email_split(msg)
+        partner_ids = [
+            p.id
+            for p in self.env["mail.thread"]._mail_find_partner_from_emails(
+                email_list, records=helpdeks_communication, force_create=False
+            )
+            if p
+        ]
+        customer_ids = [
+            p.id
+            for p in self.env["mail.thread"]._mail_find_partner_from_emails(
+                tools.email_split(defaults["email_from"]),
+                records=helpdeks_communication,
+            )
+            if p
+        ]
+        partner_ids += customer_ids
+        helpdeks_communication.message_subscribe(partner_ids)
+        return helpdeks_communication
 
     @api.model
     def _get_policy_field(self):
