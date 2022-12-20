@@ -2,7 +2,7 @@
 # Copyright 2022 PT. Simetri Sinergi Indonesia
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl).
 
-from odoo import _, api, fields, models, tools
+from odoo import SUPERUSER_ID, _, api, fields, models, tools
 
 
 class HelpdeskCommunication(models.Model):
@@ -197,6 +197,8 @@ class HelpdeskCommunication(models.Model):
             "title": msg.get("subject") or _("No Subject"),
             "date": fields.Date.today(),
             "partner_id": msg.get("author_id"),
+            "user_id": SUPERUSER_ID,
+            "description": msg.get("body") or "-",
         }
         defaults.update(custom_values)
 
