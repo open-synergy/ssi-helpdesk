@@ -11,6 +11,10 @@ class HelpdeskTicket(models.Model):
         "helpdesk_ticket",
     ]
 
+    need_task = fields.Boolean(
+        string="Need Task",
+        default=False,
+    )
     task_ids = fields.Many2many(
         string="Tasks",
         comodel_name="project.task",
