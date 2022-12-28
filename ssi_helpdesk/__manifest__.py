@@ -4,7 +4,7 @@
 
 {
     "name": "Helpdesk",
-    "version": "14.0.1.2.0",
+    "version": "14.0.1.3.0",
     "website": "https://simetri-sinergi.id",
     "author": "OpenSynergy Indonesia, PT. Simetri Sinergi Indonesia",
     "license": "LGPL-3",
@@ -26,6 +26,7 @@
         "data/ir_sequence_data.xml",
         "data/sequence_template_data.xml",
         "data/policy_template_data.xml",
+        "data/approval_template_data.xml",
         "data/ir_actions_server_data.xml",
         "data/base_automation_data.xml",
         "menu.xml",

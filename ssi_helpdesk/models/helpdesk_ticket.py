@@ -9,30 +9,42 @@ class HelpdeskTicket(models.Model):
     _name = "helpdesk_ticket"
     _inherit = [
         "mixin.transaction_open",
+        "mixin.transaction_confirm",
         "mixin.transaction_done",
         "mixin.transaction_cancel",
         "mixin.transaction_terminate",
     ]
     _description = "Helpdesk Ticket"
-    _approval_from_state = "draft"
+
+    # Multiple Approval Attribute
+    _approval_from_state = "open"
+    _approval_to_state = "done"
+    _approval_state = "confirm"
+    _after_approved_method = "action_done"
 
     # Attributes related to add element on view automatically
     _automatically_insert_view_element = True
+    _automatically_insert_done_policy_fields = False
+    _automatically_insert_done_button = False
 
-    _statusbar_visible_label = "draft,open,done"
+    _statusbar_visible_label = "draft,open,confirm,done"
 
     _policy_field_order = [
         "open_ok",
+        "confirm_ok",
+        "approve_ok",
+        "reject_ok",
         "restart_approval_ok",
         "cancel_ok",
         "terminate_ok",
         "restart_ok",
-        "done_ok",
         "manual_number_ok",
     ]
     _header_button_order = [
         "action_open",
-        "action_done",
+        "action_confirm",
+        "action_approve_approval",
+        "action_reject_approval",
         "%(ssi_transaction_cancel_mixin.base_select_cancel_reason_action)d",
         "%(ssi_transaction_terminate_mixin.base_select_terminate_reason_action)d",
         "action_restart",
@@ -42,6 +54,8 @@ class HelpdeskTicket(models.Model):
     _state_filter_order = [
         "dom_draft",
         "dom_open",
+        "dom_confirm",
+        "dom_reject",
         "dom_done",
         "dom_terminate",
         "dom_cancel",
@@ -65,6 +79,13 @@ class HelpdeskTicket(models.Model):
         ondelete="restrict",
         readonly=True,
         states={"draft": [("readonly", False)]},
+    )
+    additional_partner_ids = fields.Many2many(
+        string="CC To",
+        comodel_name="res.partner",
+        relation="rel_helpdesk_ticket_2_additional_partner",
+        column1="ticket_id",
+        column2="partner_id",
     )
     commercial_partner_id = fields.Many2one(
         string="Commercial Contact",
@@ -126,7 +147,9 @@ class HelpdeskTicket(models.Model):
         selection=[
             ("draft", "Draft"),
             ("open", "In Progress"),
+            ("confirm", "Waiting for Approval"),
             ("done", "Done"),
+            ("reject", "Reject"),
             ("terminate", "Terminate"),
             ("cancel", "Cancelled"),
         ],
@@ -141,6 +164,10 @@ class HelpdeskTicket(models.Model):
         res = super(HelpdeskTicket, self)._get_policy_field()
         policy_field = [
             "open_ok",
+            "confirm_ok",
+            "approve_ok",
+            "reject_ok",
+            "restart_approval_ok",
             "done_ok",
             "cancel_ok",
             "restart_ok",
@@ -149,6 +176,12 @@ class HelpdeskTicket(models.Model):
         ]
         res += policy_field
         return res
+
+    @api.onchange(
+        "partner_id",
+    )
+    def onchange_additional_partner_ids(self):
+        self.additional_partner_ids = [(5)]
 
     def action_create_finishing_communication(self):
         for record in self.sudo():
