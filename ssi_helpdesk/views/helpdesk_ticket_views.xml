@@ -70,6 +70,11 @@
                 <xpath expr="//field[@name='user_id']" position="after">
                     <field name="partner_id" />
                     <field name="commercial_partner_id" />
+                    <field
+                        name="additional_partner_ids"
+                        widget="many2many_tags_avatar"
+                        domain="[('commercial_partner_id','=',commercial_partner_id),('id','!=',commercial_partner_id)]"
+                    />
                     <field name="date" />
                 </xpath>
                 <xpath expr="//group[@name='header_right']" position="inside">
