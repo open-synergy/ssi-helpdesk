@@ -98,12 +98,29 @@
                     </page>
                     <page name="communication" string="Communications">
                         <button
-                            name="action_create_finishing_communication"
-                            string="Finishing Email"
+                            name="action_create_updating_communication"
+                            string="Updating"
                             type="object"
                             icon="fa-paper-plane"
                             class="oe_highlight"
+                            attrs="{'invisible':[('state','!=','open')]}"
+                            style="margin-right:4px"
+                        />
+                        <button
+                            name="action_create_finishing_communication"
+                            string="Finishing"
+                            type="object"
+                            icon="fa-paper-plane"
+                            class="oe_highlight"
+                            style="margin-right:4px"
                             attrs="{'invisible':['|',('state','!=','open'),'&amp;',('state','=','open'),('finishing_communication_id','!=',False)]}"
+                        />
+                        <button
+                            name="action_open_communication"
+                            string="Communications"
+                            type="object"
+                            icon="fa-envelope"
+                            class="oe_highlight"
                         />
                         <group name="communication_1" colspan="4" col="2">
                             <field name="starting_communication_id" />

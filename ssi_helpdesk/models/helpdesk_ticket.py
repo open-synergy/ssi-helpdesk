@@ -187,6 +187,26 @@ class HelpdeskTicket(models.Model):
         for record in self.sudo():
             record._create_finishing_communication()
 
+    def action_create_updating_communication(self):
+        for record in self.sudo():
+            result = record._create_updating_communication()
+        return result
+
+    def action_open_communication(self):
+        for record in self.sudo():
+            result = record._open_communication()
+        return result
+
+    def _open_communication(self):
+        waction = self.env.ref("ssi_helpdesk.helpdesk_communication_action").read()[0]
+        waction.update(
+            {
+                "view_mode": "tree,form",
+                "domain": [("ticket_id", "=", self.id)],
+            }
+        )
+        return waction
+
     def _create_finishing_communication(self):
         HC = self.env["helpdesk_communication"]
         hc = HC.create(self._prepare_create_finishing_communication())
@@ -196,9 +216,31 @@ class HelpdeskTicket(models.Model):
             }
         )
 
+    def _create_updating_communication(self):
+        HC = self.env["helpdesk_communication"]
+        hc = HC.create(self._prepare_create_updating_communication())
+        waction = self.env.ref("ssi_helpdesk.helpdesk_communication_action").read()[0]
+        waction.update(
+            {
+                "view_mode": "form",
+                "res_id": hc.id,
+                "view_id": self.env.ref("ssi_helpdesk.helpdesk_ticket_view_form").id,
+                "domain": [("ticket_id", "=", self.id)],
+            }
+        )
+        return waction
+
     def _prepare_create_finishing_communication(self):
         return {
             "partner_id": self.partner_id.id,
             "title": self.title,
+            "ticket_id": self.id,
+        }
+
+    def _prepare_create_updating_communication(self):
+        title = "Ticket status update - %s - %s" % (self.name, fields.Date.today())
+        return {
+            "partner_id": self.partner_id.id,
+            "title": title,
             "ticket_id": self.id,
         }
