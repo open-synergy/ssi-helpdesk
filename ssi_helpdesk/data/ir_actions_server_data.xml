@@ -3,6 +3,7 @@
      Copyright 2022 PT. Simetri Sinergi Indonesia
      License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl). -->
 <data>
+<!-- Communication -->
 <record id="helpdesk_communication_action_open" model="ir.actions.server">
     <field name="name">Action Open</field>
     <field name="model_id" ref="model_helpdesk_communication" />
@@ -17,6 +18,7 @@
     <field name="code">records.action_restart()</field>
 </record>
 
+<!-- Ticket -->
 <record id="helpdesk_ticket_action_done" model="ir.actions.server">
     <field name="name">Action Done</field>
     <field name="model_id" ref="model_helpdesk_ticket" />

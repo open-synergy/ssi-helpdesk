@@ -39,7 +39,7 @@ class HelpdeskCommunication(models.Model):
         "dom_done",
     ]
 
-    _create_sequence_state = "open"
+    _create_sequence_state = False
 
     title = fields.Char(
         required=True,
@@ -127,20 +127,24 @@ class HelpdeskCommunication(models.Model):
     )
     def _compute_need_respon(self):
         for record in self:
-            if record.latest_message_id and not record.latest_partner_message_id:
+            if not record.latest_message_id and not record.latest_partner_message_id:
                 record.need_respon = False
+                continue
+
+            if record.latest_message_id and not record.latest_partner_message_id:
+                record.need_respon = True
                 continue
 
             if not record.latest_message_id and record.latest_partner_message_id:
-                record.need_respon = True
-                continue
-
-            if record.latest_message_id.id > record.latest_partner_message_id.id:
                 record.need_respon = False
                 continue
 
-            if record.latest_partner_message_id.id > record.latest_message_id.id:
+            if record.latest_message_id.id > record.latest_partner_message_id.id:
                 record.need_respon = True
+                continue
+
+            if record.latest_partner_message_id.id > record.latest_message_id.id:
+                record.need_respon = False
                 continue
 
     need_respon = fields.Boolean(
@@ -185,6 +189,14 @@ class HelpdeskCommunication(models.Model):
         required=True,
         readonly=True,
     )
+
+    @api.model_create_multi
+    def create(self, values):
+        _super = super(HelpdeskCommunication, self)
+        results = _super.create(values)
+        for result in results:
+            result._create_sequence()
+        return result
 
     @api.model
     def message_new(self, msg, custom_values=None):
