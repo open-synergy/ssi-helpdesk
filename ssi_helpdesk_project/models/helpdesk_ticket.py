@@ -29,7 +29,7 @@ class HelpdeskTicket(models.Model):
     )
     timebox_latest_id = fields.Many2one(
         string="Letest Timebox",
-        comodel_name="project.timebox",
+        comodel_name="task.timebox",
         compute="_compute_timebox",
         store=True,
     )
@@ -45,7 +45,7 @@ class HelpdeskTicket(models.Model):
     )
     timebox_initial_id = fields.Many2one(
         string="Timebox Initial",
-        comodel_name="project.timebox",
+        comodel_name="task.timebox",
         compute="_compute_timebox",
         store=True,
     )
