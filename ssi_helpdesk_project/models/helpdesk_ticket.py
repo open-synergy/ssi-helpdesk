@@ -93,11 +93,11 @@ class HelpdeskTicket(models.Model):
             if document.task_ids:
                 tasks = document.task_ids
                 latest_sorted = tasks.sorted(key=lambda r: r.timebox_latest_id)
-                timebox_latest_id = latest_sorted[-1].timebox_latest_id
+                timebox_latest_id = latest_sorted[0].timebox_latest_id
                 timebox_latest_date_start = timebox_latest_id.date_start
                 timebox_latest_date_end = timebox_latest_id.date_end
                 initial_sorted = tasks.sorted(key=lambda r: r.timebox_initial_id)
-                timebox_initial_id = initial_sorted[0].timebox_initial_id
+                timebox_initial_id = initial_sorted[-1].timebox_initial_id
                 timebox_initial_date_start = timebox_initial_id.date_start
                 timebox_initial_date_end = timebox_initial_id.date_end
 
