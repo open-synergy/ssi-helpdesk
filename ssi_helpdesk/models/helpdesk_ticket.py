@@ -183,6 +183,14 @@ class HelpdeskTicket(models.Model):
     def onchange_additional_partner_ids(self):
         self.additional_partner_ids = [(5)]
 
+    @api.model_create_multi
+    def create(self, values):
+        _super = super(HelpdeskTicket, self)
+        results = _super.create(values)
+        for result in results:
+            result._create_sequence()
+        return result
+
     def action_create_finishing_communication(self):
         for record in self.sudo():
             record._create_finishing_communication()
@@ -210,6 +218,8 @@ class HelpdeskTicket(models.Model):
     def _create_finishing_communication(self):
         HC = self.env["helpdesk_communication"]
         hc = HC.create(self._prepare_create_finishing_communication())
+        partner_ids = (self.additional_partner_ids + self.partner_id).ids
+        hc.message_subscribe(partner_ids)
         self.write(
             {
                 "finishing_communication_id": hc.id,
@@ -219,6 +229,8 @@ class HelpdeskTicket(models.Model):
     def _create_updating_communication(self):
         HC = self.env["helpdesk_communication"]
         hc = HC.create(self._prepare_create_updating_communication())
+        partner_ids = (self.additional_partner_ids + self.partner_id).ids
+        hc.message_subscribe(partner_ids)
         waction = self.env.ref("ssi_helpdesk.helpdesk_communication_action").read()[0]
         waction.update(
             {
