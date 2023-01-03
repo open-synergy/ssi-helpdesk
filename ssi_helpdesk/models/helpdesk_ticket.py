@@ -193,7 +193,8 @@ class HelpdeskTicket(models.Model):
 
     def action_create_finishing_communication(self):
         for record in self.sudo():
-            record._create_finishing_communication()
+            result = record._create_finishing_communication()
+        return result
 
     def action_create_updating_communication(self):
         for record in self.sudo():
@@ -225,22 +226,27 @@ class HelpdeskTicket(models.Model):
                 "finishing_communication_id": hc.id,
             }
         )
+        return {
+            "name": hc.title,
+            "view_mode": "form",
+            "res_model": "helpdesk_communication",
+            "res_id": hc.id,
+            "type": "ir.actions.act_window",
+        }
 
     def _create_updating_communication(self):
+        self.ensure_one()
         HC = self.env["helpdesk_communication"]
         hc = HC.create(self._prepare_create_updating_communication())
         partner_ids = (self.additional_partner_ids + self.partner_id).ids
         hc.message_subscribe(partner_ids)
-        waction = self.env.ref("ssi_helpdesk.helpdesk_communication_action").read()[0]
-        waction.update(
-            {
-                "view_mode": "form",
-                "res_id": hc.id,
-                "view_id": self.env.ref("ssi_helpdesk.helpdesk_ticket_view_form").id,
-                "domain": [("ticket_id", "=", self.id)],
-            }
-        )
-        return waction
+        return {
+            "name": hc.title,
+            "view_mode": "form",
+            "res_model": "helpdesk_communication",
+            "res_id": hc.id,
+            "type": "ir.actions.act_window",
+        }
 
     def _prepare_create_finishing_communication(self):
         return {

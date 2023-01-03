@@ -80,7 +80,10 @@
                 <xpath expr="//group[@name='header_right']" position="inside">
                     <field name="date" />
                     <field name="channel_id" />
-                    <field name="ticket_id" />
+                    <field
+                        name="ticket_id"
+                        domain="[('commercial_partner_id','=',commercial_partner_id)]"
+                    />
                     <button
                         name="%(create_ticket_from_communication_action)d"
                         type="action"
