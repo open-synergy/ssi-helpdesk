@@ -53,6 +53,12 @@
                          <group name="task" colspan="4" col="2">
                               <field name="need_task" />
                               <field name="total_task" />
+                              <field name="task_draft_count" />
+                              <field name="task_open_count" />
+                              <field name="task_done_count" />
+                              <field name="task_pending_count" />
+                              <field name="task_no_state_count" />
+                              <field name="task_done" />
                          </group>
                          <group name="timebox_1" colspan="4" col="2">
                               <group
