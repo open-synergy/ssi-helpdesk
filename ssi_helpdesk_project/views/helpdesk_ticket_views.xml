@@ -11,7 +11,7 @@
     <field name="arch" type="xml">
         <data>
             <xpath expr="//separator[@name='activity']" position="before">
-                <separator name="task" />
+                <separator name="task1" />
                 <filter
                         name="need_task"
                         string="Need Task"
@@ -21,6 +21,17 @@
                         name="need_no_task"
                         string="Need No Task"
                         domain="[('need_task','=',False)]"
+                    />
+                <separator name="task2" />
+                <filter
+                        name="not_done_task"
+                        string="Task Not Done"
+                        domain="[('task_done','=',False)]"
+                    />
+                <filter
+                        name="done_task"
+                        string="Task Done"
+                        domain="[('task_done','=',True)]"
                     />
             </xpath>
         </data>
