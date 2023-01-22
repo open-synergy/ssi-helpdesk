@@ -1,6 +1,8 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_helpdesk_type_category_configurator,helpdesk_type_category - configurator,model_helpdesk_type_category,helpdesk_type_category_group,1,1,1,1
 access_helpdesk_type_category_all,helpdesk_type_category - all user,model_helpdesk_type_category,,1,0,0,0
+access_helpdesk_contact_group_configurator,helpdesk_contact_group - configurator,model_helpdesk_contact_group,helpdesk_contact_group_configurator_group,1,1,1,1
+access_helpdesk_contact_group_all,helpdesk_contact_group - all user,model_helpdesk_contact_group,,1,0,0,0
 access_helpdesk_type_configurator,helpdesk_type - configurator,model_helpdesk_type,helpdesk_type_group,1,1,1,1
 access_helpdesk_type_all,helpdesk_type - all user,model_helpdesk_type,,1,0,0,0
 access_helpdesk_channel_configurator,helpdesk_channel - configurator,model_helpdesk_channel,helpdesk_channel_group,1,1,1,1

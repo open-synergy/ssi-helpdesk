@@ -80,6 +80,17 @@ class HelpdeskTicket(models.Model):
         readonly=True,
         states={"draft": [("readonly", False)]},
     )
+    commercial_partner_id = fields.Many2one(
+        string="Commercial Contact",
+        comodel_name="res.partner",
+        related="partner_id.commercial_partner_id",
+        store=True,
+    )
+    contact_group_id = fields.Many2one(
+        string="Contact Group",
+        comodel_name="helpdesk_contact_group",
+        ondelete="restrict",
+    )
     additional_partner_ids = fields.Many2many(
         string="CC To",
         comodel_name="res.partner",
@@ -87,12 +98,7 @@ class HelpdeskTicket(models.Model):
         column1="ticket_id",
         column2="partner_id",
     )
-    commercial_partner_id = fields.Many2one(
-        string="Commercial Contact",
-        comodel_name="res.partner",
-        related="partner_id.commercial_partner_id",
-        store=True,
-    )
+
     type_id = fields.Many2one(
         string="Type",
         comodel_name="helpdesk_type",
@@ -179,9 +185,21 @@ class HelpdeskTicket(models.Model):
 
     @api.onchange(
         "partner_id",
+        "contact_group_id",
     )
     def onchange_additional_partner_ids(self):
         self.additional_partner_ids = [(5)]
+
+        if self.contact_group_id:
+            self.additional_partner_ids = [
+                (6, 0, self.contact_group_id.contact_ids.ids)
+            ]
+
+    @api.onchange(
+        "partner_id",
+    )
+    def onchange_contact_group_id(self):
+        self.contact_group_id = False
 
     @api.model_create_multi
     def create(self, values):

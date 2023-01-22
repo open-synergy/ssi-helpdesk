@@ -5,6 +5,7 @@
 from . import (
     helpdesk_type_category,
     helpdesk_type,
+    helpdesk_contact_group,
     helpdesk_channel,
     helpdesk_communication,
     helpdesk_ticket,
