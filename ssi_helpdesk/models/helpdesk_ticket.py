@@ -86,10 +86,12 @@ class HelpdeskTicket(models.Model):
         related="partner_id.commercial_partner_id",
         store=True,
     )
-    contact_group_id = fields.Many2one(
+    contact_group_ids = fields.Many2many(
         string="Contact Group",
         comodel_name="helpdesk_contact_group",
-        ondelete="restrict",
+        relation="rel_helpdesk_ticket_2_contact_group",
+        column1="ticket_id",
+        column2="group_id",
     )
     additional_partner_ids = fields.Many2many(
         string="CC To",
@@ -185,21 +187,22 @@ class HelpdeskTicket(models.Model):
 
     @api.onchange(
         "partner_id",
-        "contact_group_id",
+        "contact_group_ids",
     )
     def onchange_additional_partner_ids(self):
-        self.additional_partner_ids = [(5)]
+        self.additional_partner_ids = [(6, 0, [])]
 
-        if self.contact_group_id:
-            self.additional_partner_ids = [
-                (6, 0, self.contact_group_id.contact_ids.ids)
-            ]
+        if self.contact_group_ids:
+            contact_groups = self.contact_group_ids.mapped("contact_ids")
+            # TODO: This is not working. Why?
+            contact_groups = contact_groups - self.partner_id
+            self.additional_partner_ids = [(6, 0, contact_groups.ids)]
 
     @api.onchange(
         "partner_id",
     )
-    def onchange_contact_group_id(self):
-        self.contact_group_id = False
+    def onchange_contact_group_ids(self):
+        self.contact_group_ids = [(6, 0, [])]
 
     @api.model_create_multi
     def create(self, values):

@@ -72,8 +72,9 @@
                     <field name="partner_id" />
                     <field name="commercial_partner_id" />
                     <field
-                        name="contact_group_id"
+                        name="contact_group_ids"
                         domain="[('commercial_contact_id','=',commercial_partner_id)]"
+                        widget="many2many_tags"
                     />
                     <field
                         name="additional_partner_ids"
