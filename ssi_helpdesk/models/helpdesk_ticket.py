@@ -150,6 +150,15 @@ class HelpdeskTicket(models.Model):
         related="finishing_communication_id.state",
         store=True,
     )
+    duplicate_id = fields.Many2one(
+        string="# Duplicate With",
+        comodel_name="helpdesk_ticket",
+    )
+    duplicate_ids = fields.One2many(
+        string="Duplicates",
+        comodel_name="helpdesk_ticket",
+        inverse_name="duplicate_id",
+    )
     state = fields.Selection(
         string="State",
         selection=[
