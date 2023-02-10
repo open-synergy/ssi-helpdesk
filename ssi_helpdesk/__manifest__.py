@@ -4,7 +4,7 @@
 
 {
     "name": "Helpdesk",
-    "version": "14.0.1.12.0",
+    "version": "14.0.2.0.0",
     "website": "https://simetri-sinergi.id",
     "author": "OpenSynergy Indonesia, PT. Simetri Sinergi Indonesia",
     "license": "LGPL-3",
@@ -18,6 +18,7 @@
         "ssi_transaction_cancel_mixin",
         "ssi_transaction_terminate_mixin",
         "base_automation",
+        "base_duration",
     ],
     "data": [
         "security/ir_module_category_data.xml",

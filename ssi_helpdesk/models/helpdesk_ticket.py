@@ -126,6 +126,10 @@ class HelpdeskTicket(models.Model):
         states={"draft": [("readonly", False)]},
         default=lambda self: self._default_date(),
     )
+    duration_id = fields.Many2one(
+        string="Duration",
+        comodel_name="base.duration",
+    )
     date_deadline = fields.Date(
         string="Deadline",
         required=True,
@@ -216,6 +220,23 @@ class HelpdeskTicket(models.Model):
     )
     def onchange_contact_group_ids(self):
         self.contact_group_ids = [(6, 0, [])]
+
+    @api.onchange(
+        "type_id",
+    )
+    def onchange_duration_id(self):
+        self.duration_id = False
+        if self.type_id:
+            self.duration_id = self.type_id.duration_id
+
+    @api.onchange(
+        "duration_id",
+        "date",
+    )
+    def onchange_date_deadline(self):
+        self.date_deadline = False
+        if self.duration_id:
+            self.date_deadline = self.duration_id.get_duration(self.date)
 
     @api.model_create_multi
     def create(self, values):
