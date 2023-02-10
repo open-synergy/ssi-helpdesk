@@ -132,7 +132,7 @@ class HelpdeskTicket(models.Model):
     )
     date_deadline = fields.Date(
         string="Deadline",
-        required=True,
+        required=False,
     )
     description = fields.Html(
         string="Description",
