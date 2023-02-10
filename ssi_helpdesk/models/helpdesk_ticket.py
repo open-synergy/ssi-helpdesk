@@ -126,6 +126,10 @@ class HelpdeskTicket(models.Model):
         states={"draft": [("readonly", False)]},
         default=lambda self: self._default_date(),
     )
+    date_deadline = fields.Date(
+        string="Deadline",
+        required=True,
+    )
     description = fields.Html(
         string="Description",
         readonly=False,
