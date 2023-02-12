@@ -111,6 +111,12 @@
                         </group>
                         <field name="duplicate_ids" widget="many2many" />
                     </page>
+                    <page name="split" string="Split">
+                        <group name="duplicate" colspan="4" col="2">
+                            <field name="split_id" />
+                        </group>
+                        <field name="split_ids" widget="many2many" />
+                    </page>
                     <page name="communication" string="Communications">
                         <button
                             name="action_create_updating_communication"

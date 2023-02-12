@@ -167,6 +167,15 @@ class HelpdeskTicket(models.Model):
         comodel_name="helpdesk_ticket",
         inverse_name="duplicate_id",
     )
+    split_id = fields.Many2one(
+        string="# Original Ticket",
+        comodel_name="helpdesk_ticket",
+    )
+    split_ids = fields.One2many(
+        string="Split Into",
+        comodel_name="helpdesk_ticket",
+        inverse_name="duplicate_id",
+    )
     state = fields.Selection(
         string="State",
         selection=[
