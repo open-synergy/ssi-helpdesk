@@ -27,17 +27,27 @@ class CreateTicketFromCommunication(models.TransientModel):
 
     def action_confirm(self):
         for record in self.sudo():
-            record._create_ticket()
+            result = record._create_ticket()
+        return result
 
     def _create_ticket(self):
         self.ensure_one()
         Ticket = self.env["helpdesk_ticket"]
         ticket = Ticket.create(self._prepare_create_ticket())
+        ticket.onchange_duration_id()
+        ticket.onchange_date_deadline()
         self.communication_id.write(
             {
                 "ticket_id": ticket.id,
             }
         )
+        return {
+            "name": ticket.title,
+            "view_mode": "form",
+            "res_model": "helpdesk_ticket",
+            "res_id": ticket.id,
+            "type": "ir.actions.act_window",
+        }
 
     def _prepare_create_ticket(self):
         self.ensure_one()
