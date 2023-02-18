@@ -9,3 +9,4 @@ opnsynid-server-tools https://github.com/open-synergy/opnsynid-server-tools.git 
 oca-reporting-engine https://github.com/OCA/reporting-engine.git 14.0
 opnsynid-hr-timesheet https://github.com/open-synergy/opnsynid-hr-timesheet.git 14.0
 opnsynid-project https://github.com/open-synergy/opnsynid-project.git 14.0
+ssi-odoo-implementation https://github.com/open-synergy/ssi-odoo-implementation.git 14.0
