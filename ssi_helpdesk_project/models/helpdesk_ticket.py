@@ -181,3 +181,10 @@ class HelpdeskTicket(models.Model):
             }
         )
         return waction
+
+    @api.onchange(
+        "type_id",
+    )
+    def onchange_need_task(self):
+        if self.type_id:
+            self.need_task = self.type_id.need_task

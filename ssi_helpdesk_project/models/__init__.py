@@ -5,4 +5,5 @@
 from . import (
     helpdesk_ticket,
     project_task,
+    helpdesk_type,
 )
