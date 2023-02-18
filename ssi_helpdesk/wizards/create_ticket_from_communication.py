@@ -30,17 +30,21 @@ class CreateTicketFromCommunication(models.TransientModel):
             result = record._create_ticket()
         return result
 
+    def _run_ticket_onchange(self):
+        self.ensure_one()
+        self.communication_id.ticket_id.onchange_duration_id()
+        self.communication_id.ticket_id.onchange_date_deadline()
+
     def _create_ticket(self):
         self.ensure_one()
         Ticket = self.env["helpdesk_ticket"]
         ticket = Ticket.create(self._prepare_create_ticket())
-        ticket.onchange_duration_id()
-        ticket.onchange_date_deadline()
         self.communication_id.write(
             {
                 "ticket_id": ticket.id,
             }
         )
+        self._run_ticket_onchange()
         return {
             "name": ticket.title,
             "view_mode": "form",
