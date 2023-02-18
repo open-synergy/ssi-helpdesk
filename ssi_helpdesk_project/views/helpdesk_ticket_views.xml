@@ -105,6 +105,13 @@
                                 />
                               </group>
                          </group>
+                        <button
+                            name="action_open_task"
+                            string="Tasks"
+                            type="object"
+                            icon="fa-bars"
+                            class="oe_highlight"
+                        />
                          <field name="task_ids" />
                     </page>
                </xpath>

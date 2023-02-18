@@ -165,3 +165,19 @@ class HelpdeskTicket(models.Model):
             document.timebox_initial_id = timebox_initial_id
             document.timebox_initial_date_start = timebox_initial_date_start
             document.timebox_initial_date_end = timebox_initial_date_end
+
+    def action_open_task(self):
+        for record in self.sudo():
+            result = record._open_task()
+        return result
+
+    def _open_task(self):
+        waction = self.env.ref("project.action_view_all_task").read()[0]
+        waction.update(
+            {
+                "view_mode": "tree,form",
+                "domain": [("id", "in", self.task_ids.ids)],
+                "context": {},
+            }
+        )
+        return waction
