@@ -174,7 +174,7 @@ class HelpdeskTicket(models.Model):
     split_ids = fields.One2many(
         string="Split Into",
         comodel_name="helpdesk_ticket",
-        inverse_name="duplicate_id",
+        inverse_name="split_id",
     )
     state = fields.Selection(
         string="State",
