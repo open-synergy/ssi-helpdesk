@@ -115,6 +115,22 @@
                         <group name="duplicate" colspan="4" col="2">
                             <field name="split_id" />
                         </group>
+                        <button
+                            name="%(split_helpdesk_ticket_action)d"
+                            type="action"
+                            string="Split Ticket"
+                            class="oe_highlight"
+                            icon="fa-file-text"
+                            style="margin-right:4px"
+                        />
+                        <button
+                            name="action_open_split"
+                            string="Open Split Result(s)"
+                            type="object"
+                            icon="fa-bars"
+                            class="oe_highlight"
+                        />
+
                         <field name="split_ids" widget="many2many" />
                     </page>
                     <page name="communication" string="Communications">

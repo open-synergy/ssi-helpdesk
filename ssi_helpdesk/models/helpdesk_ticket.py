@@ -67,6 +67,7 @@ class HelpdeskTicket(models.Model):
         required=True,
         readonly=True,
         states={"draft": [("readonly", False)]},
+        copy=True,
     )
     partner_id = fields.Many2one(
         string="Contact",
@@ -79,6 +80,7 @@ class HelpdeskTicket(models.Model):
         ondelete="restrict",
         readonly=True,
         states={"draft": [("readonly", False)]},
+        copy=True,
     )
     commercial_partner_id = fields.Many2one(
         string="Commercial Contact",
@@ -92,6 +94,7 @@ class HelpdeskTicket(models.Model):
         relation="rel_helpdesk_ticket_2_contact_group",
         column1="ticket_id",
         column2="group_id",
+        copy=True,
     )
     additional_partner_ids = fields.Many2many(
         string="CC To",
@@ -99,6 +102,7 @@ class HelpdeskTicket(models.Model):
         relation="rel_helpdesk_ticket_2_additional_partner",
         column1="ticket_id",
         column2="partner_id",
+        copy=True,
     )
 
     type_id = fields.Many2one(
@@ -108,6 +112,7 @@ class HelpdeskTicket(models.Model):
         ondelete="restrict",
         readonly=True,
         states={"draft": [("readonly", False)]},
+        copy=True,
     )
     type_category_id = fields.Many2one(
         string="Category",
@@ -125,33 +130,40 @@ class HelpdeskTicket(models.Model):
         readonly=True,
         states={"draft": [("readonly", False)]},
         default=lambda self: self._default_date(),
+        copy=True,
     )
     duration_id = fields.Many2one(
         string="Duration",
         comodel_name="base.duration",
+        copy=False,
     )
     date_deadline = fields.Date(
         string="Deadline",
         required=False,
+        copy=False,
     )
     description = fields.Html(
         string="Description",
         readonly=False,
+        copy=True,
     )
     communication_ids = fields.One2many(
         string="Communications",
         comodel_name="helpdesk_communication",
         inverse_name="ticket_id",
+        copy=False,
     )
     starting_communication_id = fields.Many2one(
         string="# Starting Communication",
         comodel_name="helpdesk_communication",
         readonly=True,
+        copy=False,
     )
     finishing_communication_id = fields.Many2one(
         string="# Finishing Communication",
         comodel_name="helpdesk_communication",
         readonly=True,
+        copy=False,
     )
     finishing_communication_state = fields.Selection(
         string="Finishing Communication State",
@@ -161,20 +173,24 @@ class HelpdeskTicket(models.Model):
     duplicate_id = fields.Many2one(
         string="# Duplicate With",
         comodel_name="helpdesk_ticket",
+        copy=False,
     )
     duplicate_ids = fields.One2many(
         string="Duplicates",
         comodel_name="helpdesk_ticket",
         inverse_name="duplicate_id",
+        copy=False,
     )
     split_id = fields.Many2one(
         string="# Original Ticket",
         comodel_name="helpdesk_ticket",
+        copy=False,
     )
     split_ids = fields.One2many(
         string="Split Into",
         comodel_name="helpdesk_ticket",
         inverse_name="split_id",
+        copy=False,
     )
     state = fields.Selection(
         string="State",
@@ -269,6 +285,25 @@ class HelpdeskTicket(models.Model):
         for record in self.sudo():
             result = record._open_communication()
         return result
+
+    def action_open_split(self):
+        for record in self.sudo():
+            result = record._open_split()
+        return result
+
+    def _open_split(self):
+        waction = self.env.ref("ssi_helpdesk.helpdesk_ticket_action").read()[0]
+        new_context = {
+            "default_split_id": self.id,
+        }
+        waction.update(
+            {
+                "view_mode": "tree,form",
+                "domain": [("split_id", "=", self.id)],
+                "context": new_context,
+            }
+        )
+        return waction
 
     def _open_communication(self):
         waction = self.env.ref("ssi_helpdesk.helpdesk_communication_action").read()[0]

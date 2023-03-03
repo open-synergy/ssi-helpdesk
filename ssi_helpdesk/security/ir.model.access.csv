@@ -14,3 +14,4 @@ access_helpdesk_communication_all,helpdesk_communication - user,model_helpdesk_c
 access_helpdesk_communication_viewer,helpdesk_communication - viewer,model_helpdesk_communication,helpdesk_communication_viewer_group,1,0,0,0
 access_helpdesk_communication_user,helpdesk_communication - all,model_helpdesk_communication,helpdesk_communication_user_group,1,1,1,1
 access_create_ticket_all,create_ticket_from_communication - all,model_create_ticket_from_communication,,1,1,1,1
+access_split_ticket_all,split_helpdesk_ticket - all,model_split_helpdesk_ticket,,1,1,1,1
