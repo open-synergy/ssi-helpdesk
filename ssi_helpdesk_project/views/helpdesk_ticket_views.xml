@@ -46,8 +46,8 @@
      <field name="arch" type="xml">
           <data>
                <xpath expr="//field[@name='type_id']" position="after">
-                    <field name="need_task" />
-                    <field name="total_task" />
+                    <field name="need_task" optional="hide" />
+                    <field name="total_task" optional="hide" />
                </xpath>
           </data>
      </field>

@@ -21,6 +21,7 @@ class HelpdeskTicket(models.Model):
         relation="rel_helpdesk_ticket_2_task",
         column1="ticket_id",
         column2="task_id",
+        copy=False,
     )
     total_task = fields.Integer(
         string="Total Task",
