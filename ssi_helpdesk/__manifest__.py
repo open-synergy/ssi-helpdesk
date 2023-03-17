@@ -4,7 +4,7 @@
 
 {
     "name": "Helpdesk",
-    "version": "14.0.2.5.0",
+    "version": "14.0.2.6.0",
     "website": "https://simetri-sinergi.id",
     "author": "OpenSynergy Indonesia, PT. Simetri Sinergi Indonesia",
     "license": "LGPL-3",
@@ -39,6 +39,7 @@
         "views/helpdesk_contact_group_views.xml",
         "views/helpdesk_ticket_views.xml",
         "views/helpdesk_communication_views.xml",
+        "views/helpdesk_data_requirement_type_views.xml",
     ],
     "demo": [],
 }

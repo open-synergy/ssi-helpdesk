@@ -19,6 +19,24 @@
                 <field name="type_id" />
                 <field name="title" />
             </xpath>
+            <xpath expr="//separator[@name='activity']" position="before">
+                <separator name="data1" />
+                <filter
+                        name="dom_no_need_data"
+                        string="No Data Needed"
+                        domain="[('data_requirement_state','=','no_need')]"
+                    />
+                <filter
+                        name="dom_open_data"
+                        string="Waiting Data"
+                        domain="[('data_requirement_state','=','open')]"
+                    />
+                <filter
+                        name="dom_data_collected"
+                        string="Data Collected"
+                        domain="[('data_requirement_state','=','done')]"
+                    />
+            </xpath>
             <xpath expr="//group[@name='group_by']" position="inside">
                 <filter
                         name="grp_partner"
@@ -104,6 +122,20 @@
                                 colspan="2"
                             />
                         </group>
+                    </page>
+                    <page name="requirement" string="Data Requirement(s)">
+                        <group name="requirement" colspan="4" col="2">
+                            <field name="data_requirement_state" />
+                        </group>
+                        <field name="data_requirement_ids">
+                            <tree editable="top">
+                                <field name="sequence" widget="handle" />
+                                <field name="type_id" />
+                                <field name="name" />
+                                <field name="date_submit" />
+                                <field name="state" />
+                            </tree>
+                        </field>
                     </page>
                     <page name="duplicate" string="Duplicate">
                         <group name="duplicate" colspan="4" col="2">
