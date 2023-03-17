@@ -9,4 +9,6 @@ from . import (
     helpdesk_channel,
     helpdesk_communication,
     helpdesk_ticket,
+    helpdesk_ticket_data_requirement,
+    helpdesk_data_requirement_type,
 )
