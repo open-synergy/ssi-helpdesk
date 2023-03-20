@@ -3,6 +3,7 @@
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl).
 
 from odoo import SUPERUSER_ID, _, api, fields, models, tools
+import base64
 
 
 class HelpdeskCommunication(models.Model):
@@ -235,6 +236,20 @@ class HelpdeskCommunication(models.Model):
         ]
         partner_ids += customer_ids
         helpdeks_communication.message_subscribe(partner_ids)
+        attachment_ids = []
+        for attachment in msg.get('attachments', []):
+            file_name = attachment[0]
+            file = attachment[1]
+            attachment_id = self.env['ir.attachment'].sudo().create({
+                'name': file_name,
+                'type': 'binary',
+                'datas': base64.b64encode(file),
+                'res_model': helpdeks_communication._name,
+                'res_id': helpdeks_communication.id,
+            })
+            attachment_ids.append(attachment_id.id)
+        if attachment_ids:
+            helpdeks_communication.message_post(attachment_ids=attachment_ids)
         return helpdeks_communication
 
     @api.model
