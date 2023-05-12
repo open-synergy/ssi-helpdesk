@@ -52,6 +52,12 @@
                         name="odoo_implementation_id"
                         domain="[('partner_id','=',commercial_partner_id)]"
                     />
+                    <field name="odoo_version_id" />
+                    <field name="odoo_feature_id" />
+                    <field
+                        name="odoo_feature_issue_id"
+                        domain="[('feature_id','=',odoo_feature_id),('version_id','=',odoo_version_id)]"
+                    />
                </xpath>
           </data>
      </field>
