@@ -102,8 +102,10 @@
                     />
                 </xpath>
                 <xpath expr="//group[@name='header_right']" position="inside">
+                    <separator string="Classification" colspan="2" />
                     <field name="type_id" />
                     <field name="type_category_id" />
+                    <separator string="Time Constrains" colspan="2" />
                     <field name="date" />
                     <field name="duration_id" />
                     <field name="date_deadline" />
