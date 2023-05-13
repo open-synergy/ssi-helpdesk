@@ -263,3 +263,12 @@ class HelpdeskCommunication(models.Model):
         ]
         res += policy_field
         return res
+
+    def action_reaload_followers(self):
+        for rec in self:
+            if not rec.ticket_id:
+                continue
+            partner_ids = rec.message_partner_ids
+            partner_ids |= rec.ticket_id.user_id.partner_id + rec.ticket_id.partner_id + \
+                rec.ticket_id.additional_partner_ids
+            rec.message_subscribe(partner_ids.ids)
