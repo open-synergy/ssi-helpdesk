@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<data noupdate="0">
+
+    <template id="ticket" name="Helpdesk Ticket">
+        <t t-call="website.layout">
+            <t t-set="additional_title">Helpdesk Ticket</t>
+            <div class="container mt16">
+                <t t-set="many_tickets" t-value="len(tickets)>1"/>
+                <div t-if="many_tickets" class="navbar navbar-expand-md navbar-light bg-light pb-0">
+                    <div class="navbar-brand">Helpdesk</div>
+                    <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#o-helpdesk-tickets-navbar-collapse">
+                        <span class="navbar-toggler-icon"/>
+                    </button>
+                    <div class="collapse navbar-collapse" id="o-helpdesk-tickets-navbar-collapse">
+                        <t t-if="many_tickets">
+                            <ul class="navbar-nav nav-tabs ticket_menu">
+                                <t t-foreach="tickets" t-as="tticket">
+                                    <t t-set="active" t-value="'active' if ticket == tticket else ''"/>
+                                    <li class="nav-item">
+                                            <a t-attf-href="/helpdesk/#{slug(tticket)}" t-attf-class="nav-link #{active}">
+                                            <span t-field="tticket.name"/>
+                                        </a>
+                                    </li>
+                                </t>
+                            </ul>
+                        </t>
+                    </div>
+                </div>
+            </div>
+            <div id="wrap" class="container mt-4">
+                <div class="row mb16">
+                    <div class="oe_structure" id="oe_structure_ssi_helpdesk_portal_team_1"/>
+                    <div class="col-md-9">
+                        <h2 class="o_page_header mt0 d-none" id="team-page"/>
+                    </div>
+                    <div class="col-md-9 pl-4">
+                        <!-- placeholder -->
+                        <div id="ssi_helpdesk_portal_form"/>
+                    </div>
+                    <div class="col-md-3" id="right-column">
+                        <div class="oe_structure" id="oe_structure_ssi_helpdesk_portal_team_2"/>
+                        <div class="row justify-content-end mb-5" id="website_published_button" groups="helpdesk.group_helpdesk_manager">
+                            <t t-call="website.publish_management">
+                                <t t-set="object" t-value="team"/>
+                                <t t-set="publish_edit" t-value="True"/>
+                                <t t-set="action" t-value="'helpdesk.helpdesk_team_action'"/>
+                            </t>
+                        </div>
+                        <t t-if="team.use_ssi_helpdesk_portal_form">
+                                <a class="mb-5" id="submit-ticket" t-attf-href="/my/tickets">
+                                    <button t-attf-class="btn btn-primary #{'col-md-10' if multi_type else 'col-md-12'} mb-2">View my Tickets</button>
+                                </a>
+                        </t>
+                        <div class="oe_structure" id="oe_structure_ssi_helpdesk_portal_links">
+                            <t t-if="team.portal_show_rating">
+                                    <a t-attf-href="/helpdesk/rating/#{team.id}">
+                                        <button t-attf-class="btn btn-primary #{'col-md-10' if multi_type else 'col-md-12'} mt-2 mb-2">Our team's ratings</button>
+                                    </a>
+                            </t>
+                        </div>
+
+                        <t t-if="team.description">
+                            <div class="card bg-secondary mt-2" id="about_team">
+                                <h6 class="card-header"><b>About our team</b></h6>
+                            <div class="card-body">
+                                <span t-field="team.description"/>
+                            </div>
+                            </div>
+                        </t>
+                        <div class="oe_structure" id="oe_structure_ssi_helpdesk_portal_team_3"/>
+                    </div>
+                </div>
+                <div class="oe_structure" id="oe_structure_ssi_helpdesk_portal_team_4"/>
+            </div>
+        </t>
+    </template>
+
+</data>
+</odoo>
