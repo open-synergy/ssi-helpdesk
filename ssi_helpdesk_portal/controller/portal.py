@@ -30,7 +30,15 @@ class CustomerPortal(CustomerPortal):
         return values
 
     def _prepare_helpdesk_tickets_domain(self):
-        return []
+        return [
+            '!',
+            '|',
+            '|',
+            ('partner_id', '=', request.env.user.partner_id.id),
+            ('commercial_partner_id', '=', request.env.user.partner_id.id),
+            ('additional_partner_ids', 'in', request.env.user.partner_id.id),
+            ('user_id', '=', request.env.user.id),
+        ]
 
     def _ticket_get_page_view_values(self, ticket, access_token, **kwargs):
         values = {
@@ -45,32 +53,27 @@ class CustomerPortal(CustomerPortal):
         domain = self._prepare_helpdesk_tickets_domain()
 
         searchbar_sortings = {
-            'date': {'label': _('Newest'), 'order': 'create_date desc'},
-            'name': {'label': _('Subject'), 'order': 'name'},
-            'stage': {'label': _('Stage'), 'order': 'stage_id'},
-            'reference': {'label': _('Reference'), 'order': 'id'},
-            'update': {'label': _('Last Stage Update'), 'order': 'date_last_stage_update desc'},
+            'date': {'label': _('Newest'), 'order': 'date desc'},
+            'name': {'label': _('# Document'), 'order': 'name'},
+            'state': {'label': _('State'), 'order': 'state'},
         }
         searchbar_filters = {
             'all': {'label': _('All'), 'domain': []},
             'assigned': {'label': _('Assigned'), 'domain': [('user_id', '!=', False)]},
             'unassigned': {'label': _('Unassigned'), 'domain': [('user_id', '=', False)]},
-            'open': {'label': _('Open'), 'domain': [('close_date', '=', False)]},
-            'closed': {'label': _('Closed'), 'domain': [('close_date', '!=', False)]},
-            'last_message_sup': {'label': _('Last message is from support')},
-            'last_message_cust': {'label': _('Last message is from customer')},
+            'open': {'label': _('In Progress'), 'domain': [('state', '=', 'open')]},
+            'done': {'label': _('Done'), 'domain': [('state', '=', 'done')]},
         }
         searchbar_inputs = {
-            'content': {'input': 'content', 'label': _('Search <span class="nolabel"> (in Content)</span>')},
-            'message': {'input': 'message', 'label': _('Search in Messages')},
-            'customer': {'input': 'customer', 'label': _('Search in Customer')},
-            'id': {'input': 'id', 'label': _('Search in Reference')},
-            'status': {'input': 'status', 'label': _('Search in Stage')},
+            'document': {'input': 'document', 'label': _('Search in # Document')},
+            'title': {'input': 'title', 'label': _('Search in Title')},
+            'contact': {'input': 'contact', 'label': _('Search in Contact')},
+            'status': {'input': 'status', 'label': _('Search in Status')},
             'all': {'input': 'all', 'label': _('Search in All')},
         }
         searchbar_groupby = {
             'none': {'input': 'none', 'label': _('None')},
-            'stage': {'input': 'stage_id', 'label': _('Stage')},
+            'state': {'input': 'state', 'label': _('State')},
         }
 
         # default sort by value
@@ -112,17 +115,14 @@ class CustomerPortal(CustomerPortal):
         # search
         if search and search_in:
             search_domain = []
-            if search_in in ('id', 'all'):
-                search_domain = OR([search_domain, [('id', 'ilike', search)]])
-            if search_in in ('content', 'all'):
-                search_domain = OR([search_domain, ['|', ('name', 'ilike', search), ('description', 'ilike', search)]])
-            if search_in in ('customer', 'all'):
+            if search_in in ('document', 'all'):
+                search_domain = OR([search_domain, [('name', 'ilike', search)]])
+            if search_in in ('contact', 'all'):
                 search_domain = OR([search_domain, [('partner_id', 'ilike', search)]])
-            if search_in in ('message', 'all'):
-                discussion_subtype_id = request.env.ref('mail.mt_comment').id
-                search_domain = OR([search_domain, [('message_ids.body', 'ilike', search), ('message_ids.subtype_id', '=', discussion_subtype_id)]])
+            if search_in in ('title', 'all'):
+                search_domain = OR([search_domain, [('title', 'ilike', search)]])
             if search_in in ('status', 'all'):
-                search_domain = OR([search_domain, [('stage_id', 'ilike', search)]])
+                search_domain = OR([search_domain, [('state', 'ilike', search)]])
             domain = AND([domain, search_domain])
 
         # pager
@@ -138,8 +138,8 @@ class CustomerPortal(CustomerPortal):
         tickets = request.env['helpdesk_ticket'].search(domain, order=order, limit=self._items_per_page, offset=pager['offset'])
         request.session['my_tickets_history'] = tickets.ids[:100]
 
-        if groupby == 'stage':
-            grouped_tickets = [request.env['helpdesk_ticket'].concat(*g) for k, g in groupbyelem(tickets, itemgetter('stage_id'))]
+        if groupby == 'state':
+            grouped_tickets = [request.env['helpdesk_ticket'].concat(*g) for k, g in groupbyelem(tickets, itemgetter('state'))]
         else:
             grouped_tickets = [tickets]
 
@@ -174,29 +174,4 @@ class CustomerPortal(CustomerPortal):
             return request.redirect('/my')
 
         values = self._ticket_get_page_view_values(ticket_sudo, access_token, **kw)
-        print('\n values', values)
         return request.render("ssi_helpdesk_portal.tickets_followup", values)
-
-    @http.route([
-        '/my/ticket/close/<int:ticket_id>',
-        '/my/ticket/close/<int:ticket_id>/<access_token>',
-    ], type='http', auth="public", website=True)
-    def ticket_close(self, ticket_id=None, access_token=None, **kw):
-        try:
-            ticket_sudo = self._document_check_access('helpdesk_ticket', ticket_id, access_token)
-        except (AccessError, MissingError):
-            return request.redirect('/my')
-
-        if not ticket_sudo.team_id.allow_portal_ticket_closing:
-            raise UserError(_("The team does not allow ticket closing through portal"))
-
-        if not ticket_sudo.closed_by_partner:
-            closing_stage = ticket_sudo.team_id._get_closing_stage()
-            if ticket_sudo.stage_id != closing_stage:
-                ticket_sudo.write({'stage_id': closing_stage[0].id, 'closed_by_partner': True})
-            else:
-                ticket_sudo.write({'closed_by_partner': True})
-            body = _('Ticket closed by the customer')
-            ticket_sudo.with_context(mail_create_nosubscribe=True).message_post(body=body, message_type='comment', subtype_xmlid='mail.mt_note')
-
-        return request.redirect('/my/ticket/%s/%s' % (ticket_id, access_token or ''))
