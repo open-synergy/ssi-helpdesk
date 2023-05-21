@@ -4,4 +4,5 @@
 
 from . import (
     portal,
+    main,
 )
