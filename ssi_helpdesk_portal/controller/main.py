@@ -5,17 +5,10 @@
 from odoo import http
 from odoo.http import request
 from odoo.addons.website_form.controllers.main import WebsiteForm
+from odoo.addons.website_form.controllers.main import WebsiteForm
 
 
 class HelpdeskPortal(http.Controller):
-
-    def _get_partner_data(self):
-        partner = request.env.user.partner_id
-        partner_values = {}
-        if partner != request.website.user_id.sudo().partner_id:
-            partner_values['name'] = partner.name
-            partner_values['email'] = partner.email
-        return partner_values
 
     @http.route(['/helpdesk/', '/helpdesk/<model("helpdesk_ticket"):ticket>'], type='http', auth="public", website=True,
                 sitemap=True)
@@ -26,5 +19,25 @@ class HelpdeskPortal(http.Controller):
         result = {'ticket': ticket}
         # For breadcrumb index: get all ticket
         result['tickets'] = tickets
-        result['default_partner_values'] = self._get_partner_data()
         return request.render("ssi_helpdesk_portal.ticket", result)
+
+
+class WebsiteForm(WebsiteForm):
+
+    def _handle_website_form(self, model_name, **kwargs):
+        context = request.env.context.copy()
+        attachments = []
+        for key, value in kwargs.items():
+            if key[:11] == 'attachments':
+                attachments.append(value)
+        values = {
+            'from_website': True,
+            'title': kwargs['title'],
+            'partner_id': request.env.user.partner_id.id,
+            'user_id': request.env.ref('base.user_admin').id,
+            'description': kwargs.get('description'),
+            'attachments': attachments,
+        }
+        context.update(values)
+        request.env.context = context
+        return super(WebsiteForm, self)._handle_website_form(model_name, **kwargs)
