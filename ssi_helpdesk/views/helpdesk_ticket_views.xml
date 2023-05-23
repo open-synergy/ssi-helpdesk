@@ -196,6 +196,8 @@
                         <group name="communication_1" colspan="4" col="2">
                             <field name="starting_communication_id" />
                             <field name="finishing_communication_id" />
+                            <field name="communication_draft_count" />
+                            <field name="communication_open_count" />
                             <field name="finishing_communication_state" invisible="1" />
                         </group>
                         <field name="communication_ids" />

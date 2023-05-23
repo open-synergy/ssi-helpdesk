@@ -207,6 +207,16 @@ class HelpdeskTicket(models.Model):
         compute="_compute_data_requirement_state",
         store=True,
     )
+    communication_draft_count = fields.Integer(
+        string="Need Respond Count",
+        store=True,
+        compute="_compute_communication_count"
+    )
+    communication_open_count = fields.Integer(
+        string="Waiting for Respond Count",
+        store=True,
+        compute="_compute_communication_count"
+    )
     state = fields.Selection(
         string="State",
         selection=[
@@ -394,3 +404,9 @@ class HelpdeskTicket(models.Model):
             "title": title,
             "ticket_id": self.id,
         }
+
+    @api.depends("communication_ids","communication_ids.state")
+    def _compute_communication_count(self):
+        for record in self:
+            record.communication_draft_count = len(record.communication_ids.filtered(lambda x: x.state == "draft"))
+            record.communication_open_count = len(record.communication_ids.filtered(lambda x: x.state == "open"))
