@@ -73,8 +73,14 @@
         />
         <field name="arch" type="xml">
             <data>
-                <xpath expr="//field[@name='state']" position="before">
-                    <button name="action_reaload_followers" type="object" string="Reload Followers From Ticket" states="draft,open"/>
+                <xpath expr="//field[@name='ticket_id']" position="after">
+                    <button
+                        name="action_reload_followers"
+                        string="Reload Followers From Ticket"
+                        type="object"
+                        icon="fa-gear"
+                        attrs="{'invisible':[('ticket_id','=',False)]}"
+                    />
                 </xpath>
                 <xpath expr="//field[@name='user_id']" position="after">
                     <field name="partner_id" />
