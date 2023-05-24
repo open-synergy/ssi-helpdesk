@@ -2,8 +2,9 @@
 # Copyright 2022 PT. Simetri Sinergi Indonesia
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl).
 
-from odoo import SUPERUSER_ID, _, api, fields, models, tools
 import base64
+
+from odoo import SUPERUSER_ID, _, api, fields, models, tools
 
 
 class HelpdeskCommunication(models.Model):
@@ -237,16 +238,22 @@ class HelpdeskCommunication(models.Model):
         partner_ids += customer_ids
         helpdeks_communication.message_subscribe(partner_ids)
         attachment_ids = []
-        for attachment in msg.get('attachments', []):
+        for attachment in msg.get("attachments", []):
             file_name = attachment[0]
             file = attachment[1]
-            attachment_id = self.env['ir.attachment'].sudo().create({
-                'name': file_name,
-                'type': 'binary',
-                'datas': base64.b64encode(file),
-                'res_model': helpdeks_communication._name,
-                'res_id': helpdeks_communication.id,
-            })
+            attachment_id = (
+                self.env["ir.attachment"]
+                .sudo()
+                .create(
+                    {
+                        "name": file_name,
+                        "type": "binary",
+                        "datas": base64.b64encode(file),
+                        "res_model": helpdeks_communication._name,
+                        "res_id": helpdeks_communication.id,
+                    }
+                )
+            )
             attachment_ids.append(attachment_id.id)
         if attachment_ids:
             helpdeks_communication.message_post(attachment_ids=attachment_ids)
@@ -269,6 +276,9 @@ class HelpdeskCommunication(models.Model):
             if not rec.ticket_id:
                 continue
             partner_ids = rec.message_partner_ids
-            partner_ids |= rec.ticket_id.user_id.partner_id + rec.ticket_id.partner_id + \
-                rec.ticket_id.additional_partner_ids
+            partner_ids |= (
+                rec.ticket_id.user_id.partner_id
+                + rec.ticket_id.partner_id
+                + rec.ticket_id.additional_partner_ids
+            )
             rec.message_subscribe(partner_ids.ids)
