@@ -264,7 +264,7 @@ class HelpdeskCommunication(models.Model):
         res += policy_field
         return res
 
-    def action_reaload_followers(self):
+    def action_reload_followers(self):
         for rec in self:
             if not rec.ticket_id:
                 continue
