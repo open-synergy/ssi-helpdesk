@@ -31,6 +31,15 @@
         />
 </record>
 
+<record id="helpdesk_resolution_documentation_type_group" model="res.groups">
+    <field name="name">Helpdesk Resolution Documentation Type</field>
+    <field name="category_id" ref="helpdesk_configurator_module_category" />
+    <field
+            name="users"
+            eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"
+        />
+</record>
+
 <record id="helpdesk_channel_group" model="res.groups">
     <field name="name">Helpdesk Channel</field>
     <field name="category_id" ref="helpdesk_configurator_module_category" />
