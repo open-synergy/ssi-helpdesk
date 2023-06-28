@@ -36,6 +36,22 @@
                         string="Data Collected"
                         domain="[('data_requirement_state','=','done')]"
                     />
+                <separator name="resolution" />
+                <filter
+                        name="dom_no_need_resolution"
+                        string="No Resolution Document Needed"
+                        domain="[('resolution_documentation_state','=','no_need')]"
+                    />
+                <filter
+                        name="dom_open_resolution"
+                        string="Waiting Resolution Document"
+                        domain="[('resolution_documentation_state','=','open')]"
+                    />
+                <filter
+                        name="dom_data_resolution"
+                        string="Resolution Document Exist"
+                        domain="[('resolution_documentation_state','=','done')]"
+                    />
             </xpath>
             <xpath expr="//group[@name='group_by']" position="inside">
                 <filter
@@ -135,6 +151,20 @@
                                 <field name="type_id" />
                                 <field name="name" />
                                 <field name="date_submit" />
+                                <field name="state" />
+                            </tree>
+                        </field>
+                    </page>
+                    <page name="resolution" string="Resolution Documentation(s)">
+                        <group name="resolution" colspan="4" col="2">
+                            <field name="resolution_documentation_state" />
+                        </group>
+                        <field name="resolution_documentation_ids">
+                            <tree editable="top">
+                                <field name="sequence" widget="handle" />
+                                <field name="type_id" />
+                                <field name="name" />
+                                <field name="url" />
                                 <field name="state" />
                             </tree>
                         </field>

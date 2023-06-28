@@ -207,15 +207,28 @@ class HelpdeskTicket(models.Model):
         compute="_compute_data_requirement_state",
         store=True,
     )
-    communication_draft_count = fields.Integer(
-        string="Need Respond Count",
+    resolution_documentation_ids = fields.One2many(
+        string="Resolution Documentations",
+        comodel_name="helpdesk_ticket.resolution_documentation",
+        inverse_name="ticket_id",
+    )
+    resolution_documentation_state = fields.Selection(
+        string="Resolution Documentation Status",
+        selection=[
+            ("no_need", "Not Needed"),
+            ("open", "In Progress"),
+            ("done", "Done"),
+        ],
+        compute="_compute_resolution_documentation_state",
         store=True,
-        compute="_compute_communication_count"
+    )
+    communication_draft_count = fields.Integer(
+        string="Need Respond Count", store=True, compute="_compute_communication_count"
     )
     communication_open_count = fields.Integer(
         string="Waiting for Respond Count",
         store=True,
-        compute="_compute_communication_count"
+        compute="_compute_communication_count",
     )
     state = fields.Selection(
         string="State",
@@ -269,6 +282,24 @@ class HelpdeskTicket(models.Model):
                         result = "open"
 
             record.data_requirement_state = result
+
+    @api.depends(
+        "resolution_documentation_ids",
+        "resolution_documentation_ids.state",
+    )
+    def _compute_resolution_documentation_state(self):
+        for record in self:
+            result = "no_need"
+
+            count_req = len(record.resolution_documentation_ids)
+
+            if count_req > 0:
+                result = "done"
+                for req in record.resolution_documentation_ids:
+                    if req.state == "open":
+                        result = "open"
+
+            record.resolution_documentation_state = result
 
     @api.onchange(
         "partner_id",
@@ -405,8 +436,12 @@ class HelpdeskTicket(models.Model):
             "ticket_id": self.id,
         }
 
-    @api.depends("communication_ids","communication_ids.state")
+    @api.depends("communication_ids", "communication_ids.state")
     def _compute_communication_count(self):
         for record in self:
-            record.communication_draft_count = len(record.communication_ids.filtered(lambda x: x.state == "draft"))
-            record.communication_open_count = len(record.communication_ids.filtered(lambda x: x.state == "open"))
+            record.communication_draft_count = len(
+                record.communication_ids.filtered(lambda x: x.state == "draft")
+            )
+            record.communication_open_count = len(
+                record.communication_ids.filtered(lambda x: x.state == "open")
+            )
