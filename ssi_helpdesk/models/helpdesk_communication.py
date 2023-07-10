@@ -2,9 +2,8 @@
 # Copyright 2022 PT. Simetri Sinergi Indonesia
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl).
 
-import base64
 
-from odoo import SUPERUSER_ID, _, api, fields, models, tools
+from odoo import SUPERUSER_ID, _, api, fields, models
 
 
 class HelpdeskCommunication(models.Model):
@@ -201,63 +200,95 @@ class HelpdeskCommunication(models.Model):
         return result
 
     @api.model
-    def message_new(self, msg, custom_values=None):
-        create_context = dict(self.env.context or {})
-        create_context["default_user_id"] = False
+    def message_new(self, msg_dict, custom_values=None):
+        """Overrides mail_thread message_new that is called by the mailgateway
+        through message_process.
+        This override updates the document according to the email.
+        """
+        # remove external users
+        if self.env.user.has_group("base.group_portal"):
+            self = self.with_context(default_user_id=False)
+
+        # remove default author when going through the mail gateway. Indeed we
+        # do not want to explicitly set user_id to False; however we do not
+        # want the gateway user to be responsible if no other responsible is
+        # found.
+        if self._uid == self.env.ref("base.user_root").id:
+            self = self.with_context(default_user_id=False)
+
         if custom_values is None:
             custom_values = {}
         defaults = {
             "name": "/",
-            "title": msg.get("subject") or _("No Subject"),
+            "title": msg_dict.get("subject") or _("No Subject"),
             "date": fields.Date.today(),
-            "partner_id": msg.get("author_id"),
+            "partner_id": msg_dict.get("author_id"),
             "user_id": SUPERUSER_ID,
-            "description": msg.get("body") or "-",
+            "description": msg_dict.get("body") or "-",
         }
         defaults.update(custom_values)
+        return super(HelpdeskCommunication, self).message_new(
+            msg_dict, custom_values=defaults
+        )
 
-        helpdeks_communication = super(
-            HelpdeskCommunication, self.with_context(create_context)
-        ).message_new(msg, custom_values=defaults)
-        email_list = helpdeks_communication.email_split(msg)
-        partner_ids = [
-            p.id
-            for p in self.env["mail.thread"]._mail_find_partner_from_emails(
-                email_list, records=helpdeks_communication, force_create=False
-            )
-            if p
-        ]
-        customer_ids = [
-            p.id
-            for p in self.env["mail.thread"]._mail_find_partner_from_emails(
-                tools.email_split(defaults["email_from"]),
-                records=helpdeks_communication,
-            )
-            if p
-        ]
-        partner_ids += customer_ids
-        helpdeks_communication.message_subscribe(partner_ids)
-        attachment_ids = []
-        for attachment in msg.get("attachments", []):
-            file_name = attachment[0]
-            file = attachment[1]
-            attachment_id = (
-                self.env["ir.attachment"]
-                .sudo()
-                .create(
-                    {
-                        "name": file_name,
-                        "type": "binary",
-                        "datas": base64.b64encode(file),
-                        "res_model": helpdeks_communication._name,
-                        "res_id": helpdeks_communication.id,
-                    }
-                )
-            )
-            attachment_ids.append(attachment_id.id)
-        if attachment_ids:
-            helpdeks_communication.message_post(attachment_ids=attachment_ids)
-        return helpdeks_communication
+    # @api.model
+    # def message_new(self, msg, custom_values=None):
+    #     create_context = dict(self.env.context or {})
+    #     create_context["default_user_id"] = False
+    #     if custom_values is None:
+    #         custom_values = {}
+    #     defaults = {
+    #         "name": "/",
+    #         "title": msg.get("subject") or _("No Subject"),
+    #         "date": fields.Date.today(),
+    #         "partner_id": msg.get("author_id"),
+    #         "user_id": SUPERUSER_ID,
+    #         "description": msg.get("body") or "-",
+    #     }
+    #     defaults.update(custom_values)
+    #
+    #     helpdeks_communication = super(
+    #         HelpdeskCommunication, self.with_context(create_context)
+    #     ).message_new(msg, custom_values=defaults)
+    #     email_list = helpdeks_communication.email_split(msg)
+    #     partner_ids = [
+    #         p.id
+    #         for p in self.env["mail.thread"]._mail_find_partner_from_emails(
+    #             email_list, records=helpdeks_communication, force_create=False
+    #         )
+    #         if p
+    #     ]
+    #     customer_ids = [
+    #         p.id
+    #         for p in self.env["mail.thread"]._mail_find_partner_from_emails(
+    #             tools.email_split(defaults["email_from"]),
+    #             records=helpdeks_communication,
+    #         )
+    #         if p
+    #     ]
+    #     partner_ids += customer_ids
+    #     helpdeks_communication.message_subscribe(partner_ids)
+    #     attachment_ids = []
+    #     for attachment in msg.get("attachments", []):
+    #         file_name = attachment[0]
+    #         file = attachment[1]
+    #         attachment_id = (
+    #             self.env["ir.attachment"]
+    #             .sudo()
+    #             .create(
+    #                 {
+    #                     "name": file_name,
+    #                     "type": "binary",
+    #                     "datas": base64.b64encode(file),
+    #                     "res_model": helpdeks_communication._name,
+    #                     "res_id": helpdeks_communication.id,
+    #                 }
+    #             )
+    #         )
+    #         attachment_ids.append(attachment_id.id)
+    #     if attachment_ids:
+    #         helpdeks_communication.message_post(attachment_ids=attachment_ids)
+    #     return helpdeks_communication
 
     @api.model
     def _get_policy_field(self):
