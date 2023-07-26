@@ -52,6 +52,17 @@
                         string="Resolution Document Exist"
                         domain="[('resolution_documentation_state','=','done')]"
                     />
+                <separator name="update" />
+                <filter
+                        name="dom_need_update"
+                        string="Need Update"
+                        domain="[('update_progress','=',True)]"
+                    />
+                <filter
+                        name="dom_no_need_update"
+                        string="Update Not Needed"
+                        domain="[('update_progress','=',False)]"
+                    />
             </xpath>
             <xpath expr="//group[@name='group_by']" position="inside">
                 <filter
@@ -116,6 +127,7 @@
                         widget="many2many_tags_avatar"
                         domain="[('commercial_partner_id','=',commercial_partner_id),('id','!=',commercial_partner_id)]"
                     />
+                    <field name="update_progress" />
                 </xpath>
                 <xpath expr="//group[@name='header_right']" position="inside">
                     <separator string="Classification" colspan="2" />

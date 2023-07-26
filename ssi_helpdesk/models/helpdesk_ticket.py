@@ -104,7 +104,10 @@ class HelpdeskTicket(models.Model):
         column2="partner_id",
         copy=True,
     )
-
+    update_progress = fields.Boolean(
+        string="Update Progress",
+        default=True,
+    )
     type_id = fields.Many2one(
         string="Type",
         comodel_name="helpdesk_type",
