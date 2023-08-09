@@ -21,7 +21,7 @@ addon | version | maintainers | summary
 [ssi_helpdesk](ssi_helpdesk/) | 14.0.2.12.1 |  | Helpdesk
 [ssi_helpdesk_odoo_implementation](ssi_helpdesk_odoo_implementation/) | 14.0.1.1.1 |  | Helpdesk - Odoo Implementation Integration
 [ssi_helpdesk_portal](ssi_helpdesk_portal/) | 14.0.1.0.1 |  | Helpdesk Portal
-[ssi_helpdesk_project](ssi_helpdesk_project/) | 14.0.2.7.2 |  | Helpdesk - Project Integration
+[ssi_helpdesk_project](ssi_helpdesk_project/) | 14.0.2.8.0 |  | Helpdesk - Project Integration
 [ssi_helpdesk_work_log](ssi_helpdesk_work_log/) | 14.0.1.2.1 |  | Helpdesk - Work Log Integration
 
 [//]: # (end addons)
