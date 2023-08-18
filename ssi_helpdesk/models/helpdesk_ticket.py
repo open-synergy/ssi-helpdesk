@@ -168,6 +168,16 @@ class HelpdeskTicket(models.Model):
         readonly=True,
         copy=False,
     )
+    latest_message_date = fields.Datetime(
+        string="Latest Message Date",
+        related="finishing_communication_id.latest_message_date",
+        store=True,
+    )
+    latest_partner_message_date = fields.Datetime(
+        string="Latest Partner Message Date",
+        related="finishing_communication_id.latest_partner_message_date",
+        store=True,
+    )
     finishing_communication_state = fields.Selection(
         string="Finishing Communication State",
         related="finishing_communication_id.state",
