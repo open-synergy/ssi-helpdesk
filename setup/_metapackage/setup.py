@@ -9,6 +9,7 @@ setuptools.setup(
     version=version,
     install_requires=[
         'odoo14-addon-ssi_helpdesk',
+        'odoo14-addon-ssi_helpdesk_appointment',
         'odoo14-addon-ssi_helpdesk_odoo_implementation',
         'odoo14-addon-ssi_helpdesk_portal',
         'odoo14-addon-ssi_helpdesk_project',
