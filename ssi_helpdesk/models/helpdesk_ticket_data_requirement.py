@@ -30,6 +30,14 @@ class HelpdeskTicketDataRequirement(models.Model):
         string="Requirement",
         required=True,
     )
+    url = fields.Char(
+        string="URL",
+    )
+    attachment_id = fields.Many2one(
+        string="Attachment",
+        comodel_name="ir.attachment",
+        ondelete="restrict",
+    )
     date_submit = fields.Date(
         string="Date Submit",
     )
