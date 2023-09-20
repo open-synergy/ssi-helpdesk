@@ -205,21 +205,6 @@ class HelpdeskTicket(models.Model):
         inverse_name="split_id",
         copy=False,
     )
-    data_requirement_ids = fields.One2many(
-        string="Data Requirements",
-        comodel_name="helpdesk_ticket.data_requirement",
-        inverse_name="ticket_id",
-    )
-    data_requirement_state = fields.Selection(
-        string="Data Requirement Status",
-        selection=[
-            ("no_need", "Not Needed"),
-            ("open", "In Progress"),
-            ("done", "Done"),
-        ],
-        compute="_compute_data_requirement_state",
-        store=True,
-    )
     resolution_documentation_ids = fields.One2many(
         string="Resolution Documentations",
         comodel_name="helpdesk_ticket.resolution_documentation",
@@ -277,24 +262,6 @@ class HelpdeskTicket(models.Model):
         ]
         res += policy_field
         return res
-
-    @api.depends(
-        "data_requirement_ids",
-        "data_requirement_ids.state",
-    )
-    def _compute_data_requirement_state(self):
-        for record in self:
-            result = "no_need"
-
-            count_req = len(record.data_requirement_ids)
-
-            if count_req > 0:
-                result = "done"
-                for req in record.data_requirement_ids:
-                    if req.state == "open":
-                        result = "open"
-
-            record.data_requirement_state = result
 
     @api.depends(
         "resolution_documentation_ids",
