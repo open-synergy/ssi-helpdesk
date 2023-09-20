@@ -20,22 +20,6 @@
                 <field name="title" />
             </xpath>
             <xpath expr="//separator[@name='activity']" position="before">
-                <separator name="data1" />
-                <filter
-                        name="dom_no_need_data"
-                        string="No Data Needed"
-                        domain="[('data_requirement_state','=','no_need')]"
-                    />
-                <filter
-                        name="dom_open_data"
-                        string="Waiting Data"
-                        domain="[('data_requirement_state','=','open')]"
-                    />
-                <filter
-                        name="dom_data_collected"
-                        string="Data Collected"
-                        domain="[('data_requirement_state','=','done')]"
-                    />
                 <separator name="resolution" />
                 <filter
                         name="dom_no_need_resolution"
@@ -156,25 +140,6 @@
                             />
                         </group>
                     </page>
-                    <page name="requirement" string="Data Requirement(s)">
-                        <group name="requirement" colspan="4" col="2">
-                            <field name="data_requirement_state" />
-                        </group>
-                        <field name="data_requirement_ids">
-                            <tree editable="top">
-                                <field name="sequence" widget="handle" />
-                                <field name="type_id" />
-                                <field name="name" />
-                                <field name="url" widget="url" />
-                                <field
-                                    name="attachment_id"
-                                    domain="[('res_model','=','helpdesk_ticket'),('res_id','=',parent.id)]"
-                                />
-                                <field name="date_submit" />
-                                <field name="state" />
-                            </tree>
-                        </field>
-                    </page>
                     <page name="resolution" string="Resolution Documentation(s)">
                         <group name="resolution" colspan="4" col="2">
                             <field name="resolution_documentation_state" />
@@ -189,13 +154,11 @@
                             </tree>
                         </field>
                     </page>
-                    <page name="duplicate" string="Duplicate">
+                    <page name="split" string="Duplicate &amp; Split">
                         <group name="duplicate" colspan="4" col="2">
                             <field name="duplicate_id" />
                         </group>
                         <field name="duplicate_ids" widget="many2many" />
-                    </page>
-                    <page name="split" string="Split">
                         <group name="duplicate" colspan="4" col="2">
                             <field name="split_id" />
                         </group>
