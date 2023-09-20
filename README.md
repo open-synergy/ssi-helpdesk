@@ -18,7 +18,7 @@ Available addons
 ----------------
 addon | version | maintainers | summary
 --- | --- | --- | ---
-[ssi_helpdesk](ssi_helpdesk/) | 14.0.2.14.0 |  | Helpdesk
+[ssi_helpdesk](ssi_helpdesk/) | 14.0.2.15.0 |  | Helpdesk
 [ssi_helpdesk_appointment](ssi_helpdesk_appointment/) | 14.0.1.0.0 |  | Helpdesk - Appointment Integration
 [ssi_helpdesk_odoo_implementation](ssi_helpdesk_odoo_implementation/) | 14.0.1.1.1 |  | Helpdesk - Odoo Implementation Integration
 [ssi_helpdesk_portal](ssi_helpdesk_portal/) | 14.0.1.0.1 |  | Helpdesk Portal
