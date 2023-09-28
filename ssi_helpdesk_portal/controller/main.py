@@ -35,7 +35,7 @@ class WebsiteForm(WebsiteForm):
                 attachments.append(value)
         values = {
             "from_website": True,
-            "title": kwargs["title"],
+            "title": kwargs.get("title"),
             "partner_id": request.env.user.partner_id.id,
             "user_id": request.env.ref("base.user_admin").id,
             "description": kwargs.get("description"),
