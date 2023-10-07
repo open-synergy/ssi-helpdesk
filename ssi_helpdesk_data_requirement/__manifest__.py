@@ -12,7 +12,7 @@
         "ssi_helpdesk",
         "ssi_data_requirement_mixin",
     ],
-    "data": [],
+    "data": ["security/ir.model.access.csv", "views/helpdesk_type_views.xml"],
     "demo": [],
     "images": [],
 }
