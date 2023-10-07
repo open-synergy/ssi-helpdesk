@@ -23,6 +23,18 @@
         sequence="99"
     />
 
+<menuitem
+        id="menu_helpdesk_ticket_configuration"
+        name="Ticket"
+        parent="menu_helpdesk_configuration"
+        sequence="10"
+    />
 
+<menuitem
+        id="menu_helpdesk_communication_configuration"
+        name="Communication"
+        parent="menu_helpdesk_configuration"
+        sequence="20"
+    />
 
 </odoo>

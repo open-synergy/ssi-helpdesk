@@ -39,7 +39,6 @@
         "views/helpdesk_contact_group_views.xml",
         "views/helpdesk_ticket_views.xml",
         "views/helpdesk_communication_views.xml",
-        "views/helpdesk_data_requirement_type_views.xml",
         "views/helpdesk_resolution_documentation_type_views.xml",
     ],
     "demo": [],

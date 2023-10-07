@@ -55,10 +55,10 @@
 <menuitem
         id="helpdesk_resolution_documentation_type_menu"
         name="Resolution Documentation Types"
-        parent="menu_helpdesk_configuration"
+        parent="menu_helpdesk_ticket_configuration"
         action="helpdesk_resolution_documentation_type_action"
         groups="helpdesk_resolution_documentation_type_group"
-        sequence="10"
+        sequence="130"
     />
 
 </odoo>

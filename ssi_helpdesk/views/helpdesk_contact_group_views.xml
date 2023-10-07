@@ -55,10 +55,10 @@
 <menuitem
         id="helpdesk_contact_group_menu"
         name="Contact Groups"
-        parent="menu_helpdesk_configuration"
+        parent="menu_helpdesk_ticket_configuration"
         action="helpdesk_contact_group_action"
         groups="helpdesk_contact_group_configurator_group"
-        sequence="30"
+        sequence="140"
     />
 
 </odoo>

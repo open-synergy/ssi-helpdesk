@@ -56,10 +56,10 @@
 <menuitem
         id="helpdesk_type_menu"
         name="Types"
-        parent="menu_helpdesk_configuration"
+        parent="menu_helpdesk_ticket_configuration"
         action="helpdesk_type_action"
         groups="helpdesk_type_group"
-        sequence="20"
+        sequence="120"
     />
 
 </odoo>
