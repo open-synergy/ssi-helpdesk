@@ -52,10 +52,10 @@
 <menuitem
         id="helpdesk_channel_menu"
         name="Channels"
-        parent="menu_helpdesk_configuration"
+        parent="menu_helpdesk_communication_configuration"
         action="helpdesk_channel_action"
         groups="helpdesk_channel_group"
-        sequence="30"
+        sequence="110"
     />
 
 </odoo>
