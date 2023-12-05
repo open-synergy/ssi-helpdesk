@@ -15,6 +15,7 @@
         "project_stage_state",
     ],
     "data": [
+        "security/ir.model.access.csv",
         "views/project_task_views.xml",
         "views/helpdesk_type_views.xml",
         "views/helpdesk_ticket_views.xml",

@@ -15,3 +15,8 @@ class HelpdeskType(models.Model):
         string="Need Task",
         default=False,
     )
+    task_ids = fields.One2many(
+        string="Tasks",
+        comodel_name="helpdesk_type.task",
+        inverse_name="type_id",
+    )

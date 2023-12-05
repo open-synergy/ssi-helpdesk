@@ -6,4 +6,5 @@ from . import (
     helpdesk_ticket,
     project_task,
     helpdesk_type,
+    helpdesk_type_task,
 )

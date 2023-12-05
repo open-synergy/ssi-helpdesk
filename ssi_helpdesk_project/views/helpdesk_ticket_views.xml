@@ -62,6 +62,7 @@
                <xpath expr="//page[1]" position="after">
                     <page name="task" string="Tasks">
                          <group name="task" colspan="4" col="2">
+                              <field name="project_id" />
                               <field name="need_task" />
                               <field name="total_task" />
                               <field name="task_draft_count" />
@@ -106,12 +107,21 @@
                               </group>
                          </group>
                         <button
+                            name="action_create_task"
+                            string="Create"
+                            type="object"
+                            icon="fa-gear"
+                            class="oe_highlight"
+                            style="margin-right:4px"
+                        />
+                        <button
                             name="action_open_task"
-                            string="Tasks"
+                            string="Open"
                             type="object"
                             icon="fa-bars"
                             class="oe_highlight"
                         />
+
                          <field name="task_ids" />
                     </page>
                </xpath>
