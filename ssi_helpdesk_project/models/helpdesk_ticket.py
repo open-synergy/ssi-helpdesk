@@ -11,6 +11,10 @@ class HelpdeskTicket(models.Model):
         "helpdesk_ticket",
     ]
 
+    project_id = fields.Many2one(
+        string="Project",
+        comodel_name="project.project",
+    )
     need_task = fields.Boolean(
         string="Need Task",
         default=False,
@@ -171,6 +175,19 @@ class HelpdeskTicket(models.Model):
         for record in self.sudo():
             result = record._open_task()
         return result
+
+    def action_create_task(self):
+        for record in self.sudo():
+            record._create_task()
+
+    def _create_task(self):
+        self.ensure_one()
+
+        if not self.project_id:
+            return True
+
+        for task_template in self.type_id.task_ids:
+            task_template._create_task(self)
 
     def _open_task(self):
         waction = self.env.ref("project.action_view_all_task").read()[0]
