@@ -5,12 +5,14 @@
 
 from odoo import SUPERUSER_ID, _, api, fields, models
 
+from odoo.addons.ssi_decorator import ssi_decorator
+
 
 class HelpdeskCommunication(models.Model):
     _name = "helpdesk_communication"
     _inherit = [
-        "mixin.transaction_open",
         "mixin.transaction_done",
+        "mixin.transaction_open",
     ]
     _description = "Helpdesk Communication"
     _approval_from_state = "draft"
@@ -313,3 +315,9 @@ class HelpdeskCommunication(models.Model):
                 + rec.ticket_id.additional_partner_ids
             )
             rec.message_subscribe(partner_ids.ids)
+
+    @ssi_decorator.insert_on_form_view()
+    def _insert_form_element(self, view_arch):
+        if self._automatically_insert_view_element:
+            view_arch = self._reconfigure_statusbar_visible(view_arch)
+        return view_arch

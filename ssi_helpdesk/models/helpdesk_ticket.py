@@ -4,15 +4,17 @@
 
 from odoo import api, fields, models
 
+from odoo.addons.ssi_decorator import ssi_decorator
+
 
 class HelpdeskTicket(models.Model):
     _name = "helpdesk_ticket"
     _inherit = [
-        "mixin.transaction_open",
-        "mixin.transaction_confirm",
-        "mixin.transaction_done",
         "mixin.transaction_cancel",
         "mixin.transaction_terminate",
+        "mixin.transaction_done",
+        "mixin.transaction_confirm",
+        "mixin.transaction_open",
     ]
     _description = "Helpdesk Ticket"
 
@@ -425,3 +427,9 @@ class HelpdeskTicket(models.Model):
             record.communication_open_count = len(
                 record.communication_ids.filtered(lambda x: x.state == "open")
             )
+
+    @ssi_decorator.insert_on_form_view()
+    def _insert_form_element(self, view_arch):
+        if self._automatically_insert_view_element:
+            view_arch = self._reconfigure_statusbar_visible(view_arch)
+        return view_arch
