@@ -47,3 +47,21 @@ class ProjectTask(models.Model):
         compute="_compute_ticket_deadline",
         store=True,
     )
+
+    def action_open_ticket(self):
+        self.ensure_one()
+        return self.sudo()._open_ticket()
+
+    def _open_ticket(self):
+        waction = self.env.ref("ssi_helpdesk.helpdesk_ticket_action").read()[0]
+        waction.update(
+            {
+                "view_mode": "tree,form",
+                "domain": [("id", "in", self.ticket_ids.ids)],
+                "context": {
+                    "default_project_id": self.project_id.id,
+                    "default_task_ids": self.ids,
+                },
+            }
+        )
+        return waction
