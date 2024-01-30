@@ -50,7 +50,14 @@
                   </xpath>
                    <xpath expr="//page[1]" position="after">
                         <page name="ticket" string="Tickets">
-                             <field name="ticket_ids" />
+                            <button
+                                name="action_open_ticket"
+                                string="Open"
+                                type="object"
+                                icon="fa-bars"
+                                class="oe_highlight"
+                            />
+                            <field name="ticket_ids" />
                         </page>
                    </xpath>
               </data>
