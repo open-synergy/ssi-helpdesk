@@ -64,6 +64,7 @@
                          <group name="task" colspan="4" col="2">
                               <field name="project_id" />
                               <field name="need_task" />
+                              <field name="task_block" />
                               <field name="total_task" />
                               <field name="task_draft_count" />
                               <field name="task_open_count" />
