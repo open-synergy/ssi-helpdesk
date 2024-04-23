@@ -19,6 +19,11 @@ class HelpdeskTicket(models.Model):
         string="Need Task",
         default=False,
     )
+    task_block = fields.Boolean(
+        string="Task Block",
+        compute="_compute_task",
+        store=True,
+    )
     task_ids = fields.Many2many(
         string="Tasks",
         comodel_name="project.task",
@@ -99,6 +104,7 @@ class HelpdeskTicket(models.Model):
         "task_ids",
         "task_ids.stage_id",
         "task_ids.state",
+        "task_ids.kanban_state",
     )
     def _compute_task(self):
         for record in self:
@@ -108,6 +114,7 @@ class HelpdeskTicket(models.Model):
                 task_draft_count
             ) = task_open_count = task_done_count = task_pending_count = 0
             task_done = False
+            task_block = False
             if record.task_ids:
                 for task in record.task_ids:
                     total_task += 1
@@ -121,6 +128,9 @@ class HelpdeskTicket(models.Model):
                         task_pending_count += 1
                     else:
                         task_no_state_count += 1
+
+                    if task.kanban_state == "blocked":
+                        task_block = True
                 if total_task == task_done_count:
                     task_done = True
             record.total_task = total_task
@@ -130,6 +140,7 @@ class HelpdeskTicket(models.Model):
             record.task_no_state_count = task_no_state_count
             record.task_pending_count = task_pending_count
             record.task_done = task_done
+            record.task_block = task_block
 
     @api.depends(
         "task_ids",
