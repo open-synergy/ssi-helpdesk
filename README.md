@@ -21,6 +21,7 @@ addon | version | maintainers | summary
 [ssi_helpdesk](ssi_helpdesk/) | 14.0.2.18.0 |  | Helpdesk
 [ssi_helpdesk_appointment](ssi_helpdesk_appointment/) | 14.0.1.0.0 |  | Helpdesk - Appointment Integration
 [ssi_helpdesk_data_requirement](ssi_helpdesk_data_requirement/) | 14.0.1.1.0 |  | Helpdesk - Data Requirement Integration
+[ssi_helpdesk_elearning](ssi_helpdesk_elearning/) | 14.0.3.1.0 |  | Helpdesk - E-Learning Integration
 [ssi_helpdesk_odoo_implementation](ssi_helpdesk_odoo_implementation/) | 14.0.1.1.1 |  | Helpdesk - Odoo Implementation Integration
 [ssi_helpdesk_portal](ssi_helpdesk_portal/) | 14.0.1.0.2 |  | Helpdesk Portal
 [ssi_helpdesk_project](ssi_helpdesk_project/) | 14.0.3.1.0 |  | Helpdesk - Project Integration
