@@ -151,13 +151,23 @@
                             <field name="resolution_documentation_state" />
                         </group>
                         <field name="resolution_documentation_ids">
-                            <tree editable="top">
+                            <tree>
                                 <field name="sequence" widget="handle" />
-                                <field name="type_id" />
                                 <field name="name" />
                                 <field name="url" />
                                 <field name="state" />
                             </tree>
+                            <form>
+                                <header>
+                                    <field name="state" widget="statusbar" />
+                                </header>
+                                <group name="resolution_main" colspan="4" col="2">
+                                    <field name="sequence" />
+                                    <field name="type_id" />
+                                    <field name="name" />
+                                    <field name="url" />
+                                </group>
+                            </form>
                         </field>
                     </page>
                     <page name="split" string="Duplicate &amp; Split">
