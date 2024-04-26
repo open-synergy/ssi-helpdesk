@@ -11,6 +11,7 @@ setuptools.setup(
         'odoo14-addon-ssi_helpdesk',
         'odoo14-addon-ssi_helpdesk_appointment',
         'odoo14-addon-ssi_helpdesk_data_requirement',
+        'odoo14-addon-ssi_helpdesk_elearning',
         'odoo14-addon-ssi_helpdesk_odoo_implementation',
         'odoo14-addon-ssi_helpdesk_portal',
         'odoo14-addon-ssi_helpdesk_project',
