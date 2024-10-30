@@ -8,7 +8,8 @@
         <form>
             <group name="group_1" colspan="4" col="2">
                 <field name="communication_id" invisible="0" />
-                <field name="type_id" />
+                <field name="category_id" />
+                <field name="type_id" domain="[('category_id','=',category_id)]" />
             </group>
             <footer>
                 <button
