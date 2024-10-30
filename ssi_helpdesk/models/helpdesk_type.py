@@ -15,6 +15,7 @@ class HelpdeskType(models.Model):
     category_id = fields.Many2one(
         string="Category",
         comodel_name="helpdesk_type_category",
+        required=True,
     )
     duration_id = fields.Many2one(
         string="Duration",

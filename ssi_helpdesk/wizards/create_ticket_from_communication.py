@@ -19,11 +19,22 @@ class CreateTicketFromCommunication(models.TransientModel):
         required=True,
         default=lambda self: self._default_communication_id(),
     )
+    category_id = fields.Many2one(
+        string="Category",
+        comodel_name="helpdesk_type_category",
+        required=True,
+    )
     type_id = fields.Many2one(
         string="Type",
         comodel_name="helpdesk_type",
         required=True,
     )
+
+    @api.onchange(
+        "category_id",
+    )
+    def onchange_type_id(self):
+        self.type_id = False
 
     def action_confirm(self):
         for record in self.sudo():
@@ -59,6 +70,7 @@ class CreateTicketFromCommunication(models.TransientModel):
         return {
             "partner_id": communication.partner_id.id,
             "type_id": self.type_id.id,
+            "type_category_id": self.category_id.id,
             "date": communication.date,
             "title": communication.title,
             "starting_communication_id": communication.id,

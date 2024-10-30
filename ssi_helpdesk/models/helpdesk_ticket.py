@@ -121,8 +121,12 @@ class HelpdeskTicket(models.Model):
     )
     type_category_id = fields.Many2one(
         string="Category",
-        related="type_id.category_id",
-        store=True,
+        related=False,
+        required=False,
+        comodel_name="helpdesk_type_category",
+        readonly=True,
+        states={"draft": [("readonly", False)]},
+        copy=True,
     )
 
     @api.model
@@ -295,6 +299,12 @@ class HelpdeskTicket(models.Model):
             # TODO: This is not working. Why?
             contact_groups = contact_groups - self.partner_id
             self.additional_partner_ids = [(6, 0, contact_groups.ids)]
+
+    @api.onchange(
+        "type_category_id",
+    )
+    def onchange_type_id(self):
+        self.type_id = False
 
     @api.onchange(
         "partner_id",
