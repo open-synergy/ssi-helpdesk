@@ -30,11 +30,22 @@ class SplitHelpdeskTicket(models.TransientModel):
     description = fields.Html(
         string="Description",
     )
+    category_id = fields.Many2one(
+        string="Category",
+        comodel_name="helpdesk_type_category",
+        required=True,
+    )
     type_id = fields.Many2one(
         string="Type",
         comodel_name="helpdesk_type",
         required=True,
     )
+
+    @api.onchange(
+        "category_id",
+    )
+    def onchange_type_id(self):
+        self.type_id = False
 
     def action_confirm(self):
         for record in self.sudo():
@@ -51,6 +62,7 @@ class SplitHelpdeskTicket(models.TransientModel):
         return {
             "title": self.title,
             "split_id": self.ticket_id.id,
+            "type_category_id": self.category_id.id,
             "type_id": self.type_id.id,
             "description": self.description,
         }
