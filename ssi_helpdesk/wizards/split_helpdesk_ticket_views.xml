@@ -9,7 +9,8 @@
             <group name="group_1" colspan="4" col="2">
                 <field name="ticket_id" invisible="1" />
                 <field name="title" />
-                <field name="type_id" />
+                <field name="category_id" />
+                <field name="type_id" domain="[('category_id','=',category_id)]" />
                 <field name="description" />
             </group>
             <footer>
