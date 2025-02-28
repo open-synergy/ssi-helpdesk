@@ -15,6 +15,7 @@ class HelpdeskTicket(models.Model):
         "mixin.transaction_done",
         "mixin.transaction_confirm",
         "mixin.transaction_open",
+        "mixin.transaction_ready",
     ]
     _description = "Helpdesk Ticket"
 
@@ -29,9 +30,10 @@ class HelpdeskTicket(models.Model):
     _automatically_insert_done_policy_fields = False
     _automatically_insert_done_button = False
 
-    _statusbar_visible_label = "draft,open,confirm,done"
+    _statusbar_visible_label = "draft,ready,open,confirm,done"
 
     _policy_field_order = [
+        "ready_ok",
         "open_ok",
         "confirm_ok",
         "approve_ok",
@@ -43,6 +45,7 @@ class HelpdeskTicket(models.Model):
         "manual_number_ok",
     ]
     _header_button_order = [
+        "action_ready",
         "action_open",
         "action_confirm",
         "action_approve_approval",
@@ -55,6 +58,7 @@ class HelpdeskTicket(models.Model):
     # Attributes related to add element on search view automatically
     _state_filter_order = [
         "dom_draft",
+        "dom_ready",
         "dom_open",
         "dom_confirm",
         "dom_reject",
@@ -63,7 +67,7 @@ class HelpdeskTicket(models.Model):
         "dom_cancel",
     ]
 
-    _create_sequence_state = "open"
+    _create_sequence_state = "ready"
 
     title = fields.Char(
         required=True,
@@ -234,27 +238,12 @@ class HelpdeskTicket(models.Model):
         store=True,
         compute="_compute_communication_count",
     )
-    state = fields.Selection(
-        string="State",
-        selection=[
-            ("draft", "Draft"),
-            ("open", "In Progress"),
-            ("confirm", "Waiting for Approval"),
-            ("done", "Done"),
-            ("reject", "Reject"),
-            ("terminate", "Terminate"),
-            ("cancel", "Cancelled"),
-        ],
-        copy=False,
-        default="draft",
-        required=True,
-        readonly=True,
-    )
 
     @api.model
     def _get_policy_field(self):
         res = super(HelpdeskTicket, self)._get_policy_field()
         policy_field = [
+            "ready_ok",
             "open_ok",
             "confirm_ok",
             "approve_ok",
