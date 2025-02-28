@@ -17,6 +17,7 @@
         "ssi_transaction_done_mixin",
         "ssi_transaction_cancel_mixin",
         "ssi_transaction_terminate_mixin",
+        "ssi_transaction_ready_mixin",
         "base_automation",
         "base_duration",
     ],
