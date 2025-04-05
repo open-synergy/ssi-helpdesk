@@ -14,6 +14,7 @@
     ],
     "data": [
         "views/helpdesk_type_views.xml",
+        "views/helpdesk_type_category_views.xml",
     ],
     "demo": [],
     "images": [],
