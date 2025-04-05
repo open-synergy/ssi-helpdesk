@@ -5,26 +5,23 @@
 from odoo import fields, models
 
 
-class HelpdeskType(models.Model):
-    _name = "helpdesk_type"
+class HelpdeskTypeCategory(models.Model):
+    _name = "helpdesk_type_category"
     _inherit = [
-        "helpdesk_type",
+        "helpdesk_type_category",
     ]
 
-    work_estimation = fields.Float(
-        string="Work Estimation",
-    )
     work_log_analytic_account_ids = fields.Many2many(
         string="Work Log Analytic Account",
         comodel_name="account.analytic.account",
-        relation="rel_helpdesk_type_2_work_log_aa",
+        relation="rel_helpdesk_type_category_2_work_log_aa",
         column1="type_id",
         column2="analytic_account_id",
     )
     work_log_analytic_group_ids = fields.Many2many(
         string="Work Log Analytic Group",
         comodel_name="account.analytic.group",
-        relation="rel_helpdesk_type_2_work_log_ag",
+        relation="rel_helpdesk_type_category_2_work_log_ag",
         column1="type_id",
         column2="analytic_group_id",
     )
