@@ -37,6 +37,7 @@
     <field name="arch" type="xml">
         <data>
             <xpath expr="//field[@name='active']" position="after">
+                <field name="auto_title" />
             </xpath>
         </data>
     </field>

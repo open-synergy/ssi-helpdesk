@@ -2,7 +2,7 @@
 # Copyright 2022 PT. Simetri Sinergi Indonesia
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import models
+from odoo import fields, models
 
 
 class HelpdeskTypeCategory(models.Model):
@@ -11,3 +11,7 @@ class HelpdeskTypeCategory(models.Model):
         "mixin.master_data",
     ]
     _description = "Helpdesk Type Category"
+
+    auto_title = fields.Boolean(
+        string="Auto Generate Title",
+    )
