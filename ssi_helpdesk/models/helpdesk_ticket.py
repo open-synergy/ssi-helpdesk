@@ -296,6 +296,15 @@ class HelpdeskTicket(models.Model):
         self.type_id = False
 
     @api.onchange(
+        "type_id",
+    )
+    def onchange_title(self):
+        result = ""
+        if self.type_id and self.type_category_id.auto_title:
+            result = "%s - %s" % (self.type_category_id.name, self.type_id.name)
+        self.title = result
+
+    @api.onchange(
         "partner_id",
     )
     def onchange_contact_group_ids(self):
