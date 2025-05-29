@@ -1,1 +1,3 @@
 odoo14-addon-ssi-elearning
+odoo14-addon-ssi-odoo-implementation
+odoo14-addon-ssi-odoo-implementation-project
