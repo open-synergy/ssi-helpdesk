@@ -313,11 +313,6 @@ msgid ""
 msgstr ""
 
 #. module: ssi_helpdesk
-#: model:ir.model.fields.selection,name:ssi_helpdesk.selection__helpdesk_communication__state__cancel
-msgid "Cancelled"
-msgstr ""
-
-#. module: ssi_helpdesk
 #: model:ir.ui.menu,name:ssi_helpdesk.helpdesk_type_category_menu
 msgid "Categories"
 msgstr ""
@@ -544,7 +539,6 @@ msgid "Documentation"
 msgstr ""
 
 #. module: ssi_helpdesk
-#: model:ir.model.fields.selection,name:ssi_helpdesk.selection__helpdesk_communication__state__done
 #: model:ir.model.fields.selection,name:ssi_helpdesk.selection__helpdesk_ticket__resolution_documentation_state__done
 #: model:ir.model.fields.selection,name:ssi_helpdesk.selection__helpdesk_ticket_data_requirement__state__done
 #: model:ir.model.fields.selection,name:ssi_helpdesk.selection__helpdesk_ticket_resolution_documentation__state__done
@@ -1006,11 +1000,6 @@ msgid "Name"
 msgstr ""
 
 #. module: ssi_helpdesk
-#: model:ir.model.fields.selection,name:ssi_helpdesk.selection__helpdesk_communication__state__draft
-msgid "Need Respond"
-msgstr ""
-
-#. module: ssi_helpdesk
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_ticket__communication_draft_count
 msgid "Need Respond Count"
 msgstr ""
@@ -1263,6 +1252,12 @@ msgid ""
 msgstr ""
 
 #. module: ssi_helpdesk
+#: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_communication__reviewer_id
+#: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_ticket__reviewer_id
+msgid "Reviewer"
+msgstr ""
+
+#. module: ssi_helpdesk
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_ticket_data_requirement__sequence
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_ticket_resolution_documentation__sequence
 msgid "Sequence"
@@ -1463,6 +1458,15 @@ msgid ""
 msgstr ""
 
 #. module: ssi_helpdesk
+#: model:ir.model.fields,help:ssi_helpdesk.field_helpdesk_communication__reviewer_id
+#: model:ir.model.fields,help:ssi_helpdesk.field_helpdesk_ticket__reviewer_id
+msgid ""
+"User that responsible to review document\n"
+"\n"
+"* Unless it configured to approve reviewer does not equal to approver"
+msgstr ""
+
+#. module: ssi_helpdesk
 #: model:ir.model.fields,help:ssi_helpdesk.field_helpdesk_ticket__active_approver_user_ids
 msgid "Users that can approve/reject document"
 msgstr ""
@@ -1492,11 +1496,6 @@ msgstr ""
 #. module: ssi_helpdesk
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_ticket__communication_open_count
 msgid "Waiting for Respond Count"
-msgstr ""
-
-#. module: ssi_helpdesk
-#: model:ir.model.fields.selection,name:ssi_helpdesk.selection__helpdesk_communication__state__open
-msgid "Waiting for Respons"
 msgstr ""
 
 #. module: ssi_helpdesk
