@@ -179,23 +179,10 @@ class HelpdeskCommunication(models.Model):
         string="Description",
         readonly=False,
     )
-    state = fields.Selection(
-        string="State",
-        selection=[
-            ("draft", "Need Respond"),
-            ("open", "Waiting for Respons"),
-            ("done", "Done"),
-            ("cancel", "Cancelled"),
-        ],
-        copy=False,
-        default="draft",
-        required=True,
-        readonly=True,
-    )
 
     @api.model_create_multi
     def create(self, values):
-        _super = super(HelpdeskCommunication, self)
+        _super = super()
         results = _super.create(values)
         for result in results:
             result._create_sequence()
@@ -229,9 +216,7 @@ class HelpdeskCommunication(models.Model):
             "description": msg_dict.get("body") or "-",
         }
         defaults.update(custom_values)
-        return super(HelpdeskCommunication, self).message_new(
-            msg_dict, custom_values=defaults
-        )
+        return super().message_new(msg_dict, custom_values=defaults)
 
     # @api.model
     # def message_new(self, msg, custom_values=None):
@@ -294,7 +279,7 @@ class HelpdeskCommunication(models.Model):
 
     @api.model
     def _get_policy_field(self):
-        res = super(HelpdeskCommunication, self)._get_policy_field()
+        res = super()._get_policy_field()
         policy_field = [
             "open_ok",
             "done_ok",
