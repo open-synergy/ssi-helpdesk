@@ -91,8 +91,13 @@ class HelpdeskTicket(models.Model):
     commercial_partner_id = fields.Many2one(
         string="Commercial Contact",
         comodel_name="res.partner",
-        related="partner_id.commercial_partner_id",
+        related=False,
         store=True,
+        required=True,
+        ondelete="restrict",
+        readonly=True,
+        states={"draft": [("readonly", False)]},
+        copy=True,
     )
     contact_group_ids = fields.Many2many(
         string="Contact Group",
@@ -239,9 +244,13 @@ class HelpdeskTicket(models.Model):
         compute="_compute_communication_count",
     )
 
+    @api.onchange("commercial_partner_id")
+    def onchange_partner_id(self):
+        self.partner_id = False
+
     @api.model
     def _get_policy_field(self):
-        res = super(HelpdeskTicket, self)._get_policy_field()
+        res = super()._get_policy_field()
         policy_field = [
             "ready_ok",
             "open_ok",
@@ -329,7 +338,7 @@ class HelpdeskTicket(models.Model):
 
     @api.model_create_multi
     def create(self, values):
-        _super = super(HelpdeskTicket, self)
+        _super = super()
         results = _super.create(values)
         for result in results:
             result._create_sequence()
