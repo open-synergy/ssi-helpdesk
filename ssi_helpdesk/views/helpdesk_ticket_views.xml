@@ -84,8 +84,8 @@
         <data>
             <xpath expr="//field[@name='company_id']" position="after">
                 <field name="title" />
-                <field name="partner_id" />
                 <field name="commercial_partner_id" />
+                <field name="partner_id" />
                 <field name="date" />
                 <field name="date_deadline" />
                 <field name="type_id" />
@@ -108,8 +108,14 @@
             <data>
                 <xpath expr="//field[@name='user_id']" position="after">
                     <field name="id" invisible="1" />
-                    <field name="partner_id" />
-                    <field name="commercial_partner_id" />
+                    <field
+                        name="commercial_partner_id"
+                        domain="[('parent_id','=',False)]"
+                    />
+                    <field
+                        name="partner_id"
+                        domain="[('commercial_partner_id','=',commercial_partner_id),('id','!=',commercial_partner_id)]"
+                    />
                     <field
                         name="contact_group_ids"
                         domain="[('commercial_contact_id','=',commercial_partner_id)]"
