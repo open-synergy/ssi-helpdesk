@@ -69,6 +69,7 @@ class CreateTicketFromCommunication(models.TransientModel):
         communication = self.communication_id
         return {
             "partner_id": communication.partner_id.id,
+            "commercial_partner_id": communication.commercial_partner_id.id,
             "type_id": self.type_id.id,
             "type_category_id": self.category_id.id,
             "date": communication.date,
