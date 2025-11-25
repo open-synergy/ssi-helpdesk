@@ -10,6 +10,7 @@
     "installable": True,
     "depends": [
         "ssi_odoo_implementation",
+        "ssi_helpdesk",
     ],
     "data": [
         "views/helpdesk_ticket_views.xml",
