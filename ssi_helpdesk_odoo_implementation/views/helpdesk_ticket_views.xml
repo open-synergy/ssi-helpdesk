@@ -53,11 +53,41 @@
                         domain="[('partner_id','=',commercial_partner_id)]"
                     />
                     <field name="odoo_version_id" />
-                    <field name="odoo_feature_id" />
-                    <field
-                        name="odoo_feature_issue_id"
-                        domain="[('feature_id','=',odoo_feature_id),('version_id','=',odoo_version_id)]"
-                    />
+                    <field name="odoo_feature_ids" widget="many2many_tags" />
+               </xpath>
+               <xpath expr="//page[@name='communication']" position="after">
+                    <page string="Odoo Implementation">
+                         <group name="cr" string="Change Request" colspan="4" col="2">
+                              <field
+                                name="need_cr"
+                                string="Required"
+                                widget="boolean_toggle"
+                            />
+                              <field name="cr_state" string="State" />
+                         </group>
+                         <field name="odoo_change_request_ids" nolabel="1" />
+                         <group
+                            name="ccr"
+                            string="Configuration Change Record"
+                            colspan="4"
+                            col="2"
+                        >
+                              <field
+                                name="need_ccr"
+                                string="Required"
+                                widget="boolean_toggle"
+                            />
+                              <field name="ccr_state" string="State" />
+                         </group>
+                         <field
+                            name="odoo_configuration_change_record_ids"
+                            nolabel="1"
+                        />
+                         <group name="issue" string="Issue" colspan="4" col="2">
+                              <field name="issue_state" string="State" />
+                         </group>
+                         <field name="odoo_feature_issue_ids" nolabel="1" />
+                    </page>
                </xpath>
           </data>
      </field>
