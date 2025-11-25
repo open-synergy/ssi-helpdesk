@@ -41,11 +41,3 @@ class HelpdeskTicket(models.Model):
     )
     def onchange_odoo_feature_issue_id(self):
         self.odoo_feature_issue_id = False
-
-    @api.onchange(
-        "odoo_feature_issue_id",
-    )
-    def onchange_task_ids(self):
-        self.task_ids = False
-        if self.odoo_feature_issue_id:
-            self.task_ids = self.odoo_feature_issue_id.task_ids
