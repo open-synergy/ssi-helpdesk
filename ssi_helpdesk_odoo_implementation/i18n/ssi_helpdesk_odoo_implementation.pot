@@ -148,6 +148,11 @@ msgid "Related Odoo Features"
 msgstr ""
 
 #. module: ssi_helpdesk_odoo_implementation
+#: model:ir.model.fields,field_description:ssi_helpdesk_odoo_implementation.field_helpdesk_ticket__odoo_use_case_specification_ids
+msgid "Related Odoo Use Case Specifications"
+msgstr ""
+
+#. module: ssi_helpdesk_odoo_implementation
 #: model:ir.model.fields,field_description:ssi_helpdesk_odoo_implementation.field_helpdesk_ticket__odoo_use_case_ids
 msgid "Related Odoo Use Cases"
 msgstr ""
