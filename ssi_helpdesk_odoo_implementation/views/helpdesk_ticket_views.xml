@@ -58,7 +58,7 @@
                <xpath expr="//page[@name='communication']" position="after">
                     <page string="Odoo Implementation">
                          <separator string="Related Use Cases" colspan="4" />
-                         <field name="odoo_use_case_ids" />
+                         <field name="odoo_use_case_specification_ids" />
                          <group name="cr" string="Change Request" colspan="4" col="2">
                               <field
                                 name="need_cr"
