@@ -28,6 +28,13 @@ class HelpdeskTicket(models.Model):
         column1="helpdesk_ticket_id",
         column2="odoo_feature_id",
     )
+    odoo_use_case_ids = fields.Many2many(
+        string="Related Odoo Use Cases",
+        comodel_name="odoo_use_case",
+        relation="helpdesk_ticket_odoo_use_case_rel",
+        column1="helpdesk_ticket_id",
+        column2="odoo_use_case_id",
+    )
 
     # Change Request
     need_cr = fields.Boolean(
