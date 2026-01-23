@@ -49,6 +49,7 @@ class HelpdeskTicketDataRequirement(models.Model):
         ],
         compute="_compute_state",
         store=True,
+        compute_sudo=True,
     )
 
     @api.depends(

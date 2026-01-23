@@ -66,6 +66,7 @@ class HelpdeskCommunication(models.Model):
         comodel_name="res.partner",
         related="partner_id.commercial_partner_id",
         store=True,
+        compute_sudo=True,
     )
     ticket_id = fields.Many2one(
         string="# Ticket",
@@ -105,11 +106,13 @@ class HelpdeskCommunication(models.Model):
         readonly=True,
         compute="_compute_message",
         store=True,
+        compute_sudo=True,
     )
     latest_message_date = fields.Datetime(
         string="Latest Message Date",
         related="latest_message_id.date",
         store=True,
+        compute_sudo=True,
     )
     latest_partner_message_id = fields.Many2one(
         string="Latest Partner Message",
@@ -117,11 +120,13 @@ class HelpdeskCommunication(models.Model):
         readonly=True,
         compute="_compute_message",
         store=True,
+        compute_sudo=True,
     )
     latest_partner_message_date = fields.Datetime(
         string="Latest Partner Message Date",
         related="latest_partner_message_id.date",
         store=True,
+        compute_sudo=True,
     )
 
     @api.depends(
@@ -154,6 +159,7 @@ class HelpdeskCommunication(models.Model):
         string="Waiting for Respon",
         compute="_compute_need_respon",
         store=True,
+        compute_sudo=True,
     )
 
     @api.model
