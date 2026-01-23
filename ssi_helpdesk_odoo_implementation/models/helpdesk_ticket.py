@@ -20,6 +20,7 @@ class HelpdeskTicket(models.Model):
         comodel_name="odoo_version",
         related="odoo_implementation_id.version_id",
         store=True,
+        compute_sudo=True,
     )
     odoo_feature_ids = fields.Many2many(
         string="Related Odoo Features",
