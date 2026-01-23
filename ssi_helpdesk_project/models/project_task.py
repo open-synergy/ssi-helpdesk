@@ -46,6 +46,7 @@ class ProjectTask(models.Model):
         string="Ticket Deadline",
         compute="_compute_ticket_deadline",
         store=True,
+        compute_sudo=True,
     )
 
     def action_open_ticket(self):
