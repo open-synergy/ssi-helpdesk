@@ -187,16 +187,19 @@ class HelpdeskTicket(models.Model):
         string="Latest Message Date",
         related="finishing_communication_id.latest_message_date",
         store=True,
+        compute_sudo=True,
     )
     latest_partner_message_date = fields.Datetime(
         string="Latest Partner Message Date",
         related="finishing_communication_id.latest_partner_message_date",
         store=True,
+        compute_sudo=True,
     )
     finishing_communication_state = fields.Selection(
         string="Finishing Communication State",
         related="finishing_communication_id.state",
         store=True,
+        compute_sudo=True,
     )
     duplicate_id = fields.Many2one(
         string="# Duplicate With",
@@ -234,14 +237,19 @@ class HelpdeskTicket(models.Model):
         ],
         compute="_compute_resolution_documentation_state",
         store=True,
+        compute_sudo=True,
     )
     communication_draft_count = fields.Integer(
-        string="Need Respond Count", store=True, compute="_compute_communication_count"
+        string="Need Respond Count",
+        store=True,
+        compute="_compute_communication_count",
+        compute_sudo=True,
     )
     communication_open_count = fields.Integer(
         string="Waiting for Respond Count",
         store=True,
         compute="_compute_communication_count",
+        compute_sudo=True,
     )
 
     @api.onchange("commercial_partner_id")
