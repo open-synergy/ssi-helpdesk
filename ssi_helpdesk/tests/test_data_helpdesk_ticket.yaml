@@ -1,0 +1,328 @@
+scenarios:
+  - name: "Helpdesk Ticket - Full Workflow: draft to done"
+    steps:
+      - step: "Setup - create company partner"
+        action: "create"
+        model: "res.partner"
+        save_as: "company"
+        values:
+          name: "Test Company HD"
+          is_company: true
+
+      - step: "Setup - create contact person"
+        action: "create"
+        model: "res.partner"
+        save_as: "contact"
+        values:
+          name: "Test Contact HD"
+          is_company: false
+          parent_id: "EVAL: registry['company'].id"
+
+      - step: "Setup - create helpdesk type category"
+        action: "create"
+        model: "helpdesk_type_category"
+        save_as: "type_category"
+        values:
+          name: "Test Category HD"
+          code: "TCAT"
+
+      - step: "Setup - create helpdesk type"
+        action: "create"
+        model: "helpdesk_type"
+        save_as: "ticket_type"
+        values:
+          name: "Test Type HD"
+          code: "TTYPE"
+          category_id: "EVAL: registry['type_category'].id"
+
+      - step: "Create helpdesk ticket"
+        action: "create"
+        model: "helpdesk_ticket"
+        save_as: "ticket"
+        as_user: "base.user_admin"
+        values:
+          title: "Test Ticket HD"
+          partner_id: "EVAL: registry['contact'].id"
+          commercial_partner_id: "EVAL: registry['company'].id"
+          type_id: "EVAL: registry['ticket_type'].id"
+          type_category_id: "EVAL: registry['type_category'].id"
+
+      - step: "Assert ticket created in draft state"
+        action: "assert"
+        target: "ticket"
+        asserts:
+          state:
+            type: "value"
+            expected: "draft"
+
+      - step: "Action ready - draft to ready"
+        action: "call"
+        target: "ticket"
+        method: "action_ready"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "ready"
+
+      - step: "Invalidate cache after ready"
+        action: "call"
+        target: "ticket"
+        method: "invalidate_cache"
+
+      - step: "Action open - ready to open"
+        action: "call"
+        target: "ticket"
+        method: "action_open"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "open"
+
+      - step: "Invalidate cache after open"
+        action: "call"
+        target: "ticket"
+        method: "invalidate_cache"
+
+      - step: "Action confirm - open to confirm"
+        action: "call"
+        target: "ticket"
+        method: "action_confirm"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "confirm"
+
+      - step: "Invalidate cache after confirm"
+        action: "call"
+        target: "ticket"
+        method: "invalidate_cache"
+
+      - step: "Action approve - confirm to done"
+        action: "call"
+        target: "ticket"
+        method: "action_approve_approval"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "done"
+
+  - name: "Helpdesk Ticket - Cancel and Restart"
+    steps:
+      - step: "Setup - create company partner"
+        action: "create"
+        model: "res.partner"
+        save_as: "company"
+        values:
+          name: "Test Company HD Cancel"
+          is_company: true
+
+      - step: "Setup - create contact person"
+        action: "create"
+        model: "res.partner"
+        save_as: "contact"
+        values:
+          name: "Test Contact HD Cancel"
+          is_company: false
+          parent_id: "EVAL: registry['company'].id"
+
+      - step: "Create helpdesk ticket"
+        action: "create"
+        model: "helpdesk_ticket"
+        save_as: "ticket"
+        as_user: "base.user_admin"
+        values:
+          title: "Test Ticket HD Cancel"
+          partner_id: "EVAL: registry['contact'].id"
+          commercial_partner_id: "EVAL: registry['company'].id"
+
+      - step: "Assert ticket in draft"
+        action: "assert"
+        target: "ticket"
+        asserts:
+          state:
+            type: "value"
+            expected: "draft"
+
+      - step: "Action ready"
+        action: "call"
+        target: "ticket"
+        method: "action_ready"
+        as_user: "base.user_admin"
+
+      - step: "Invalidate cache"
+        action: "call"
+        target: "ticket"
+        method: "invalidate_cache"
+
+      - step: "Action cancel - ready to cancel"
+        action: "call"
+        target: "ticket"
+        method: "action_cancel"
+        as_user: "base.user_admin"
+        context:
+          bypass_cancel_reason: true
+        asserts:
+          state:
+            type: "value"
+            expected: "cancel"
+
+      - step: "Invalidate cache after cancel"
+        action: "call"
+        target: "ticket"
+        method: "invalidate_cache"
+
+      - step: "Action restart - cancel to draft"
+        action: "call"
+        target: "ticket"
+        method: "action_restart"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "draft"
+
+  - name: "Helpdesk Ticket - Master Data Creation"
+    steps:
+      - step: "Create helpdesk channel"
+        action: "create"
+        model: "helpdesk_channel"
+        save_as: "channel"
+        values:
+          name: "Test Channel HD"
+          code: "TCH"
+
+      - step: "Assert channel created"
+        action: "assert"
+        target: "channel"
+        asserts:
+          name:
+            type: "value"
+            expected: "Test Channel HD"
+
+      - step: "Create helpdesk contact group - create company first"
+        action: "create"
+        model: "res.partner"
+        save_as: "cg_company"
+        values:
+          name: "CG Company HD"
+          is_company: true
+
+      - step: "Create contact for group"
+        action: "create"
+        model: "res.partner"
+        save_as: "cg_contact"
+        values:
+          name: "CG Contact HD"
+          is_company: false
+          parent_id: "EVAL: registry['cg_company'].id"
+
+      - step: "Create helpdesk contact group"
+        action: "create"
+        model: "helpdesk_contact_group"
+        save_as: "contact_group"
+        values:
+          name: "Test Contact Group HD"
+          code: "TCG"
+          commercial_contact_id: "EVAL: registry['cg_company'].id"
+          contact_ids:
+            - "EVAL: registry['cg_contact'].id"
+
+      - step: "Assert contact group created"
+        action: "assert"
+        target: "contact_group"
+        asserts:
+          name:
+            type: "value"
+            expected: "Test Contact Group HD"
+
+  - name: "Helpdesk Ticket - Communication Workflow"
+    steps:
+      - step: "Setup - create company"
+        action: "create"
+        model: "res.partner"
+        save_as: "company"
+        values:
+          name: "Test Company Comm HD"
+          is_company: true
+
+      - step: "Setup - create contact"
+        action: "create"
+        model: "res.partner"
+        save_as: "contact"
+        values:
+          name: "Test Contact Comm HD"
+          is_company: false
+          parent_id: "EVAL: registry['company'].id"
+
+      - step: "Create ticket"
+        action: "create"
+        model: "helpdesk_ticket"
+        save_as: "ticket"
+        as_user: "base.user_admin"
+        values:
+          title: "Test Ticket Comm HD"
+          partner_id: "EVAL: registry['contact'].id"
+          commercial_partner_id: "EVAL: registry['company'].id"
+
+      - step: "Action ready"
+        action: "call"
+        target: "ticket"
+        method: "action_ready"
+        as_user: "base.user_admin"
+
+      - step: "Invalidate cache"
+        action: "call"
+        target: "ticket"
+        method: "invalidate_cache"
+
+      - step: "Action open"
+        action: "call"
+        target: "ticket"
+        method: "action_open"
+        as_user: "base.user_admin"
+
+      - step: "Invalidate cache"
+        action: "call"
+        target: "ticket"
+        method: "invalidate_cache"
+
+      - step: "Create finishing communication"
+        action: "call"
+        target: "ticket"
+        method: "action_create_finishing_communication"
+        as_user: "base.user_admin"
+
+      - step: "Invalidate cache after finishing comm"
+        action: "call"
+        target: "ticket"
+        method: "invalidate_cache"
+
+      - step: "Assert finishing communication created"
+        action: "assert"
+        target: "ticket"
+        asserts:
+          finishing_communication_id:
+            type: "value"
+            operator: "is_truthy"
+
+      - step: "Create updating communication"
+        action: "call"
+        target: "ticket"
+        method: "action_create_updating_communication"
+        as_user: "base.user_admin"
+
+      - step: "Open communication list action"
+        action: "call"
+        target: "ticket"
+        method: "action_open_communication"
+        as_user: "base.user_admin"
+
+      - step: "Open split action"
+        action: "call"
+        target: "ticket"
+        method: "action_open_split"
+        as_user: "base.user_admin"
