@@ -1,0 +1,76 @@
+scenarios:
+  - name: "Helpdesk Data Requirement - Ticket with Data Requirement"
+    steps:
+      - step: "Setup - create company"
+        action: "create"
+        model: "res.partner"
+        save_as: "company"
+        values:
+          name: "Test Company DR HD"
+          is_company: true
+
+      - step: "Setup - create contact"
+        action: "create"
+        model: "res.partner"
+        save_as: "contact"
+        values:
+          name: "Test Contact DR HD"
+          is_company: false
+          parent_id: "EVAL: registry['company'].id"
+
+      - step: "Setup - create helpdesk type category"
+        action: "create"
+        model: "helpdesk_type_category"
+        save_as: "type_category"
+        values:
+          name: "Test Category DR HD"
+          code: "TCATDR"
+
+      - step: "Setup - create helpdesk type"
+        action: "create"
+        model: "helpdesk_type"
+        save_as: "ticket_type"
+        values:
+          name: "Test Type DR HD"
+          code: "TTYPEDR"
+          category_id: "EVAL: registry['type_category'].id"
+
+      - step: "Create helpdesk ticket with data requirement mixin"
+        action: "create"
+        model: "helpdesk_ticket"
+        save_as: "ticket"
+        as_user: "base.user_admin"
+        values:
+          title: "Test Ticket DR HD"
+          partner_id: "EVAL: registry['contact'].id"
+          commercial_partner_id: "EVAL: registry['company'].id"
+          type_id: "EVAL: registry['ticket_type'].id"
+
+      - step: "Assert ticket created in draft"
+        action: "assert"
+        target: "ticket"
+        asserts:
+          state:
+            type: "value"
+            expected: "draft"
+
+      - step: "Action ready"
+        action: "call"
+        target: "ticket"
+        method: "action_ready"
+        as_user: "base.user_admin"
+
+      - step: "Invalidate cache"
+        action: "call"
+        target: "ticket"
+        method: "invalidate_cache"
+
+      - step: "Action open"
+        action: "call"
+        target: "ticket"
+        method: "action_open"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "open"
