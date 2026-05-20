@@ -1,0 +1,64 @@
+scenarios:
+  - name: "Helpdesk Portal - Ticket with Portal Mixin"
+    steps:
+      - step: "Setup - create company"
+        action: "create"
+        model: "res.partner"
+        save_as: "company"
+        values:
+          name: "Test Company PO HD"
+          is_company: true
+
+      - step: "Setup - create contact"
+        action: "create"
+        model: "res.partner"
+        save_as: "contact"
+        values:
+          name: "Test Contact PO HD"
+          is_company: false
+          parent_id: "EVAL: registry['company'].id"
+
+      - step: "Create helpdesk ticket with portal mixin"
+        action: "create"
+        model: "helpdesk_ticket"
+        save_as: "ticket"
+        as_user: "base.user_admin"
+        values:
+          title: "Test Ticket PO HD"
+          partner_id: "EVAL: registry['contact'].id"
+          commercial_partner_id: "EVAL: registry['company'].id"
+
+      - step: "Assert ticket created in draft"
+        action: "assert"
+        target: "ticket"
+        asserts:
+          state:
+            type: "value"
+            expected: "draft"
+
+      - step: "Get helpdesk URL"
+        action: "call"
+        target: "ticket"
+        method: "get_helpdesk_url"
+        as_user: "base.user_admin"
+
+      - step: "Action ready"
+        action: "call"
+        target: "ticket"
+        method: "action_ready"
+        as_user: "base.user_admin"
+
+      - step: "Invalidate cache"
+        action: "call"
+        target: "ticket"
+        method: "invalidate_cache"
+
+      - step: "Action open"
+        action: "call"
+        target: "ticket"
+        method: "action_open"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "open"
