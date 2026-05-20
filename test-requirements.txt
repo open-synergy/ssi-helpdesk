@@ -1,2 +1,1 @@
 odoo14-addon-ssi-elearning
-git+https://github.com/andhit-r/odoo-yaml-test.git@master#egg=odoo-yaml-test
