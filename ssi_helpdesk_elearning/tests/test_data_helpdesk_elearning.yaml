@@ -1,0 +1,85 @@
+scenarios:
+  - name: "Helpdesk E-Learning - Resolution Documentation with Course"
+    steps:
+      - step: "Setup - create company"
+        action: "create"
+        model: "res.partner"
+        save_as: "company"
+        values:
+          name: "Test Company EL HD"
+          is_company: true
+
+      - step: "Setup - create contact"
+        action: "create"
+        model: "res.partner"
+        save_as: "contact"
+        values:
+          name: "Test Contact EL HD"
+          is_company: false
+          parent_id: "EVAL: registry['company'].id"
+
+      - step: "Create helpdesk ticket"
+        action: "create"
+        model: "helpdesk_ticket"
+        save_as: "ticket"
+        as_user: "base.user_admin"
+        values:
+          title: "Test Ticket EL HD"
+          partner_id: "EVAL: registry['contact'].id"
+          commercial_partner_id: "EVAL: registry['company'].id"
+
+      - step: "Assert ticket created"
+        action: "assert"
+        target: "ticket"
+        asserts:
+          state:
+            type: "value"
+            expected: "draft"
+
+      - step: "Create resolution documentation (no URL - in progress)"
+        action: "create"
+        model: "helpdesk_ticket.resolution_documentation"
+        save_as: "resolution_doc"
+        values:
+          ticket_id: "EVAL: registry['ticket'].id"
+          name: "Test Resolution Doc EL"
+
+      - step: "Assert resolution doc state is open (no url)"
+        action: "assert"
+        target: "resolution_doc"
+        asserts:
+          state:
+            type: "value"
+            expected: "open"
+
+      - step: "Update resolution doc with URL (done)"
+        action: "write"
+        target: "resolution_doc"
+        values:
+          url: "https://example.com/course"
+
+      - step: "Invalidate cache after url update"
+        action: "call"
+        target: "resolution_doc"
+        method: "invalidate_cache"
+
+      - step: "Assert resolution doc state is done"
+        action: "assert"
+        target: "resolution_doc"
+        asserts:
+          state:
+            type: "value"
+            expected: "done"
+
+      - step: "Invalidate ticket cache"
+        action: "call"
+        target: "ticket"
+        method: "invalidate_cache"
+
+      - step: "Assert ticket resolution_documentation_state is done"
+        action: "assert"
+        target: "ticket"
+        asserts:
+          resolution_documentation_state:
+            type: "value"
+            expected: "done"
