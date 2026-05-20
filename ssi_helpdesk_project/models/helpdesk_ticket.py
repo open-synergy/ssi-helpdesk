@@ -116,9 +116,11 @@ class HelpdeskTicket(models.Model):
     )
     def _compute_task(self):
         for record in self:
-            total_task = task_no_state_count = task_draft_count = task_open_count = (
-                task_done_count
-            ) = task_pending_count = 0
+            total_task = (
+                task_no_state_count
+            ) = (
+                task_draft_count
+            ) = task_open_count = task_done_count = task_pending_count = 0
             task_done = False
             task_block = False
             if record.task_ids:
@@ -162,7 +164,11 @@ class HelpdeskTicket(models.Model):
     )
     def _compute_timebox(self):
         for document in self:
-            timebox_latest_id = timebox_latest_date_start = timebox_latest_date_end = (
+            timebox_latest_id = (
+                timebox_latest_date_start
+            ) = (
+                timebox_latest_date_end
+            ) = (
                 timebox_initial_id
             ) = timebox_initial_date_start = timebox_initial_date_end = False
 
