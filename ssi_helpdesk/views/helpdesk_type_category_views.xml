@@ -12,7 +12,16 @@
         />
     <field name="mode">primary</field>
     <field name="arch" type="xml">
-        <data />
+        <data>
+            <xpath expr="//group[@name='dom_active']" position="before">
+                <separator name="auto_title" />
+                <filter
+                        name="dom_auto_title"
+                        string="Auto Title"
+                        domain="[('auto_title', '=', True)]"
+                    />
+            </xpath>
+        </data>
     </field>
 </record>
 
