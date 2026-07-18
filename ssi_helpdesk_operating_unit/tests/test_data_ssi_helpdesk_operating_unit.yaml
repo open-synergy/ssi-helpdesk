@@ -1,0 +1,215 @@
+scenarios:
+  - name: "Helpdesk Ticket - Operating Unit is set"
+    steps:
+      - step: "Create company partner"
+        action: "create"
+        model: "res.partner"
+        save_as: "company"
+        values:
+          name: "Helpdesk Ticket OU Test Company"
+          is_company: true
+
+      - step: "Create contact partner"
+        action: "create"
+        model: "res.partner"
+        save_as: "contact"
+        values:
+          name: "Helpdesk Ticket OU Test Contact"
+          is_company: false
+          parent_id: "REC: company.id"
+
+      - step: "Create helpdesk ticket with operating_unit_id"
+        action: "create"
+        model: "helpdesk_ticket"
+        save_as: "ticket"
+        as_user: "base.user_admin"
+        values:
+          title: "Helpdesk Ticket OU Test"
+          partner_id: "REC: contact.id"
+          commercial_partner_id: "REC: company.id"
+          operating_unit_id: "REF: operating_unit.main_operating_unit"
+
+      - step: "Assert ticket operating_unit_id is set"
+        action: "assert"
+        target: "ticket"
+        asserts:
+          operating_unit_id:
+            type: "value"
+            operator: "is_truthy"
+
+  - name: "Helpdesk Communication - Operating Unit is set"
+    steps:
+      - step: "Create company partner"
+        action: "create"
+        model: "res.partner"
+        save_as: "company"
+        values:
+          name: "Helpdesk Communication OU Test Company"
+          is_company: true
+
+      - step: "Create contact partner"
+        action: "create"
+        model: "res.partner"
+        save_as: "contact"
+        values:
+          name: "Helpdesk Communication OU Test Contact"
+          is_company: false
+          parent_id: "REC: company.id"
+
+      - step: "Create helpdesk communication with operating_unit_id"
+        action: "create"
+        model: "helpdesk_communication"
+        save_as: "communication"
+        as_user: "base.user_admin"
+        values:
+          title: "Helpdesk Communication OU Test"
+          partner_id: "REC: contact.id"
+          operating_unit_id: "REF: operating_unit.main_operating_unit"
+
+      - step: "Assert communication operating_unit_id is set"
+        action: "assert"
+        target: "communication"
+        asserts:
+          operating_unit_id:
+            type: "value"
+            operator: "is_truthy"
+
+  - name: "Helpdesk Ticket - ir.rule denies access outside assigned operating unit"
+    steps:
+      - step: "Create company partner"
+        action: "create"
+        model: "res.partner"
+        save_as: "company"
+        values:
+          name: "Helpdesk Ticket OU Rule Test Company"
+          is_company: true
+
+      - step: "Create contact partner"
+        action: "create"
+        model: "res.partner"
+        save_as: "contact"
+        values:
+          name: "Helpdesk Ticket OU Rule Test Contact"
+          is_company: false
+          parent_id: "REC: company.id"
+
+      - step: "Create helpdesk ticket with operating_unit_id"
+        action: "create"
+        model: "helpdesk_ticket"
+        save_as: "ticket"
+        as_user: "base.user_admin"
+        values:
+          title: "Helpdesk Ticket OU Rule Test"
+          partner_id: "REC: contact.id"
+          commercial_partner_id: "REC: company.id"
+          operating_unit_id: "REF: operating_unit.main_operating_unit"
+
+      - step: "Create user restricted to a different operating unit"
+        action: "create"
+        model: "res.users"
+        save_as: "restricted_user"
+        values:
+          name: "Helpdesk Ticket OU Restricted User"
+          login: "ou_restricted_helpdesk_ticket@example.com"
+          groups_id:
+            [
+              [
+                6,
+                0,
+                [
+                  "REF: base.group_user",
+                  "REF: ssi_helpdesk.helpdesk_ticket_user_group",
+                  "REF: ssi_helpdesk_operating_unit.helpdesk_ticket_ou_group",
+                ],
+              ],
+            ]
+          assigned_operating_unit_ids: [[6, 0, []]]
+
+      - step: "Restricted user cannot read the record outside their operating unit"
+        action: "call"
+        target: "ticket"
+        method: "read"
+        as_user: "restricted_user"
+        args:
+          - ["operating_unit_id"]
+        expect_error:
+          type: "AccessError"
+
+      - step: "Restricted user cannot write the record outside their operating unit"
+        action: "write"
+        target: "ticket"
+        as_user: "restricted_user"
+        expect_error:
+          type: "AccessError"
+        values:
+          title: "Helpdesk Ticket OU Rule Test - Changed"
+
+  - name:
+      "Helpdesk Communication - ir.rule denies access outside assigned operating unit"
+    steps:
+      - step: "Create company partner"
+        action: "create"
+        model: "res.partner"
+        save_as: "company"
+        values:
+          name: "Helpdesk Communication OU Rule Test Company"
+          is_company: true
+
+      - step: "Create contact partner"
+        action: "create"
+        model: "res.partner"
+        save_as: "contact"
+        values:
+          name: "Helpdesk Communication OU Rule Test Contact"
+          is_company: false
+          parent_id: "REC: company.id"
+
+      - step: "Create helpdesk communication with operating_unit_id"
+        action: "create"
+        model: "helpdesk_communication"
+        save_as: "communication"
+        as_user: "base.user_admin"
+        values:
+          title: "Helpdesk Communication OU Rule Test"
+          partner_id: "REC: contact.id"
+          operating_unit_id: "REF: operating_unit.main_operating_unit"
+
+      - step: "Create user restricted to a different operating unit"
+        action: "create"
+        model: "res.users"
+        save_as: "restricted_user"
+        values:
+          name: "Helpdesk Communication OU Restricted User"
+          login: "ou_restricted_helpdesk_communication@example.com"
+          groups_id:
+            [
+              [
+                6,
+                0,
+                [
+                  "REF: base.group_user",
+                  "REF: ssi_helpdesk.helpdesk_communication_user_group",
+                  "REF: ssi_helpdesk_operating_unit.helpdesk_communication_ou_group",
+                ],
+              ],
+            ]
+          assigned_operating_unit_ids: [[6, 0, []]]
+
+      - step: "Restricted user cannot read the record outside their operating unit"
+        action: "call"
+        target: "communication"
+        method: "read"
+        as_user: "restricted_user"
+        args:
+          - ["operating_unit_id"]
+        expect_error:
+          type: "AccessError"
+
+      - step: "Restricted user cannot write the record outside their operating unit"
+        action: "write"
+        target: "communication"
+        as_user: "restricted_user"
+        expect_error:
+          type: "AccessError"
+        values:
+          title: "Helpdesk Communication OU Rule Test - Changed"
