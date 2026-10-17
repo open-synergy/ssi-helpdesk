@@ -35,6 +35,12 @@ class HelpdeskTicket(models.Model):
         "appointment_schedule_ids.appointment_id.state",
     )
     def _compute_appointment_request_state(self):
+        """Compute the status of the linked appointment requests.
+
+        The status is ``no_need`` when no request is linked, ``open``
+        when any linked request has no appointment or its appointment
+        is not done, and ``done`` otherwise.
+        """
         for record in self:
             result = "no_need"
 

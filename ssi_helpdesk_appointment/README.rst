@@ -7,6 +7,11 @@ Helpdesk - Project Integration
 ==============================
 
 
+Work Instruction
+================
+
+* `Edit Helpdesk Ticket <docs/helpdesk_ticket/02-edit.html>`_
+
 Installation
 ============
 

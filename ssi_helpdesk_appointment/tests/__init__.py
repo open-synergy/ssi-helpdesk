@@ -2,4 +2,7 @@
 # Copyright 2024 PT. Simetri Sinergi Indonesia
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from . import test_helpdesk_appointment  # noqa: F401
+from . import (  # noqa: F401
+    test_helpdesk_appointment,
+    test_ui_helpdesk_appointment,
+)
