@@ -1527,8 +1527,3 @@ msgstr ""
 #: model:ir.model.fields,help:ssi_helpdesk.field_helpdesk_type_category__website_message_ids
 msgid "Website communication history"
 msgstr ""
-
-#. module: ssi_helpdesk
-#: model_terms:ir.ui.view,arch_db:ssi_helpdesk.split_helpdesk_ticket_view_form
-msgid "or"
-msgstr ""
