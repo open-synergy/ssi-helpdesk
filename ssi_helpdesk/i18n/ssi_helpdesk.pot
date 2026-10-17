@@ -498,6 +498,12 @@ msgid "Created on"
 msgstr ""
 
 #. module: ssi_helpdesk
+#: model:ir.actions.act_window,name:ssi_helpdesk.helpdesk_data_requirement_type_action
+#: model:ir.ui.menu,name:ssi_helpdesk.helpdesk_data_requirement_type_menu
+msgid "Data Requirement Types"
+msgstr ""
+
+#. module: ssi_helpdesk
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_communication__date
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_ticket__date
 #: model_terms:ir.ui.view,arch_db:ssi_helpdesk.helpdesk_communication_view_search
