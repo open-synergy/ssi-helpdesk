@@ -1,3 +1,5 @@
+options:
+  auto_refresh: true
 scenarios:
   - name: "Helpdesk E-Learning - Resolution Documentation with Course"
     steps:
@@ -58,11 +60,6 @@ scenarios:
         values:
           url: "https://example.com/course"
 
-      - step: "Invalidate cache after url update"
-        action: "call"
-        target: "resolution_doc"
-        method: "invalidate_cache"
-
       - step: "Assert resolution doc state is done"
         action: "assert"
         target: "resolution_doc"
@@ -70,11 +67,6 @@ scenarios:
           state:
             type: "value"
             expected: "done"
-
-      - step: "Invalidate ticket cache"
-        action: "call"
-        target: "ticket"
-        method: "invalidate_cache"
 
       - step: "Assert ticket resolution_documentation_state is done"
         action: "assert"

@@ -5,6 +5,9 @@
 from odoo import api, fields, models
 
 
+# Extends the resolution documentation child of a helpdesk ticket with
+# an e-learning course and course content, and lets the content fill
+# the documentation name and URL.
 class HelpdeskTicketResolutionDocumentation(models.Model):
     _name = "helpdesk_ticket.resolution_documentation"
     _inherit = [
@@ -33,21 +36,39 @@ class HelpdeskTicketResolutionDocumentation(models.Model):
         "course_id",
     )
     def onchange_content_id(self):
+        """Clear the content when the course changes.
+
+        The content must belong to the selected course, so a previously
+        chosen content is no longer valid.
+        """
         self.content_id = False
 
     @api.onchange(
         "content_id",
     )
     def onchange_url(self):
+        """Fill the URL from the selected content.
+
+        The URL is the website URL of the content, or empty when no
+        content is selected.
+        """
         self.url = False
         if self.content_id:
             self.url = self.content_id.website_url
 
     @api.onchange(
+        "type_id",
         "content_id",
     )
     def onchange_name(self):
-        self.name = False
+        """Fill the documentation name, keeping the base behavior.
+
+        The base implementation (triggered by ``type_id``) sets the
+        name from the documentation type. It runs first so that
+        selecting a type keeps working when this module is installed;
+        a selected content then takes precedence over the type name.
+        """
+        super().onchange_name()
         if self.content_id:
             self.name = self.content_id.name
 
@@ -55,6 +76,11 @@ class HelpdeskTicketResolutionDocumentation(models.Model):
         "course_id",
     )
     def _compute_allowed_content_ids(self):
+        """Compute the contents that can be chosen for the course.
+
+        The allowed contents are the slides of the selected course, and
+        none when no course is selected.
+        """
         CourseContent = self.env["slide.slide"]
         for record in self:
             result = False
