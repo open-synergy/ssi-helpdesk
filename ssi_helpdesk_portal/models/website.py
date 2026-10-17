@@ -11,6 +11,12 @@ class Website(models.Model):
     _inherit = "website"
 
     def get_suggested_controllers(self):
+        """Add the helpdesk rating page to the suggested controllers.
+
+        :return: Suggested controllers including the helpdesk
+            customer satisfaction page.
+        :rtype: list of tuple
+        """
         suggested_controllers = super(Website, self).get_suggested_controllers()
         suggested_controllers.append(
             (

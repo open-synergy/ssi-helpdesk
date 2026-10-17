@@ -1,0 +1,2 @@
+web aset-didaftarkan-lewat-template-yang-mewarisi-web-assets|assets-tak-terdaftar -- Frontend JS for website/portal pages must be loaded through website.assets_frontend (views/assets.xml); web.assets_* are backend bundles and would never serve these pages
+ik modul-tak-punya-direktori-docs-belum-ada-ik-sama-sekali|docs/ -- The only user-facing surface of this module is the portal/website (controllers, website_form, QWeb website templates); this is archetype E7 (modul-extension.md), which is outside the scope of work instructions and tours
