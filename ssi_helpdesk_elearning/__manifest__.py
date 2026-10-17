@@ -11,9 +11,11 @@
     "depends": [
         "ssi_helpdesk",
         "ssi_elearning",
+        "web_tour",
     ],
     "data": [
         "views/helpdesk_ticket_views.xml",
+        "views/assets.xml",
     ],
     "demo": [],
     "images": [],

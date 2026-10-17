@@ -1,0 +1,117 @@
+options:
+  auto_refresh: true
+scenarios:
+  - name: "Helpdesk E-Learning - Resolution Documentation Onchange"
+    steps:
+      - step: "Setup - create documentation type"
+        action: "create"
+        model: "helpdesk_resolution_documentation_type"
+        save_as: "doc_type"
+        values:
+          name: "EL76 Type"
+          code: "EL76TYPE"
+
+      - step: "Setup - create course A"
+        action: "create"
+        model: "slide.channel"
+        save_as: "course_a"
+        values:
+          name: "EL76 Course A"
+
+      - step: "Setup - create course B"
+        action: "create"
+        model: "slide.channel"
+        save_as: "course_b"
+        values:
+          name: "EL76 Course B"
+
+      - step: "Setup - create content of course A"
+        action: "create"
+        model: "slide.slide"
+        save_as: "content_a"
+        values:
+          name: "EL76 Content A"
+          channel_id: "REC: course_a"
+
+      - step: "Setup - create company"
+        action: "create"
+        model: "res.partner"
+        save_as: "company"
+        values:
+          name: "EL76 Company"
+          is_company: true
+
+      - step: "Setup - create contact"
+        action: "create"
+        model: "res.partner"
+        save_as: "contact"
+        values:
+          name: "EL76 Contact"
+          is_company: false
+          parent_id: "REC: company"
+
+      - step: "Setup - create ticket"
+        action: "create"
+        model: "helpdesk_ticket"
+        save_as: "ticket"
+        as_user: "base.user_admin"
+        values:
+          title: "EL76 Ticket"
+          partner_id: "REC: contact"
+          commercial_partner_id: "REC: company"
+
+      - step: "Choosing the type fills the name (base trigger kept)"
+        action: "form"
+        model: "helpdesk_ticket.resolution_documentation"
+        save: false
+        ops:
+          - set: {ticket_id: "REC: ticket"}
+          - set: {type_id: "REC: doc_type"}
+          - assert:
+              name:
+                type: "value"
+                expected: "EL76 Type"
+
+      - step: "Choosing the content fills the name and the URL"
+        action: "form"
+        model: "helpdesk_ticket.resolution_documentation"
+        save: false
+        ops:
+          - set: {ticket_id: "REC: ticket"}
+          - set: {course_id: "REC: course_a"}
+          - set: {content_id: "REC: content_a"}
+          - assert:
+              name:
+                type: "value"
+                expected: "EL76 Content A"
+              url:
+                type: "value"
+                expected: "EVAL: registry['content_a'].website_url"
+
+      - step: "Changing the course clears the content"
+        action: "form"
+        model: "helpdesk_ticket.resolution_documentation"
+        save: false
+        ops:
+          - set: {ticket_id: "REC: ticket"}
+          - set: {course_id: "REC: course_a"}
+          - set: {content_id: "REC: content_a"}
+          - set: {course_id: "REC: course_b"}
+          - assert:
+              content_id:
+                type: "value"
+                operator: "is_falsy"
+
+      - step: "Clearing the content clears the URL"
+        action: "form"
+        model: "helpdesk_ticket.resolution_documentation"
+        save: false
+        ops:
+          - set: {ticket_id: "REC: ticket"}
+          - set: {course_id: "REC: course_a"}
+          - set: {content_id: "REC: content_a"}
+          - set: {content_id: "EVAL: env['slide.slide']"}
+          - assert:
+              url:
+                type: "value"
+                operator: "is_falsy"
