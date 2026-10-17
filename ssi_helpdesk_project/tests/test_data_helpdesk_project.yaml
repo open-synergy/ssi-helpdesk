@@ -1,5 +1,6 @@
 scenarios:
   - name: "Helpdesk Project - Ticket with Project Integration"
+    options: {auto_refresh: true}
     steps:
       - step: "Setup - create company"
         action: "create"
@@ -45,11 +46,10 @@ scenarios:
         target: "ticket"
         method: "action_ready"
         as_user: "base.user_admin"
-
-      - step: "Invalidate cache"
-        action: "call"
-        target: "ticket"
-        method: "invalidate_cache"
+        asserts:
+          state:
+            type: "value"
+            expected: "ready"
 
       - step: "Action open"
         action: "call"

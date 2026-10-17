@@ -5,3 +5,4 @@
 from . import test_helpdesk_project  # noqa: F401
 from . import test_helpdesk_ticket_task  # noqa: F401
 from . import test_helpdesk_project_open_ticket  # noqa: F401
+from . import test_ui_helpdesk_project  # noqa: F401
