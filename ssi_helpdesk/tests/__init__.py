@@ -12,6 +12,7 @@ from . import (  # noqa: F401
     test_ui_helpdesk_communication,
     test_ui_helpdesk_contact_group,
     test_ui_helpdesk_ticket,
+    test_ui_helpdesk_ticket_side,
 )
 from . import test_ui_helpdesk_type_category  # noqa: F401
 from . import test_ui_helpdesk_type  # noqa: F401

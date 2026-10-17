@@ -46,6 +46,11 @@ Work Instruction
 * `Restart Helpdesk Communication <docs/helpdesk_communication/12-restart.html>`_
 * `Reload Followers Helpdesk Communication <docs/helpdesk_communication/14-reload-followers.html>`_
 * `Create Ticket From Helpdesk Communication <docs/helpdesk_communication/15-create-ticket.html>`_
+* `Cancel Helpdesk Ticket <docs/helpdesk_ticket/10-cancel.html>`_
+* `Restart Helpdesk Ticket <docs/helpdesk_ticket/12-restart.html>`_
+* `Split Helpdesk Ticket <docs/helpdesk_ticket/15-split.html>`_
+* `Create Finishing Communication from Helpdesk Ticket <docs/helpdesk_ticket/16-create-finishing-communication.html>`_
+* `Create Updating Communication from Helpdesk Ticket <docs/helpdesk_ticket/17-create-updating-communication.html>`_
 
 Installation
 ============
@@ -69,7 +74,6 @@ help us smash it by providing detailed and welcomed feedback.
 
 
 Credits
-=======
 
 Contributors
 ------------

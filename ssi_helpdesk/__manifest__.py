@@ -48,6 +48,7 @@
         "views/assets_helpdesk_type_tours.xml",
         "views/assets_tests_helpdesk_channel_contact_group.xml",
         "views/assets_helpdesk_communication_tours.xml",
+        "views/assets_helpdesk_ticket_side.xml",
     ],
     "demo": [],
 }
