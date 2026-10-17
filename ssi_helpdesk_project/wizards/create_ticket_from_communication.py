@@ -11,6 +11,11 @@ class CreateTicketFromCommunication(models.TransientModel):
     _description = "Create Ticket From Communication"
 
     def _run_ticket_onchange(self):
+        """Run the need-task onchange on the communication's ticket.
+
+        Extends the base implementation so that the ticket created
+        from the communication gets its task-related defaults.
+        """
         self.ensure_one()
         _super = super(CreateTicketFromCommunication, self)
         _super._run_ticket_onchange()

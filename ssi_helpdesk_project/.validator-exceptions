@@ -1,0 +1,3 @@
+module acl-wizard-satu-user-access-tanpa-all-access|create_sucessor_task_detail: tidak ada ACL sama sekali -- Extension wizard; its model is defined and covered by ACL in the base module (ssi_project); this module only extends it
+module acl-wizard-satu-user-access-tanpa-all-access|create_ticket_from_communication: tidak ada ACL sama sekali -- Extension wizard; its model is defined and covered by ACL in the base module (ssi_helpdesk); this module only extends it
+module acl-wizard-satu-user-access-tanpa-all-access|split_helpdesk_ticket: tidak ada ACL sama sekali -- Extension wizard; its model is defined and covered by ACL in the base module (ssi_helpdesk); this module only extends it

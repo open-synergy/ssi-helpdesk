@@ -10,6 +10,14 @@ class CreateSucessorTaskDetail(models.TransientModel):
     _inherit = "create_sucessor_task_detail"
 
     def _prepare_task_creation_value(self):
+        """Add the ticket links to the successor task values.
+
+        Extends the base implementation so that the new task keeps
+        the helpdesk tickets of the source task.
+
+        :return: values used to create the successor task
+        :rtype: dict
+        """
         _super = super(CreateSucessorTaskDetail, self)
         result = _super._prepare_task_creation_value()
         task = self.wizard_id.task_id

@@ -10,6 +10,11 @@ class SplitHelpdeskTicket(models.TransientModel):
     _inherit = "split_helpdesk_ticket"
 
     def _run_ticket_onchange(self):
+        """Run the need-task onchange on the resulting ticket.
+
+        Extends the base implementation so that the ticket created by
+        the split gets its task-related defaults.
+        """
         self.ensure_one()
         _super = super(SplitHelpdeskTicket, self)
         _super._run_ticket_onchange()
