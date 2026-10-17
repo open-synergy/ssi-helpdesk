@@ -16,6 +16,7 @@ setuptools.setup(
         'odoo14-addon-ssi_helpdesk_operating_unit',
         'odoo14-addon-ssi_helpdesk_portal',
         'odoo14-addon-ssi_helpdesk_project',
+        'odoo14-addon-ssi_helpdesk_ticket_dependency',
         'odoo14-addon-ssi_helpdesk_work_log',
     ],
     classifiers=[

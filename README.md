@@ -26,6 +26,7 @@ addon | version | maintainers | summary
 [ssi_helpdesk_operating_unit](ssi_helpdesk_operating_unit/) | 14.0.1.0.1 |  | Helpdesk + Operating Unit
 [ssi_helpdesk_portal](ssi_helpdesk_portal/) | 14.0.1.1.2 |  | Helpdesk Portal
 [ssi_helpdesk_project](ssi_helpdesk_project/) | 14.0.3.3.4 |  | Helpdesk - Project Integration
+[ssi_helpdesk_ticket_dependency](ssi_helpdesk_ticket_dependency/) | 14.0.1.0.1 |  | Helpdesk - Ticket Dependency
 [ssi_helpdesk_work_log](ssi_helpdesk_work_log/) | 14.0.1.4.1 |  | Helpdesk - Work Log Integration
 
 [//]: # (end addons)
