@@ -35,3 +35,9 @@
   **Category** and **Type** entered in the wizard, and its form is displayed.
 - The new ticket refers to the original one in **# Original Ticket**, and the original
   ticket lists it under **Split Into**.
+
+## Related Views
+
+- The **Open Split Result(s)** button (`action_open_split`) opens the list of tickets
+  created by splitting the current ticket. It only navigates to that list — it does not
+  write any field or change state, so it has no work instruction or tour of its own.

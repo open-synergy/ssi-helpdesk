@@ -126,7 +126,6 @@
                         widget="many2many_tags_avatar"
                         domain="[('commercial_partner_id','=',commercial_partner_id),('id','!=',commercial_partner_id)]"
                     />
-                    <field name="update_progress" />
                 </xpath>
                 <xpath expr="//group[@name='header_right']" position="inside">
                     <separator string="Classification" colspan="2" />
@@ -139,6 +138,8 @@
                     <field name="date" />
                     <field name="duration_id" />
                     <field name="date_deadline" />
+                    <separator string="Progress" colspan="2" />
+                    <field name="update_progress" />
                 </xpath>
                 <xpath expr="//group[@name='header_center']" position="inside">
                     <label for="title" colspan="2" />
