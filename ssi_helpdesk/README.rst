@@ -7,6 +7,18 @@ Helpdesk
 ========
 
 
+Work Instruction
+================
+
+* `Create Helpdesk Ticket <docs/helpdesk_ticket/01-create.html>`_
+* `Edit Helpdesk Ticket <docs/helpdesk_ticket/02-edit.html>`_
+* `Delete Helpdesk Ticket <docs/helpdesk_ticket/03-delete.html>`_
+* `Confirm Helpdesk Ticket <docs/helpdesk_ticket/04-confirm.html>`_
+* `Approve Helpdesk Ticket <docs/helpdesk_ticket/05-approve.html>`_
+* `Reject Helpdesk Ticket <docs/helpdesk_ticket/06-reject.html>`_
+* `Start Helpdesk Ticket <docs/helpdesk_ticket/07-start.html>`_
+* `Set Ready Helpdesk Ticket <docs/helpdesk_ticket/08-ready.html>`_
+
 Installation
 ============
 

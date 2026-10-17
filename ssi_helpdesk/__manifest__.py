@@ -20,6 +20,7 @@
         "ssi_transaction_ready_mixin",
         "base_automation",
         "base_duration",
+        "web_tour",
     ],
     "data": [
         "security/ir_module_category_data.xml",
@@ -42,6 +43,7 @@
         "views/helpdesk_communication_views.xml",
         "views/helpdesk_resolution_documentation_type_views.xml",
         "views/helpdesk_data_requirement_type_views.xml",
+        "views/assets.xml",
     ],
     "demo": [],
 }
