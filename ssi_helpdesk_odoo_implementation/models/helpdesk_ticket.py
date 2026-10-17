@@ -115,6 +115,11 @@ class HelpdeskTicket(models.Model):
         "odoo_feature_issue_ids",
     )
     def _compute_issue_state(self):
+        """Compute the state of the related Odoo feature issues.
+
+        ``not_related`` when no issue is linked, ``in_progress`` when at
+        least one linked issue is not ``done``, otherwise ``done``.
+        """
         for record in self.sudo():
             if not record.odoo_feature_issue_ids:
                 record.issue_state = "not_related"
@@ -131,6 +136,12 @@ class HelpdeskTicket(models.Model):
         "odoo_change_request_ids.state",
     )
     def _compute_cr_state(self):
+        """Compute the state of the Odoo change requests.
+
+        ``not_needed`` when ``need_cr`` is off, ``in_progress`` when no
+        change request is linked or one of them is not ``done``,
+        otherwise ``done``.
+        """
         for record in self.sudo():
             if not record.need_cr:
                 record.cr_state = "not_needed"
@@ -150,6 +161,12 @@ class HelpdeskTicket(models.Model):
         "odoo_configuration_change_record_ids.state",
     )
     def _compute_ccr_state(self):
+        """Compute the state of the configuration change records.
+
+        ``not_needed`` when ``need_ccr`` is off, ``in_progress`` when no
+        record is linked or one of them is not ``done``, otherwise
+        ``done``.
+        """
         for record in self.sudo():
             if not record.need_ccr:
                 record.ccr_state = "not_needed"
@@ -165,12 +182,3 @@ class HelpdeskTicket(models.Model):
                 record.ccr_state = "in_progress"
             else:
                 record.ccr_state = "done"
-
-    def onchange_odoo_implementation_id(self):
-        self.odoo_implementation_id = False
-
-    @api.onchange(
-        "odoo_feature_id",
-    )
-    def onchange_odoo_feature_issue_id(self):
-        self.odoo_feature_issue_id = False
