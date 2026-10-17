@@ -12,6 +12,12 @@ Extends ``helpdesk_ticket`` and ``helpdesk_communication`` with
 communications can be scoped and restricted per operating unit.
 
 
+Work Instruction
+================
+
+* `Create Helpdesk Ticket <docs/helpdesk_ticket/01-create.html>`_
+* `Create Helpdesk Communication <docs/helpdesk_communication/01-create.html>`_
+
 Bug Tracker
 ===========
 
