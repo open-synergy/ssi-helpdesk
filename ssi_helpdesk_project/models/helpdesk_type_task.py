@@ -6,6 +6,13 @@ from odoo import fields, models
 
 
 class HelpdeskTypeTask(models.Model):
+    """Task template configured on a helpdesk type.
+
+    Each line describes a project task that is created automatically
+    for a helpdesk ticket of the related type, with its summary, task
+    type and assignee.
+    """
+
     _name = "helpdesk_type.task"
     _description = "Helpdesk Type - Task"
 
@@ -29,11 +36,24 @@ class HelpdeskTypeTask(models.Model):
     )
 
     def _create_task(self, ticket):
+        """Create the project task for a ticket from this template.
+
+        :param ticket: ``helpdesk_ticket`` record the task is created for
+        :return: None
+        """
         self.ensure_one()
         Task = self.env["project.task"]
         Task.create(self._prepare_task_data(ticket))
 
     def _prepare_task_data(self, ticket):
+        """Build the ``project.task`` values for a ticket.
+
+        Extension point: override in a glue module to add more task
+        fields.
+
+        :param ticket: ``helpdesk_ticket`` record the task is created for
+        :return: dict of ``project.task`` values
+        """
         self.ensure_one()
         return {
             "project_id": ticket.project_id.id,
