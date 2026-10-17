@@ -76,7 +76,7 @@ setup:
           - [6, 0, ["REF: base.group_user"]]
 
 scenarios:
-  - name: "Create Ticket From Communication - ACL"
+  - name: "Create Ticket From Communication - ACL and onchange"
     steps:
       - step: "Ticket user can create the wizard"
         action: "create"
@@ -99,8 +99,6 @@ scenarios:
           category_id: "REC: category"
           type_id: "REC: ticket_type"
 
-  - name: "Create Ticket From Communication - onchange"
-    steps:
       - step: "Changing category clears type"
         action: "form"
         model: "create_ticket_from_communication"
