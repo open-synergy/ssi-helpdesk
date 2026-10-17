@@ -1167,6 +1167,11 @@ msgid "Policy Template"
 msgstr ""
 
 #. module: ssi_helpdesk
+#: model_terms:ir.ui.view,arch_db:ssi_helpdesk.helpdesk_ticket_view_form
+msgid "Progress"
+msgstr ""
+
+#. module: ssi_helpdesk
 #: model:ir.model.fields,help:ssi_helpdesk.field_helpdesk_ticket__ready_ok
 msgid ""
 "Ready policy\n"
