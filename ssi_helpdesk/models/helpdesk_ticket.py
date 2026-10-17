@@ -353,16 +353,37 @@ class HelpdeskTicket(models.Model):
         return result
 
     def action_create_finishing_communication(self):
+        """Create the finishing communication for the ticket.
+
+        Runs ``_create_finishing_communication`` on each ticket.
+
+        :return: ``ir.actions.act_window`` dict opening the new
+            communication form
+        """
         for record in self.sudo():
             result = record._create_finishing_communication()
         return result
 
     def action_create_updating_communication(self):
+        """Create a status update communication for the ticket.
+
+        Runs ``_create_updating_communication`` on each ticket.
+
+        :return: ``ir.actions.act_window`` dict opening the new
+            communication form
+        """
         for record in self.sudo():
             result = record._create_updating_communication()
         return result
 
     def action_open_communication(self):
+        """Open the communications linked to the ticket.
+
+        Runs ``_open_communication`` on each ticket.
+
+        :return: ``ir.actions.act_window`` dict listing the ticket
+            communications
+        """
         for record in self.sudo():
             result = record._open_communication()
         return result
@@ -387,6 +408,13 @@ class HelpdeskTicket(models.Model):
         return waction
 
     def _open_communication(self):
+        """Build the window action listing the ticket communications.
+
+        The domain is restricted to ``helpdesk_communication`` records
+        whose ``ticket_id`` is this ticket.
+
+        :return: ``ir.actions.act_window`` dict in tree and form mode
+        """
         waction = self.env.ref("ssi_helpdesk.helpdesk_communication_action").read()[0]
         waction.update(
             {
@@ -397,6 +425,15 @@ class HelpdeskTicket(models.Model):
         return waction
 
     def _create_finishing_communication(self):
+        """Create the finishing communication and link it to the ticket.
+
+        Subscribes the ticket partner and the additional partners to
+        the new communication, then stores it in
+        ``finishing_communication_id``.
+
+        :return: ``ir.actions.act_window`` dict opening the new
+            communication form
+        """
         HC = self.env["helpdesk_communication"]
         hc = HC.create(self._prepare_create_finishing_communication())
         partner_ids = (self.additional_partner_ids + self.partner_id).ids
@@ -415,6 +452,15 @@ class HelpdeskTicket(models.Model):
         }
 
     def _create_updating_communication(self):
+        """Create a status update communication for the ticket.
+
+        Subscribes the ticket partner and the additional partners to
+        the new communication. Unlike the finishing communication, it
+        is not stored on the ticket.
+
+        :return: ``ir.actions.act_window`` dict opening the new
+            communication form
+        """
         self.ensure_one()
         HC = self.env["helpdesk_communication"]
         hc = HC.create(self._prepare_create_updating_communication())
@@ -429,6 +475,13 @@ class HelpdeskTicket(models.Model):
         }
 
     def _prepare_create_finishing_communication(self):
+        """Build the values of the finishing communication.
+
+        Extension point: override in a glue module to add values
+        before ``_create_finishing_communication`` creates the record.
+
+        :return: dict of ``helpdesk_communication`` values
+        """
         return {
             "partner_id": self.partner_id.id,
             "title": self.title,
@@ -436,6 +489,13 @@ class HelpdeskTicket(models.Model):
         }
 
     def _prepare_create_updating_communication(self):
+        """Build the values of the status update communication.
+
+        The title combines the ticket name and today's date. Extension
+        point: override in a glue module to add values.
+
+        :return: dict of ``helpdesk_communication`` values
+        """
         title = "Ticket status update - %s - %s" % (self.name, fields.Date.today())
         return {
             "partner_id": self.partner_id.id,
@@ -445,6 +505,12 @@ class HelpdeskTicket(models.Model):
 
     @api.depends("communication_ids", "communication_ids.state")
     def _compute_communication_count(self):
+        """Compute the communication counters of the ticket.
+
+        Fill ``communication_draft_count`` with the communications in
+        ``draft`` state and ``communication_open_count`` with those in
+        ``open`` state.
+        """
         for record in self:
             record.communication_draft_count = len(
                 record.communication_ids.filtered(lambda x: x.state == "draft")
