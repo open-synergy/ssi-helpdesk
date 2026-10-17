@@ -115,6 +115,12 @@ class HelpdeskTicket(models.Model):
         "task_ids.kanban_state",
     )
     def _compute_task(self):
+        """Compute the task counters and flags of the ticket.
+
+        Counts the linked tasks in total and per task state, flags the
+        ticket as blocked when any task is kanban-blocked, and flags it
+        as done when every linked task is done.
+        """
         for record in self:
             total_task = (
                 task_no_state_count
@@ -163,6 +169,12 @@ class HelpdeskTicket(models.Model):
         "task_ids.timebox_upcoming_date_end",
     )
     def _compute_timebox(self):
+        """Compute the latest and initial timebox of the ticket.
+
+        Picks the latest timebox of the first sorted task and the
+        initial timebox of the last sorted task, together with their
+        start and end dates. All values are empty without tasks.
+        """
         for document in self:
             timebox_latest_id = (
                 timebox_latest_date_start
@@ -191,15 +203,31 @@ class HelpdeskTicket(models.Model):
             document.timebox_initial_date_end = timebox_initial_date_end
 
     def action_open_task(self):
+        """Open the tasks linked to the ticket.
+
+        :return: Window action listing the tasks of the ticket.
+        :rtype: dict
+        """
         for record in self.sudo():
             result = record._open_task()
         return result
 
     def action_create_task(self):
+        """Create the tasks defined by the ticket type.
+
+        Runs as superuser for each record and delegates to
+        :meth:`_create_task`.
+        """
         for record in self.sudo():
             record._create_task()
 
     def _create_task(self):
+        """Create a task for each task line of the ticket type.
+
+        Does nothing when the ticket has no project.
+
+        :return: ``True`` when the ticket has no project, else ``None``.
+        """
         self.ensure_one()
 
         if not self.project_id:
@@ -209,6 +237,12 @@ class HelpdeskTicket(models.Model):
             task_template._create_task(self)
 
     def _open_task(self):
+        """Build the window action that lists the ticket tasks.
+
+        :return: ``project.action_view_all_task`` restricted to the
+            tasks of the ticket, in tree and form view modes.
+        :rtype: dict
+        """
         waction = self.env.ref("project.action_view_all_task").read()[0]
         waction.update(
             {
