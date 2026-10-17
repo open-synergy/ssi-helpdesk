@@ -6,6 +6,8 @@ from odoo import models
 
 
 class HelpdeskChannel(models.Model):
+    """Master data of channels through which helpdesk tickets are received."""
+
     _name = "helpdesk_channel"
     _inherit = [
         "mixin.master_data",

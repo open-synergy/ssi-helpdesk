@@ -6,6 +6,8 @@ from odoo import models
 
 
 class HelpdeskResolutionDocumentationType(models.Model):
+    """Master data of documentation types used to document ticket resolutions."""
+
     _name = "helpdesk_resolution_documentation_type"
     _inherit = [
         "mixin.master_data",
