@@ -2,7 +2,8 @@
 # Copyright 2022 PT. Simetri Sinergi Indonesia
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import api, fields, models
+from odoo import _, api, fields, models
+from odoo.exceptions import UserError
 
 from odoo.addons.ssi_decorator import ssi_decorator
 
@@ -573,3 +574,52 @@ class HelpdeskTicket(models.Model):
         if self._automatically_insert_view_element:
             view_arch = self._reconfigure_statusbar_visible(view_arch)
         return view_arch
+
+    @ssi_decorator.pre_confirm_check()
+    def _10_check_split_tickets_finished_on_confirm(self):
+        """Block confirmation while split tickets are unfinished.
+
+        :raises UserError: if a ticket split from this one is neither
+            done, cancelled nor terminated
+        """
+        self.ensure_one()
+        self._check_split_tickets_finished("Confirm Ticket")
+
+    @ssi_decorator.pre_done_check()
+    def _10_check_split_tickets_finished_on_done(self):
+        """Block completion while split tickets are unfinished.
+
+        :raises UserError: if a ticket split from this one is neither
+            done, cancelled nor terminated
+        """
+        self.ensure_one()
+        self._check_split_tickets_finished("Finish Ticket")
+
+    def _check_split_tickets_finished(self, context):
+        """Ensure every ticket split from this one has been settled.
+
+        A split ticket is settled when its state is ``done``,
+        ``cancel`` or ``terminate``.
+
+        :param str context: operation name shown in the error message
+        :raises UserError: listing the split tickets still in progress
+        """
+        self.ensure_one()
+        unfinished = self.split_ids.filtered(
+            lambda x: x.state not in ("done", "cancel", "terminate")
+        )
+        if unfinished:
+            error_message = _(
+                """
+Context: %s
+Database ID: %s
+Problem: Tickets split from this ticket are not finished yet: %s
+Solution: Finish, cancel or terminate the split tickets first
+"""
+                % (
+                    context,
+                    self.id,
+                    ", ".join("%s [%s]" % (x.name, x.title) for x in unfinished),
+                )
+            )
+            raise UserError(error_message)

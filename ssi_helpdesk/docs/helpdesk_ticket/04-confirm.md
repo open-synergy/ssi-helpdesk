@@ -14,6 +14,9 @@
   `open` to the actor's group.
 - **Config:** An active `approval.template` for this model matches this record and has
   at least one approver level.
+- **Record:** Every ticket split from this one is **Done**, **Cancelled** or
+  **Terminated**; a ticket split from it that is still in progress blocks the
+  confirmation.
 - **Access:** User is in group _Helpdesk Ticket / User_.
 
 ## Flow
