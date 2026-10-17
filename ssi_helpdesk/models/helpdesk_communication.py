@@ -9,6 +9,13 @@ from odoo.addons.ssi_decorator import ssi_decorator
 
 
 class HelpdeskCommunication(models.Model):
+    """Records a communication exchanged with a customer contact.
+
+    A communication is a lightweight document (draft, open, done) that
+    can be linked to a helpdesk ticket. It keeps the latest company and
+    partner messages to show whether a response is still awaited.
+    """
+
     _name = "helpdesk_communication"
     _inherit = [
         "mixin.transaction_done",
@@ -164,6 +171,10 @@ class HelpdeskCommunication(models.Model):
 
     @api.model
     def _default_date(self):
+        """Return the default communication date.
+
+        :return: today's date
+        """
         return fields.Date.today()
 
     date = fields.Date(
@@ -188,6 +199,14 @@ class HelpdeskCommunication(models.Model):
 
     @api.model_create_multi
     def create(self, values):
+        """Create communications and generate their document numbers.
+
+        Overridden because the sequence is created explicitly through
+        ``_create_sequence`` instead of by the state transition.
+
+        :param values: list of dicts of field values
+        :return: the created communication records
+        """
         _super = super()
         results = _super.create(values)
         for result in results:
@@ -296,6 +315,12 @@ class HelpdeskCommunication(models.Model):
         return res
 
     def action_reload_followers(self):
+        """Subscribe the ticket contacts as followers of the communication.
+
+        For every communication linked to a ticket, subscribe the ticket
+        responsible user, the ticket contact and the ticket additional
+        partners (CC To). Communications without a ticket are skipped.
+        """
         for rec in self:
             if not rec.ticket_id:
                 continue

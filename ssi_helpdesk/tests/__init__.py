@@ -4,6 +4,7 @@
 
 from . import (  # noqa: F401
     test_create_ticket_from_communication,
+    test_helpdesk_communication,
     test_helpdesk_ticket,
     test_split_helpdesk_ticket,
 )
