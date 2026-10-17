@@ -1,0 +1,54 @@
+scenarios:
+  - name: "Ticket Line Onchange - data requirement name follows type"
+    steps:
+      - step: "Setup - create data requirement type"
+        action: "create"
+        model: "helpdesk_data_requirement_type"
+        save_as: "req_type"
+        values:
+          name: "TL82 Requirement Type"
+          code: "TL82REQ"
+
+      - step: "Selecting the type fills the name, clearing it empties the name"
+        action: "form"
+        model: "helpdesk_ticket.data_requirement"
+        as_user: "base.user_admin"
+        save: false
+        ops:
+          - set: {type_id: "REC: req_type"}
+          - assert:
+              name:
+                type: "value"
+                expected: "TL82 Requirement Type"
+          - set: {type_id: "EVAL: env['helpdesk_data_requirement_type']"}
+          - assert:
+              name:
+                type: "value"
+                operator: "is_falsy"
+
+  - name: "Ticket Line Onchange - resolution documentation name follows type"
+    steps:
+      - step: "Setup - create resolution documentation type"
+        action: "create"
+        model: "helpdesk_resolution_documentation_type"
+        save_as: "doc_type"
+        values:
+          name: "TL82 Documentation Type"
+          code: "TL82DOC"
+
+      - step: "Selecting the type fills the name, clearing it empties the name"
+        action: "form"
+        model: "helpdesk_ticket.resolution_documentation"
+        as_user: "base.user_admin"
+        save: false
+        ops:
+          - set: {type_id: "REC: doc_type"}
+          - assert:
+              name:
+                type: "value"
+                expected: "TL82 Documentation Type"
+          - set: {type_id: "EVAL: env['helpdesk_resolution_documentation_type']"}
+          - assert:
+              name:
+                type: "value"
+                operator: "is_falsy"
