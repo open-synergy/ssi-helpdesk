@@ -11,9 +11,11 @@
     "depends": [
         "ssi_odoo_implementation",
         "ssi_helpdesk",
+        "web_tour",
     ],
     "data": [
         "views/helpdesk_ticket_views.xml",
+        "views/assets.xml",
     ],
     "demo": [],
     "images": [],

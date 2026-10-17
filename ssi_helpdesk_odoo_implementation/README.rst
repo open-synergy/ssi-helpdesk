@@ -7,6 +7,11 @@ Helpdesk - Odoo Implementation Integration
 ==========================================
 
 
+Work Instruction
+================
+
+* `Create Helpdesk Ticket <docs/helpdesk_ticket/01-create.html>`_
+
 Installation
 ============
 
