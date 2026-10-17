@@ -51,6 +51,17 @@ Work Instruction
 * `Split Helpdesk Ticket <docs/helpdesk_ticket/15-split.html>`_
 * `Create Finishing Communication from Helpdesk Ticket <docs/helpdesk_ticket/16-create-finishing-communication.html>`_
 * `Create Updating Communication from Helpdesk Ticket <docs/helpdesk_ticket/17-create-updating-communication.html>`_
+* `Create Helpdesk Data Requirement Type <docs/helpdesk_data_requirement_type/01-create.html>`_
+* `Edit Helpdesk Data Requirement Type <docs/helpdesk_data_requirement_type/02-edit.html>`_
+* `Delete Helpdesk Data Requirement Type <docs/helpdesk_data_requirement_type/03-delete.html>`_
+* `Deactivate Helpdesk Data Requirement Type <docs/helpdesk_data_requirement_type/04-deactivate.html>`_
+* `Activate Helpdesk Data Requirement Type <docs/helpdesk_data_requirement_type/05-activate.html>`_
+* `Create Helpdesk Resolution Documentation Type <docs/helpdesk_resolution_documentation_type/01-create.html>`_
+* `Edit Helpdesk Resolution Documentation Type <docs/helpdesk_resolution_documentation_type/02-edit.html>`_
+* `Delete Helpdesk Resolution Documentation Type <docs/helpdesk_resolution_documentation_type/03-delete.html>`_
+* `Deactivate Helpdesk Resolution Documentation Type <docs/helpdesk_resolution_documentation_type/04-deactivate.html>`_
+* `Activate Helpdesk Resolution Documentation Type <docs/helpdesk_resolution_documentation_type/05-activate.html>`_
+
 
 Installation
 ============
