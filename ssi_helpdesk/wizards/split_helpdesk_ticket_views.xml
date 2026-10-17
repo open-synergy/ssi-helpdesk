@@ -18,11 +18,10 @@
                         string="Confirm"
                         name="action_confirm"
                         type="object"
-                        class="oe_highlight"
+                        class="btn-primary"
                         confirm="Are you sure?"
                     />
-                or
-                <button string="Cancel" class="oe_link" special="cancel" />
+                <button string="Cancel" class="btn-default" special="cancel" />
             </footer>
         </form>
     </field>

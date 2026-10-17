@@ -1,0 +1,152 @@
+scenarios:
+  - name: "Split Ticket Wizard - ACL by helpdesk ticket user group"
+    steps:
+      - step: "Setup - create company partner"
+        action: "create"
+        model: "res.partner"
+        save_as: "company"
+        values:
+          name: "Split Wizard Company"
+          is_company: true
+
+      - step: "Setup - create contact person"
+        action: "create"
+        model: "res.partner"
+        save_as: "contact"
+        values:
+          name: "Split Wizard Contact"
+          is_company: false
+          parent_id: "EVAL: registry['company'].id"
+
+      - step: "Setup - create helpdesk type category"
+        action: "create"
+        model: "helpdesk_type_category"
+        save_as: "type_category"
+        values:
+          name: "Split Wizard Category"
+          code: "SWCAT"
+
+      - step: "Setup - create helpdesk type"
+        action: "create"
+        model: "helpdesk_type"
+        save_as: "ticket_type"
+        values:
+          name: "Split Wizard Type"
+          code: "SWTYPE"
+          category_id: "EVAL: registry['type_category'].id"
+
+      - step: "Setup - create source ticket"
+        action: "create"
+        model: "helpdesk_ticket"
+        save_as: "ticket"
+        as_user: "base.user_admin"
+        values:
+          title: "Split Wizard Source Ticket"
+          partner_id: "EVAL: registry['contact'].id"
+          commercial_partner_id: "EVAL: registry['company'].id"
+          type_id: "EVAL: registry['ticket_type'].id"
+          type_category_id: "EVAL: registry['type_category'].id"
+
+      - step: "Setup - create user with helpdesk ticket user group"
+        action: "create"
+        model: "res.users"
+        save_as: "ticket_user"
+        values:
+          name: "Split Wizard Ticket User"
+          login: "split_wizard_ticket_user"
+          groups_id:
+            - - 6
+              - 0
+              - - "REF: base.group_user"
+                - "REF: ssi_helpdesk.helpdesk_ticket_user_group"
+
+      - step: "Setup - create user with internal user group only"
+        action: "create"
+        model: "res.users"
+        save_as: "plain_user"
+        values:
+          name: "Split Wizard Plain User"
+          login: "split_wizard_plain_user"
+          groups_id:
+            - - 6
+              - 0
+              - - "REF: base.group_user"
+
+      - step: "Ticket user can create the wizard record"
+        action: "create"
+        model: "split_helpdesk_ticket"
+        save_as: "wizard"
+        as_user: "ticket_user"
+        values:
+          ticket_id: "EVAL: registry['ticket'].id"
+          title: "Split Wizard Result"
+          category_id: "EVAL: registry['type_category'].id"
+          type_id: "EVAL: registry['ticket_type'].id"
+
+      - step: "Assert wizard record has the source ticket"
+        action: "assert"
+        target: "wizard"
+        asserts:
+          ticket_id:
+            type: "m2o"
+            expected: "REC: ticket"
+
+      - step: "Internal user without the group cannot create the wizard"
+        action: "create"
+        model: "split_helpdesk_ticket"
+        as_user: "plain_user"
+        values:
+          ticket_id: "EVAL: registry['ticket'].id"
+          title: "Split Wizard Denied"
+          category_id: "EVAL: registry['type_category'].id"
+          type_id: "EVAL: registry['ticket_type'].id"
+        expect_error:
+          type: "AccessError"
+
+  - name: "Split Ticket Wizard - category change clears type"
+    steps:
+      - step: "Setup - create first helpdesk type category"
+        action: "create"
+        model: "helpdesk_type_category"
+        save_as: "category_a"
+        values:
+          name: "Split Onchange Category A"
+          code: "SOCATA"
+
+      - step: "Setup - create second helpdesk type category"
+        action: "create"
+        model: "helpdesk_type_category"
+        save_as: "category_b"
+        values:
+          name: "Split Onchange Category B"
+          code: "SOCATB"
+
+      - step: "Setup - create helpdesk type of the first category"
+        action: "create"
+        model: "helpdesk_type"
+        save_as: "type_a"
+        values:
+          name: "Split Onchange Type A"
+          code: "SOTYPEA"
+          category_id: "EVAL: registry['category_a'].id"
+
+      - step: "Changing the category clears the type"
+        action: "form"
+        model: "split_helpdesk_ticket"
+        save: false
+        as_user: "base.user_admin"
+        ops:
+          - set:
+              category_id: "REC: category_a"
+          - set:
+              type_id: "REC: type_a"
+          - assert:
+              type_id:
+                type: "m2o"
+                expected: "REC: type_a"
+          - set:
+              category_id: "REC: category_b"
+          - assert:
+              type_id:
+                type: "value"
+                operator: "is_falsy"
