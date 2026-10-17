@@ -25,6 +25,11 @@ class ProjectTask(models.Model):
         "ticket_ids.state",
     )
     def _compute_ticket_deadline(self):
+        """Compute ``ticket_deadline`` from the linked tickets.
+
+        The value is the earliest ``date_deadline`` among linked tickets
+        that are not cancelled, done or rejected; empty if none.
+        """
         for record in self:
             if record.ticket_ids:
                 ticket_deadline = (
@@ -50,10 +55,19 @@ class ProjectTask(models.Model):
     )
 
     def action_open_ticket(self):
+        """Open the tickets linked to this task.
+
+        :return: ``ir.actions.act_window`` dict for ``helpdesk_ticket``
+        """
         self.ensure_one()
         return self.sudo()._open_ticket()
 
     def _open_ticket(self):
+        """Build the window action listing the linked tickets.
+
+        :return: ``ir.actions.act_window`` dict filtered on
+            ``ticket_ids`` with project defaults in the context
+        """
         waction = self.env.ref("ssi_helpdesk.helpdesk_ticket_action").read()[0]
         waction.update(
             {
