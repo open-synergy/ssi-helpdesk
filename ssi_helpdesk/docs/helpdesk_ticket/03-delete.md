@@ -9,7 +9,10 @@
 ## Pre-Condition
 
 - **Record:** Status is **Draft**.
-- **Record:** Document number is still **/** (not yet generated).
+- **Record:** Document number is **/**. A ticket receives its number automatically when
+  it is created, so first reset it: a user in group _Helpdesk Ticket / Validator_ (the
+  group granted `manual_number_ok`) opens the Draft record and clicks **Reset Document
+  Number**, then **OK** on the confirmation dialog.
 - **Access:** User is in group _Helpdesk Ticket / User_.
 
 ## Flow

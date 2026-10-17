@@ -49,8 +49,12 @@ class TestUiHelpdeskTicket(HttpSavepointCase):
         # Edit tour -- Pre-Condition: Draft status.
         cls.ticket_edit = cls._create_ticket("Tour HD Edit Ticket")
 
-        # Delete tour -- Pre-Condition: Draft status, number is "/".
+        # Delete tour -- Pre-Condition: Draft status, number is "/". A
+        # ticket is numbered when it is created, so the number is reset
+        # through the Reset Document Number action (manual_number_ok).
         cls.ticket_delete = cls._create_ticket("Tour HD Delete Ticket")
+        cls.ticket_delete.with_user(cls.admin).action_reset_document_number()
+        cls.ticket_delete.invalidate_cache()
 
         # Ready tour -- Pre-Condition: Draft status.
         cls.ticket_ready = cls._create_ticket("Tour HD Ready Ticket")

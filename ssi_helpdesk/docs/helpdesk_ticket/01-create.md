@@ -44,5 +44,4 @@
 ## Post-Condition
 
 - A new record is created in **Draft** status.
-- The document number is still **/**. It is assigned when the ticket is staged (see
-  `08-ready`).
+- A document number is generated automatically when the record is created.

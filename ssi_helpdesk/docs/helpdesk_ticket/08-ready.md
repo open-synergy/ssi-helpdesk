@@ -12,7 +12,6 @@
 - **Record:** Status is **Draft**.
 - **Config:** An active `policy.template` for this model grants `ready_ok` for state
   `draft` to the actor's group.
-- **Config:** An active `sequence.template` exists for this model.
 - **Access:** User is in group _Helpdesk Ticket / User_.
 
 ## Flow
@@ -25,4 +24,3 @@
 ## Post-Condition
 
 - Status changes to **Ready to Start**.
-- The document number is generated from the sequence template.
