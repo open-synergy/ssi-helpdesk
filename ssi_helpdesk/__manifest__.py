@@ -5,7 +5,7 @@
 
 {
     "name": "Helpdesk",
-    "version": "14.0.3.5.8",
+    "version": "14.0.3.5.9",
     "website": "https://simetri-sinergi.id",
     "author": "OpenSynergy Indonesia, PT. Simetri Sinergi Indonesia",
     "license": "AGPL-3",
