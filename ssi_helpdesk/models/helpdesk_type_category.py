@@ -6,6 +6,8 @@ from odoo import fields, models
 
 
 class HelpdeskTypeCategory(models.Model):
+    """Master data of categories used to group helpdesk ticket types."""
+
     _name = "helpdesk_type_category"
     _inherit = [
         "mixin.master_data",

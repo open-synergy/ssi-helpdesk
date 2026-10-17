@@ -6,6 +6,8 @@ from odoo import api, fields, models
 
 
 class HelpdeskContactGroup(models.Model):
+    """Master data grouping the contacts of a commercial partner for helpdesk."""
+
     _name = "helpdesk_contact_group"
     _inherit = [
         "mixin.master_data",

@@ -6,6 +6,8 @@ from odoo import models
 
 
 class HelpdeskDataRequirementType(models.Model):
+    """Master data of data requirement types requested on helpdesk tickets."""
+
     _name = "helpdesk_data_requirement_type"
     _inherit = [
         "mixin.master_data",
