@@ -1,0 +1,323 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* ssi_helpdesk_ticket_dependency
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 14.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: ssi_helpdesk_ticket_dependency
+#: code:addons/ssi_helpdesk_ticket_dependency/models/helpdesk_ticket.py:0
+#, python-format
+msgid ""
+"\n"
+"Context: %s\n"
+"Database ID: %s\n"
+"Problem: Ticket is blocked by unsatisfied dependencies: %s\n"
+"Solution: Satisfy the blockers or remove the dependencies first\n"
+msgstr ""
+
+#. module: ssi_helpdesk_ticket_dependency
+#: code:addons/ssi_helpdesk_ticket_dependency/models/helpdesk_ticket_dependency.py:0
+#, python-format
+msgid ""
+"\n"
+"Context: Validate ticket dependency\n"
+"Database ID: %s\n"
+"Problem: %s\n"
+"Solution: %s\n"
+msgstr ""
+
+#. module: ssi_helpdesk_ticket_dependency
+#: code:addons/ssi_helpdesk_ticket_dependency/models/helpdesk_ticket_dependency.py:0
+#, python-format
+msgid ""
+"\n"
+"Context: Validate ticket dependency\n"
+"Database ID: %s\n"
+"Problem: A ticket cannot depend on itself\n"
+"Solution: Select another blocker ticket\n"
+msgstr ""
+
+#. module: ssi_helpdesk_ticket_dependency
+#: code:addons/ssi_helpdesk_ticket_dependency/models/helpdesk_ticket_dependency.py:0
+#, python-format
+msgid ""
+"\n"
+"Context: Validate ticket dependency\n"
+"Database ID: %s\n"
+"Problem: Blocker ticket %s is already listed for this ticket\n"
+"Solution: Remove the duplicated dependency\n"
+msgstr ""
+
+#. module: ssi_helpdesk_ticket_dependency
+#: code:addons/ssi_helpdesk_ticket_dependency/models/helpdesk_ticket_dependency.py:0
+#, python-format
+msgid ""
+"\n"
+"Context: Validate ticket dependency\n"
+"Database ID: %s\n"
+"Problem: Dependency cycle detected between %s and %s\n"
+"Solution: Remove one of the dependencies that form the cycle\n"
+msgstr ""
+
+#. module: ssi_helpdesk_ticket_dependency
+#: model:ir.model.fields,field_description:ssi_helpdesk_ticket_dependency.field_helpdesk_ticket_dependency__ticket_id
+msgid "# Helpdesk Ticket"
+msgstr ""
+
+#. module: ssi_helpdesk_ticket_dependency
+#: model_terms:ir.ui.view,arch_db:ssi_helpdesk_ticket_dependency.helpdesk_ticket_view_form
+msgid "<span class=\"badge badge-warning\">Blocked</span>"
+msgstr ""
+
+#. module: ssi_helpdesk_ticket_dependency
+#: model:ir.model.fields,field_description:ssi_helpdesk_ticket_dependency.field_helpdesk_ticket__blocked
+#: model_terms:ir.ui.view,arch_db:ssi_helpdesk_ticket_dependency.helpdesk_ticket_view_search
+msgid "Blocked"
+msgstr ""
+
+#. module: ssi_helpdesk_ticket_dependency
+#: model:ir.model.fields,field_description:ssi_helpdesk_ticket_dependency.field_helpdesk_ticket_dependency__blocker_kind
+msgid "Blocker Kind"
+msgstr ""
+
+#. module: ssi_helpdesk_ticket_dependency
+#: model:ir.model.fields,field_description:ssi_helpdesk_ticket_dependency.field_helpdesk_ticket_dependency__blocker_ticket_id
+msgid "Blocker Ticket"
+msgstr ""
+
+#. module: ssi_helpdesk_ticket_dependency
+#: code:addons/ssi_helpdesk_ticket_dependency/models/helpdesk_ticket_dependency.py:0
+#, python-format
+msgid "Blocker ticket and dependency type are required"
+msgstr ""
+
+#. module: ssi_helpdesk_ticket_dependency
+#: model:ir.model.fields,help:ssi_helpdesk_ticket_dependency.field_helpdesk_ticket__dependency_ids
+msgid "Blockers that this ticket depends on."
+msgstr ""
+
+#. module: ssi_helpdesk_ticket_dependency
+#: model:ir.model.fields,field_description:ssi_helpdesk_ticket_dependency.field_helpdesk_ticket__blocking_ids
+msgid "Blocking"
+msgstr ""
+
+#. module: ssi_helpdesk_ticket_dependency
+#: model:ir.model.fields,help:ssi_helpdesk_ticket_dependency.field_helpdesk_ticket__finish_blocked
+msgid "Checked when a dependency still holds the finish of the ticket."
+msgstr ""
+
+#. module: ssi_helpdesk_ticket_dependency
+#: model:ir.model.fields,help:ssi_helpdesk_ticket_dependency.field_helpdesk_ticket__start_blocked
+msgid "Checked when a dependency still holds the start of the ticket."
+msgstr ""
+
+#. module: ssi_helpdesk_ticket_dependency
+#: model:ir.model.fields,help:ssi_helpdesk_ticket_dependency.field_helpdesk_ticket_dependency__satisfied
+msgid "Checked when the condition of this dependency is met."
+msgstr ""
+
+#. module: ssi_helpdesk_ticket_dependency
+#: model:ir.model.fields,help:ssi_helpdesk_ticket_dependency.field_helpdesk_ticket__blocked
+msgid "Checked when the start or the finish of the ticket is held."
+msgstr ""
+
+#. module: ssi_helpdesk_ticket_dependency
+#: model:ir.model.fields,field_description:ssi_helpdesk_ticket_dependency.field_helpdesk_ticket_dependency__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: ssi_helpdesk_ticket_dependency
+#: model:ir.model.fields,field_description:ssi_helpdesk_ticket_dependency.field_helpdesk_ticket_dependency__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: ssi_helpdesk_ticket_dependency
+#: model:ir.model.fields,field_description:ssi_helpdesk_ticket_dependency.field_helpdesk_ticket__dependency_ids
+#: model_terms:ir.ui.view,arch_db:ssi_helpdesk_ticket_dependency.helpdesk_ticket_view_form
+msgid "Dependencies"
+msgstr ""
+
+#. module: ssi_helpdesk_ticket_dependency
+#: model:ir.model.fields,help:ssi_helpdesk_ticket_dependency.field_helpdesk_ticket__blocking_ids
+msgid "Dependencies of other tickets that wait for this ticket."
+msgstr ""
+
+#. module: ssi_helpdesk_ticket_dependency
+#: model:ir.model.fields,field_description:ssi_helpdesk_ticket_dependency.field_helpdesk_ticket_dependency__dependency_type
+msgid "Dependency Type"
+msgstr ""
+
+#. module: ssi_helpdesk_ticket_dependency
+#: model:ir.model.fields,field_description:ssi_helpdesk_ticket_dependency.field_helpdesk_ticket__display_name
+#: model:ir.model.fields,field_description:ssi_helpdesk_ticket_dependency.field_helpdesk_ticket_dependency__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: ssi_helpdesk_ticket_dependency
+#: code:addons/ssi_helpdesk_ticket_dependency/models/helpdesk_ticket.py:0
+#: model:ir.model.fields.selection,name:ssi_helpdesk_ticket_dependency.selection__helpdesk_ticket_dependency__blocker_kind__external
+#, python-format
+msgid "External"
+msgstr ""
+
+#. module: ssi_helpdesk_ticket_dependency
+#: model:ir.model.fields,field_description:ssi_helpdesk_ticket_dependency.field_helpdesk_ticket_dependency__external_reference
+msgid "External Reference"
+msgstr ""
+
+#. module: ssi_helpdesk_ticket_dependency
+#: model:ir.model.fields,field_description:ssi_helpdesk_ticket_dependency.field_helpdesk_ticket_dependency__external_resolved
+msgid "External Resolved"
+msgstr ""
+
+#. module: ssi_helpdesk_ticket_dependency
+#: code:addons/ssi_helpdesk_ticket_dependency/models/helpdesk_ticket_dependency.py:0
+#, python-format
+msgid "External reference is required"
+msgstr ""
+
+#. module: ssi_helpdesk_ticket_dependency
+#: code:addons/ssi_helpdesk_ticket_dependency/models/helpdesk_ticket_dependency.py:0
+#, python-format
+msgid "Fill the blocker ticket and the dependency type"
+msgstr ""
+
+#. module: ssi_helpdesk_ticket_dependency
+#: code:addons/ssi_helpdesk_ticket_dependency/models/helpdesk_ticket_dependency.py:0
+#, python-format
+msgid "Fill the external reference"
+msgstr ""
+
+#. module: ssi_helpdesk_ticket_dependency
+#: model:ir.model.fields,field_description:ssi_helpdesk_ticket_dependency.field_helpdesk_ticket__finish_blocked
+#: model_terms:ir.ui.view,arch_db:ssi_helpdesk_ticket_dependency.helpdesk_ticket_view_search
+msgid "Finish Blocked"
+msgstr ""
+
+#. module: ssi_helpdesk_ticket_dependency
+#: model:ir.model.fields.selection,name:ssi_helpdesk_ticket_dependency.selection__helpdesk_ticket_dependency__dependency_type__ff
+msgid "Finish to Finish"
+msgstr ""
+
+#. module: ssi_helpdesk_ticket_dependency
+#: model:ir.model.fields.selection,name:ssi_helpdesk_ticket_dependency.selection__helpdesk_ticket_dependency__dependency_type__fs
+msgid "Finish to Start"
+msgstr ""
+
+#. module: ssi_helpdesk_ticket_dependency
+#: model:ir.model.fields,help:ssi_helpdesk_ticket_dependency.field_helpdesk_ticket_dependency__dependency_type
+msgid ""
+"Finish to Start: this ticket cannot start until the blocker is finished. "
+"Start to Start: this ticket cannot start until the blocker is started. "
+"Finish to Finish: this ticket cannot finish until the blocker is finished. "
+"Start to Finish: this ticket cannot finish until the blocker is started."
+msgstr ""
+
+#. module: ssi_helpdesk_ticket_dependency
+#: model:ir.model.fields,help:ssi_helpdesk_ticket_dependency.field_helpdesk_ticket_dependency__external_reference
+msgid ""
+"Free text reference of the external blocker, for example owner/repo#N or a "
+"URL."
+msgstr ""
+
+#. module: ssi_helpdesk_ticket_dependency
+#: model:ir.model,name:ssi_helpdesk_ticket_dependency.model_helpdesk_ticket
+msgid "Helpdesk Ticket"
+msgstr ""
+
+#. module: ssi_helpdesk_ticket_dependency
+#: model:ir.model,name:ssi_helpdesk_ticket_dependency.model_helpdesk_ticket_dependency
+msgid "Helpdesk Ticket Dependency"
+msgstr ""
+
+#. module: ssi_helpdesk_ticket_dependency
+#: model:ir.model.fields,field_description:ssi_helpdesk_ticket_dependency.field_helpdesk_ticket__id
+#: model:ir.model.fields,field_description:ssi_helpdesk_ticket_dependency.field_helpdesk_ticket_dependency__id
+msgid "ID"
+msgstr ""
+
+#. module: ssi_helpdesk_ticket_dependency
+#: model:ir.model.fields,field_description:ssi_helpdesk_ticket_dependency.field_helpdesk_ticket____last_update
+#: model:ir.model.fields,field_description:ssi_helpdesk_ticket_dependency.field_helpdesk_ticket_dependency____last_update
+msgid "Last Modified on"
+msgstr ""
+
+#. module: ssi_helpdesk_ticket_dependency
+#: model:ir.model.fields,field_description:ssi_helpdesk_ticket_dependency.field_helpdesk_ticket_dependency__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: ssi_helpdesk_ticket_dependency
+#: model:ir.model.fields,field_description:ssi_helpdesk_ticket_dependency.field_helpdesk_ticket_dependency__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: ssi_helpdesk_ticket_dependency
+#: model:ir.model.fields,help:ssi_helpdesk_ticket_dependency.field_helpdesk_ticket_dependency__sequence
+msgid "Order of the dependency in the ticket."
+msgstr ""
+
+#. module: ssi_helpdesk_ticket_dependency
+#: model:ir.model.fields,field_description:ssi_helpdesk_ticket_dependency.field_helpdesk_ticket_dependency__satisfied
+msgid "Satisfied"
+msgstr ""
+
+#. module: ssi_helpdesk_ticket_dependency
+#: model:ir.model.fields,field_description:ssi_helpdesk_ticket_dependency.field_helpdesk_ticket_dependency__sequence
+msgid "Sequence"
+msgstr ""
+
+#. module: ssi_helpdesk_ticket_dependency
+#: model:ir.model.fields,field_description:ssi_helpdesk_ticket_dependency.field_helpdesk_ticket__start_blocked
+#: model_terms:ir.ui.view,arch_db:ssi_helpdesk_ticket_dependency.helpdesk_ticket_view_search
+msgid "Start Blocked"
+msgstr ""
+
+#. module: ssi_helpdesk_ticket_dependency
+#: model:ir.model.fields.selection,name:ssi_helpdesk_ticket_dependency.selection__helpdesk_ticket_dependency__dependency_type__sf
+msgid "Start to Finish"
+msgstr ""
+
+#. module: ssi_helpdesk_ticket_dependency
+#: model:ir.model.fields.selection,name:ssi_helpdesk_ticket_dependency.selection__helpdesk_ticket_dependency__dependency_type__ss
+msgid "Start to Start"
+msgstr ""
+
+#. module: ssi_helpdesk_ticket_dependency
+#: model:ir.model.fields,help:ssi_helpdesk_ticket_dependency.field_helpdesk_ticket_dependency__external_resolved
+msgid "Tick when the external blocker has been resolved."
+msgstr ""
+
+#. module: ssi_helpdesk_ticket_dependency
+#: model:ir.model.fields.selection,name:ssi_helpdesk_ticket_dependency.selection__helpdesk_ticket_dependency__blocker_kind__ticket
+msgid "Ticket"
+msgstr ""
+
+#. module: ssi_helpdesk_ticket_dependency
+#: model:ir.model.fields,help:ssi_helpdesk_ticket_dependency.field_helpdesk_ticket_dependency__ticket_id
+msgid "Ticket that depends on the blocker."
+msgstr ""
+
+#. module: ssi_helpdesk_ticket_dependency
+#: model:ir.model.fields,help:ssi_helpdesk_ticket_dependency.field_helpdesk_ticket_dependency__blocker_ticket_id
+msgid "Ticket that has to reach the required state first."
+msgstr ""
+
+#. module: ssi_helpdesk_ticket_dependency
+#: model_terms:ir.ui.view,arch_db:ssi_helpdesk_ticket_dependency.helpdesk_ticket_view_form
+msgid "Tickets Waiting for This Ticket"
+msgstr ""
+
+#. module: ssi_helpdesk_ticket_dependency
+#: model:ir.model.fields,help:ssi_helpdesk_ticket_dependency.field_helpdesk_ticket_dependency__blocker_kind
+msgid "Whether the blocker is another ticket or an external item."
+msgstr ""
