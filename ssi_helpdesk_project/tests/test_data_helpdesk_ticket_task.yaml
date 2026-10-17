@@ -1,0 +1,219 @@
+scenarios:
+  - name: "Helpdesk Ticket Task - create tasks from the type template"
+    steps:
+      - step: "Setup - create company partner"
+        action: "create"
+        model: "res.partner"
+        save_as: "company"
+        values:
+          name: "PJ69 Company A"
+          is_company: true
+
+      - step: "Setup - create contact"
+        action: "create"
+        model: "res.partner"
+        save_as: "contact"
+        values:
+          name: "PJ69 Contact A"
+          is_company: false
+          parent_id: "REC: company"
+
+      - step: "Setup - create category"
+        action: "create"
+        model: "helpdesk_type_category"
+        save_as: "category"
+        values:
+          name: "PJ69 Category A"
+          code: "PJ69CATA"
+
+      - step: "Setup - create type that needs a task with one task line"
+        action: "create"
+        model: "helpdesk_type"
+        save_as: "type_task"
+        values:
+          name: "PJ69 Type With Task"
+          code: "PJ69TYPA"
+          category_id: "REC: category"
+          need_task: true
+          task_ids:
+            - [0, 0, {"title": "PJ69 Task Alpha"}]
+
+      - step: "Setup - create project"
+        action: "create"
+        model: "project.project"
+        save_as: "project"
+        values:
+          name: "PJ69 Project A"
+
+      - step: "Setup - create ticket with the project"
+        action: "create"
+        model: "helpdesk_ticket"
+        save_as: "ticket"
+        as_user: "base.user_admin"
+        values:
+          title: "PJ69 Ticket A"
+          partner_id: "REC: contact"
+          commercial_partner_id: "REC: company"
+          type_category_id: "REC: category"
+          type_id: "REC: type_task"
+          project_id: "REC: project"
+          need_task: true
+
+      - step: "Create the tasks of the ticket"
+        action: "call"
+        target: "ticket"
+        method: "action_create_task"
+        as_user: "base.user_admin"
+
+      - step: "Ticket holds exactly one task"
+        action: "assert"
+        target: "ticket"
+        refresh: true
+        asserts:
+          total_task:
+            type: "value"
+            expected: 1
+          task_ids:
+            type: "m2m"
+            check: "count"
+            expected_count: 1
+
+      - step: "Find the task created from the template line"
+        action: "search"
+        model: "project.task"
+        domain: [["name", "=", "PJ69 Task Alpha"]]
+        save_as: "task"
+        expect_count: 1
+
+      - step: "Task belongs to the ticket project"
+        action: "assert"
+        target: "task"
+        asserts:
+          project_id:
+            type: "m2o"
+            expected: "REC: project"
+
+  - name: "Helpdesk Ticket Task - type without task lines creates nothing"
+    steps:
+      - step: "Setup - create company partner"
+        action: "create"
+        model: "res.partner"
+        save_as: "company"
+        values:
+          name: "PJ69 Company B"
+          is_company: true
+
+      - step: "Setup - create contact"
+        action: "create"
+        model: "res.partner"
+        save_as: "contact"
+        values:
+          name: "PJ69 Contact B"
+          is_company: false
+          parent_id: "REC: company"
+
+      - step: "Setup - create category"
+        action: "create"
+        model: "helpdesk_type_category"
+        save_as: "category"
+        values:
+          name: "PJ69 Category B"
+          code: "PJ69CATB"
+
+      - step: "Setup - create type without task lines"
+        action: "create"
+        model: "helpdesk_type"
+        save_as: "type_empty"
+        values:
+          name: "PJ69 Type Without Lines"
+          code: "PJ69TYPB"
+          category_id: "REC: category"
+          need_task: true
+
+      - step: "Setup - create project"
+        action: "create"
+        model: "project.project"
+        save_as: "project"
+        values:
+          name: "PJ69 Project B"
+
+      - step: "Setup - create ticket with the project"
+        action: "create"
+        model: "helpdesk_ticket"
+        save_as: "ticket"
+        as_user: "base.user_admin"
+        values:
+          title: "PJ69 Ticket B"
+          partner_id: "REC: contact"
+          commercial_partner_id: "REC: company"
+          type_category_id: "REC: category"
+          type_id: "REC: type_empty"
+          project_id: "REC: project"
+          need_task: true
+
+      - step: "Create the tasks of the ticket"
+        action: "call"
+        target: "ticket"
+        method: "action_create_task"
+        as_user: "base.user_admin"
+
+      - step: "Ticket has no task"
+        action: "assert"
+        target: "ticket"
+        refresh: true
+        asserts:
+          total_task:
+            type: "value"
+            expected: 0
+          task_ids:
+            type: "m2m"
+            check: "count"
+            expected_count: 0
+
+  - name: "Helpdesk Ticket Task - onchange of the type sets need task"
+    steps:
+      - step: "Setup - create category"
+        action: "create"
+        model: "helpdesk_type_category"
+        save_as: "category"
+        values:
+          name: "PJ69 Category C"
+          code: "PJ69CATC"
+
+      - step: "Setup - create type that needs a task"
+        action: "create"
+        model: "helpdesk_type"
+        save_as: "type_yes"
+        values:
+          name: "PJ69 Type Needs Task"
+          code: "PJ69TYPC"
+          category_id: "REC: category"
+          need_task: true
+
+      - step: "Setup - create type that needs no task"
+        action: "create"
+        model: "helpdesk_type"
+        save_as: "type_no"
+        values:
+          name: "PJ69 Type No Task"
+          code: "PJ69TYPD"
+          category_id: "REC: category"
+          need_task: false
+
+      - step: "Type follows the need task flag"
+        action: "form"
+        model: "helpdesk_ticket"
+        as_user: "base.user_admin"
+        save: false
+        ops:
+          - set: {type_category_id: "REC: category"}
+          - set: {type_id: "REC: type_yes"}
+          - assert:
+              need_task:
+                type: "value"
+                expected: true
+          - set: {type_id: "REC: type_no"}
+          - assert:
+              need_task:
+                type: "value"
+                operator: "is_falsy"
