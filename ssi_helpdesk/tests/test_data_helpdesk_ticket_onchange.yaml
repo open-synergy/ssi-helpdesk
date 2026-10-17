@@ -1,0 +1,332 @@
+scenarios:
+  - name: "Helpdesk Ticket Onchange - CC excludes ticket contact"
+    steps:
+      - step: "Setup - create company partner"
+        action: "create"
+        model: "res.partner"
+        save_as: "company"
+        values:
+          name: "OC1 Company"
+          is_company: true
+
+      - step: "Setup - create ticket contact"
+        action: "create"
+        model: "res.partner"
+        save_as: "contact_a"
+        values:
+          name: "OC1 Contact A"
+          is_company: false
+          parent_id: "REC: company"
+
+      - step: "Setup - create other contact"
+        action: "create"
+        model: "res.partner"
+        save_as: "contact_b"
+        values:
+          name: "OC1 Contact B"
+          is_company: false
+          parent_id: "REC: company"
+
+      - step: "Setup - create contact group with both contacts"
+        action: "create"
+        model: "helpdesk_contact_group"
+        save_as: "group"
+        values:
+          name: "OC1 Group"
+          code: "OC1GRP"
+          commercial_contact_id: "REC: company"
+          contact_ids:
+            "EVAL: [(6, 0, [registry['contact_a'].id, registry['contact_b'].id])]"
+
+      - step: "Setup - create ticket with the contact group"
+        action: "create"
+        model: "helpdesk_ticket"
+        save_as: "ticket"
+        as_user: "base.user_admin"
+        values:
+          title: "OC1 Ticket"
+          partner_id: "REC: contact_a"
+          commercial_partner_id: "REC: company"
+          contact_group_ids: "EVAL: [(6, 0, [registry['group'].id])]"
+
+      # The m2m field cannot be assigned through the Form ops of
+      # odoo-yaml-test (Form refuses direct m2m assignment), so the
+      # onchange method itself is called on the draft ticket.
+      - step: "Run additional partner onchange"
+        action: "call"
+        target: "ticket"
+        method: "onchange_additional_partner_ids"
+        as_user: "base.user_admin"
+
+      - step: "CC contains the other contact only"
+        action: "assert"
+        target: "ticket"
+        refresh: true
+        asserts:
+          additional_partner_ids:
+            type: "m2m"
+            check: "exact"
+            expected_records:
+              - "REC: contact_b"
+
+  - name: "Helpdesk Ticket Onchange - contact change clears contact groups"
+    steps:
+      - step: "Setup - create company partner"
+        action: "create"
+        model: "res.partner"
+        save_as: "company"
+        values:
+          name: "OC2 Company"
+          is_company: true
+
+      - step: "Setup - create ticket contact"
+        action: "create"
+        model: "res.partner"
+        save_as: "contact_a"
+        values:
+          name: "OC2 Contact A"
+          is_company: false
+          parent_id: "REC: company"
+
+      - step: "Setup - create other contact"
+        action: "create"
+        model: "res.partner"
+        save_as: "contact_b"
+        values:
+          name: "OC2 Contact B"
+          is_company: false
+          parent_id: "REC: company"
+
+      - step: "Setup - create contact group"
+        action: "create"
+        model: "helpdesk_contact_group"
+        save_as: "group"
+        values:
+          name: "OC2 Group"
+          code: "OC2GRP"
+          commercial_contact_id: "REC: company"
+          contact_ids:
+            "EVAL: [(6, 0, [registry['contact_a'].id, registry['contact_b'].id])]"
+
+      - step: "Setup - create ticket with the contact group"
+        action: "create"
+        model: "helpdesk_ticket"
+        save_as: "ticket"
+        as_user: "base.user_admin"
+        values:
+          title: "OC2 Ticket"
+          partner_id: "REC: contact_a"
+          commercial_partner_id: "REC: company"
+          contact_group_ids: "EVAL: [(6, 0, [registry['group'].id])]"
+
+      - step: "Change ticket contact in the form"
+        action: "form"
+        target: "ticket"
+        as_user: "base.user_admin"
+        save: true
+        ops:
+          - set: {partner_id: "REC: contact_b"}
+
+      - step: "Contact groups are cleared"
+        action: "assert"
+        target: "ticket"
+        refresh: true
+        asserts:
+          contact_group_ids:
+            type: "m2m"
+            check: "count"
+            expected_count: 0
+
+  - name: "Helpdesk Ticket Onchange - commercial contact change clears contact"
+    steps:
+      - step: "Setup - create first company partner"
+        action: "create"
+        model: "res.partner"
+        save_as: "company_a"
+        values:
+          name: "OC3 Company A"
+          is_company: true
+
+      - step: "Setup - create second company partner"
+        action: "create"
+        model: "res.partner"
+        save_as: "company_b"
+        values:
+          name: "OC3 Company B"
+          is_company: true
+
+      - step: "Setup - create contact of first company"
+        action: "create"
+        model: "res.partner"
+        save_as: "contact_a"
+        values:
+          name: "OC3 Contact A"
+          is_company: false
+          parent_id: "REC: company_a"
+
+      - step: "Switch commercial contact in the form"
+        action: "form"
+        model: "helpdesk_ticket"
+        as_user: "base.user_admin"
+        save: false
+        ops:
+          - set: {commercial_partner_id: "REC: company_a"}
+          - set: {partner_id: "REC: contact_a"}
+          - assert:
+              partner_id:
+                type: "m2o"
+                expected: "REC: contact_a"
+          - set: {commercial_partner_id: "REC: company_b"}
+          - assert:
+              partner_id:
+                type: "value"
+                operator: "is_falsy"
+
+  - name: "Helpdesk Ticket Onchange - category, type and title"
+    steps:
+      - step: "Setup - create category with auto title"
+        action: "create"
+        model: "helpdesk_type_category"
+        save_as: "cat_auto"
+        values:
+          name: "OC4 Auto Category"
+          code: "OC4CATA"
+          auto_title: true
+
+      - step: "Setup - create category without auto title"
+        action: "create"
+        model: "helpdesk_type_category"
+        save_as: "cat_manual"
+        values:
+          name: "OC4 Manual Category"
+          code: "OC4CATM"
+          auto_title: false
+
+      - step: "Setup - create type of auto title category"
+        action: "create"
+        model: "helpdesk_type"
+        save_as: "type_auto"
+        values:
+          name: "OC4 Auto Type"
+          code: "OC4TYPA"
+          category_id: "REC: cat_auto"
+
+      - step: "Setup - create type of manual category"
+        action: "create"
+        model: "helpdesk_type"
+        save_as: "type_manual"
+        values:
+          name: "OC4 Manual Type"
+          code: "OC4TYPM"
+          category_id: "REC: cat_manual"
+
+      - step: "Auto title category generates the title"
+        action: "form"
+        model: "helpdesk_ticket"
+        as_user: "base.user_admin"
+        save: false
+        ops:
+          - set: {type_category_id: "REC: cat_auto"}
+          - set: {type_id: "REC: type_auto"}
+          - assert:
+              title:
+                type: "value"
+                expected: "OC4 Auto Category - OC4 Auto Type"
+
+      - step: "Category change clears the type"
+        action: "form"
+        model: "helpdesk_ticket"
+        as_user: "base.user_admin"
+        save: false
+        ops:
+          - set: {type_category_id: "REC: cat_auto"}
+          - set: {type_id: "REC: type_auto"}
+          - set: {type_category_id: "REC: cat_manual"}
+          - assert:
+              type_id:
+                type: "value"
+                operator: "is_falsy"
+
+      - step: "Manual title category leaves the title empty"
+        action: "form"
+        model: "helpdesk_ticket"
+        as_user: "base.user_admin"
+        save: false
+        ops:
+          - set: {type_category_id: "REC: cat_manual"}
+          - set: {type_id: "REC: type_manual"}
+          - assert:
+              title:
+                type: "value"
+                operator: "is_falsy"
+
+  - name: "Helpdesk Ticket Onchange - type duration and deadline"
+    steps:
+      - step: "Setup - create category"
+        action: "create"
+        model: "helpdesk_type_category"
+        save_as: "cat"
+        values:
+          name: "OC5 Category"
+          code: "OC5CAT"
+
+      - step: "Setup - create duration"
+        action: "create"
+        model: "base.duration"
+        save_as: "duration"
+        values:
+          name: "OC5 Duration"
+          code: "OC5DUR"
+          number_of_days: 3
+
+      - step: "Setup - create type with duration"
+        action: "create"
+        model: "helpdesk_type"
+        save_as: "type_dur"
+        values:
+          name: "OC5 Type With Duration"
+          code: "OC5TYPD"
+          category_id: "REC: cat"
+          duration_id: "REC: duration"
+
+      - step: "Setup - create type without duration"
+        action: "create"
+        model: "helpdesk_type"
+        save_as: "type_nodur"
+        values:
+          name: "OC5 Type Without Duration"
+          code: "OC5TYPN"
+          category_id: "REC: cat"
+
+      - step: "Type with duration sets duration and deadline"
+        action: "form"
+        model: "helpdesk_ticket"
+        as_user: "base.user_admin"
+        save: false
+        ops:
+          - set: {type_category_id: "REC: cat"}
+          - set: {type_id: "REC: type_dur"}
+          - assert:
+              duration_id:
+                type: "m2o"
+                expected: "REC: duration"
+              date_deadline:
+                type: "value"
+                operator: "is_truthy"
+
+      - step: "Type without duration clears duration and deadline"
+        action: "form"
+        model: "helpdesk_ticket"
+        as_user: "base.user_admin"
+        save: false
+        ops:
+          - set: {type_category_id: "REC: cat"}
+          - set: {type_id: "REC: type_dur"}
+          - set: {type_id: "REC: type_nodur"}
+          - assert:
+              duration_id:
+                type: "value"
+                operator: "is_falsy"
+              date_deadline:
+                type: "value"
+                operator: "is_falsy"
