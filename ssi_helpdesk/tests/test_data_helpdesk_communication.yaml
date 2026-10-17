@@ -17,35 +17,35 @@ setup:
         is_company: false
         parent_id: "EVAL: registry['company'].id"
 
-    - step: "Setup - create additional contact"
-      action: "create"
-      model: "res.partner"
-      save_as: "extra_contact"
-      values:
-        name: "Test Extra Contact HC"
-        is_company: false
-        parent_id: "EVAL: registry['company'].id"
-
-    - step: "Setup - create helpdesk type category"
-      action: "create"
-      model: "helpdesk_type_category"
-      save_as: "type_category"
-      values:
-        name: "Test Category HC"
-        code: "TCATHC"
-
-    - step: "Setup - create helpdesk type"
-      action: "create"
-      model: "helpdesk_type"
-      save_as: "ticket_type"
-      values:
-        name: "Test Type HC"
-        code: "TTYPEHC"
-        category_id: "EVAL: registry['type_category'].id"
-
 scenarios:
   - name: "Helpdesk Communication - Reload Followers From Ticket"
     steps:
+      - step: "Setup - create additional contact"
+        action: "create"
+        model: "res.partner"
+        save_as: "extra_contact"
+        values:
+          name: "Test Extra Contact HC"
+          is_company: false
+          parent_id: "EVAL: registry['company'].id"
+
+      - step: "Setup - create helpdesk type category"
+        action: "create"
+        model: "helpdesk_type_category"
+        save_as: "type_category"
+        values:
+          name: "Test Category HC"
+          code: "TCATHC"
+
+      - step: "Setup - create helpdesk type"
+        action: "create"
+        model: "helpdesk_type"
+        save_as: "ticket_type"
+        values:
+          name: "Test Type HC"
+          code: "TTYPEHC"
+          category_id: "EVAL: registry['type_category'].id"
+
       - step: "Create ticket with contact and additional partner"
         action: "create"
         model: "helpdesk_ticket"
