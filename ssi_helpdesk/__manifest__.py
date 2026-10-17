@@ -44,6 +44,7 @@
         "views/helpdesk_resolution_documentation_type_views.xml",
         "views/helpdesk_data_requirement_type_views.xml",
         "views/assets.xml",
+        "views/assets_helpdesk_type_tours.xml",
     ],
     "demo": [],
 }
