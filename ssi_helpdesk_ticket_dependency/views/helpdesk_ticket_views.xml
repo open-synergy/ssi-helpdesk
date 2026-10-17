@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 OpenSynergy Indonesia
+     Copyright 2026 PT. Simetri Sinergi Indonesia
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo>
+
+<record id="helpdesk_ticket_view_search" model="ir.ui.view">
+    <field name="name">helpdesk_ticket - search</field>
+    <field name="model">helpdesk_ticket</field>
+    <field name="inherit_id" ref="ssi_helpdesk.helpdesk_ticket_view_search" />
+    <field name="mode">extension</field>
+    <field name="arch" type="xml">
+        <data>
+            <xpath expr="//separator[@name='activity']" position="before">
+                <separator name="blocked" />
+                <filter
+                        name="dom_blocked"
+                        string="Blocked"
+                        domain="[('blocked','=',True)]"
+                    />
+                <filter
+                        name="dom_start_blocked"
+                        string="Start Blocked"
+                        domain="[('start_blocked','=',True)]"
+                    />
+                <filter
+                        name="dom_finish_blocked"
+                        string="Finish Blocked"
+                        domain="[('finish_blocked','=',True)]"
+                    />
+            </xpath>
+        </data>
+    </field>
+</record>
+
+<record id="helpdesk_ticket_view_form" model="ir.ui.view">
+    <field name="name">helpdesk_ticket form</field>
+    <field name="model">helpdesk_ticket</field>
+    <field name="inherit_id" ref="ssi_helpdesk.helpdesk_ticket_view_form" />
+    <field name="mode">extension</field>
+    <field name="arch" type="xml">
+        <data>
+            <xpath expr="//group[@name='header_right']" position="inside">
+                <field name="blocked" invisible="1" />
+                <div
+                        name="blocked_badge"
+                        colspan="2"
+                        attrs="{'invisible':[('blocked','=',False)]}"
+                    >
+                    <span class="badge badge-warning">Blocked</span>
+                </div>
+            </xpath>
+            <xpath expr="//page[@name='communication']" position="after">
+                <page name="dependency" string="Dependencies">
+                    <group name="dependency_1" colspan="4" col="2">
+                        <field name="start_blocked" />
+                        <field name="finish_blocked" />
+                    </group>
+                    <field name="dependency_ids">
+                        <tree editable="bottom">
+                            <field name="sequence" widget="handle" />
+                            <field name="blocker_kind" />
+                            <field
+                                    name="blocker_ticket_id"
+                                    attrs="{'invisible':[('blocker_kind','!=','ticket')],'required':[('blocker_kind','=','ticket')]}"
+                                />
+                            <field
+                                    name="dependency_type"
+                                    attrs="{'invisible':[('blocker_kind','!=','ticket')],'required':[('blocker_kind','=','ticket')]}"
+                                />
+                            <field
+                                    name="external_reference"
+                                    attrs="{'invisible':[('blocker_kind','!=','external')],'required':[('blocker_kind','=','external')]}"
+                                />
+                            <field
+                                    name="external_resolved"
+                                    attrs="{'invisible':[('blocker_kind','!=','external')]}"
+                                />
+                            <field name="satisfied" />
+                        </tree>
+                        <form>
+                            <group name="dependency_form" colspan="4" col="2">
+                                <field name="sequence" />
+                                <field name="blocker_kind" />
+                                <field
+                                        name="blocker_ticket_id"
+                                        attrs="{'invisible':[('blocker_kind','!=','ticket')],'required':[('blocker_kind','=','ticket')]}"
+                                    />
+                                <field
+                                        name="dependency_type"
+                                        attrs="{'invisible':[('blocker_kind','!=','ticket')],'required':[('blocker_kind','=','ticket')]}"
+                                    />
+                                <field
+                                        name="external_reference"
+                                        attrs="{'invisible':[('blocker_kind','!=','external')],'required':[('blocker_kind','=','external')]}"
+                                    />
+                                <field
+                                        name="external_resolved"
+                                        attrs="{'invisible':[('blocker_kind','!=','external')]}"
+                                    />
+                                <field name="satisfied" />
+                            </group>
+                        </form>
+                    </field>
+                    <separator string="Tickets Waiting for This Ticket" />
+                    <field name="blocking_ids" readonly="1">
+                        <tree>
+                            <field name="ticket_id" />
+                            <field name="dependency_type" />
+                            <field name="satisfied" />
+                        </tree>
+                        <form>
+                            <group name="dependency_form" colspan="4" col="2">
+                                <field name="sequence" />
+                                <field name="blocker_kind" />
+                                <field
+                                        name="blocker_ticket_id"
+                                        attrs="{'invisible':[('blocker_kind','!=','ticket')],'required':[('blocker_kind','=','ticket')]}"
+                                    />
+                                <field
+                                        name="dependency_type"
+                                        attrs="{'invisible':[('blocker_kind','!=','ticket')],'required':[('blocker_kind','=','ticket')]}"
+                                    />
+                                <field
+                                        name="external_reference"
+                                        attrs="{'invisible':[('blocker_kind','!=','external')],'required':[('blocker_kind','=','external')]}"
+                                    />
+                                <field
+                                        name="external_resolved"
+                                        attrs="{'invisible':[('blocker_kind','!=','external')]}"
+                                    />
+                                <field name="satisfied" />
+                            </group>
+                        </form>
+                    </field>
+                </page>
+            </xpath>
+        </data>
+    </field>
+</record>
+
+</odoo>
