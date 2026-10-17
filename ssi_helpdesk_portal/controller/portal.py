@@ -15,11 +15,28 @@ from odoo.addons.portal.controllers.portal import CustomerPortal, pager as porta
 
 
 class CustomerPortal(CustomerPortal):
+    """Customer portal controller exposing helpdesk tickets."""
+
     def _prepare_portal_layout_values(self):
+        """Return the portal layout values.
+
+        Extension point: currently returns the parent values unchanged.
+
+        :return: dict of portal layout values
+        """
         values = super(CustomerPortal, self)._prepare_portal_layout_values()
         return values
 
     def _prepare_home_portal_values(self, counters):
+        """Add the helpdesk ticket counter to the portal home values.
+
+        The ``ticket_count`` is computed only when requested in
+        ``counters`` and the user can read ``helpdesk_ticket``;
+        otherwise it is ``0``.
+
+        :param counters: list of counter names requested by the portal
+        :return: dict of portal home values
+        """
         values = super()._prepare_home_portal_values(counters)
         if "ticket_count" in counters:
             values["ticket_count"] = (
@@ -34,6 +51,14 @@ class CustomerPortal(CustomerPortal):
         return values
 
     def _prepare_helpdesk_tickets_domain(self):
+        """Build the domain of tickets visible to the current user.
+
+        Extension point: matches tickets where the user partner is the
+        customer, commercial partner or an additional partner, or where
+        the user is the assigned user.
+
+        :return: search domain for ``helpdesk_ticket``
+        """
         return [
             "|",
             "|",
@@ -45,6 +70,13 @@ class CustomerPortal(CustomerPortal):
         ]
 
     def _ticket_get_page_view_values(self, ticket, access_token, **kwargs):
+        """Build the template values for the ticket detail page.
+
+        :param ticket: ``helpdesk_ticket`` record to display
+        :param access_token: portal access token of the ticket
+        :param kwargs: extra request parameters
+        :return: dict of values for the ticket follow-up template
+        """
         values = {
             "page_name": "ticket",
             "ticket": ticket,
@@ -71,6 +103,23 @@ class CustomerPortal(CustomerPortal):
         search_in="content",
         **kw
     ):
+        """Render the ticket list at ``/my/tickets``.
+
+        Route: ``/my/tickets`` and ``/my/tickets/page/<page>`` for
+        logged-in users. Applies sorting, filtering, search, grouping
+        and paging, and stores the visible ticket ids in the session.
+
+        :param page: page number of the list
+        :param date_begin: start of the creation date range
+        :param date_end: end of the creation date range
+        :param sortby: key of the selected sorting option
+        :param filterby: key of the selected filter option
+        :param search: text to search for
+        :param groupby: key of the selected grouping option
+        :param search_in: field group the search text applies to
+        :param kw: extra request parameters
+        :return: rendered response of the ticket list template
+        """
         values = self._prepare_portal_layout_values()
         domain = self._prepare_helpdesk_tickets_domain()
 
@@ -232,6 +281,18 @@ class CustomerPortal(CustomerPortal):
         website=True,
     )
     def tickets_followup(self, ticket_id=None, access_token=None, **kw):
+        """Render the ticket detail page.
+
+        Route: ``/my/ticket/<ticket_id>`` and
+        ``/helpdesk/ticket/<ticket_id>``, each with an optional access
+        token. Redirects to ``/my`` when access is denied or the ticket
+        does not exist.
+
+        :param ticket_id: id of the ``helpdesk_ticket`` to display
+        :param access_token: portal access token of the ticket
+        :param kw: extra request parameters
+        :return: rendered ticket template or a redirect response
+        """
         try:
             ticket_sudo = self._document_check_access(
                 "helpdesk_ticket", ticket_id, access_token
