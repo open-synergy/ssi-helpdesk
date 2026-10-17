@@ -1,0 +1,115 @@
+setup:
+  steps:
+    - step: "Setup - create company partner"
+      action: "create"
+      model: "res.partner"
+      save_as: "company"
+      values:
+        name: "Wizard Company"
+        is_company: true
+
+    - step: "Setup - create contact"
+      action: "create"
+      model: "res.partner"
+      save_as: "contact"
+      values:
+        name: "Wizard Contact"
+        is_company: false
+        parent_id: "REC: company"
+
+    - step: "Setup - create category"
+      action: "create"
+      model: "helpdesk_type_category"
+      save_as: "category"
+      values:
+        name: "Wizard Category"
+        code: "WCAT"
+
+    - step: "Setup - create second category"
+      action: "create"
+      model: "helpdesk_type_category"
+      save_as: "category_2"
+      values:
+        name: "Wizard Category 2"
+        code: "WCAT2"
+
+    - step: "Setup - create type"
+      action: "create"
+      model: "helpdesk_type"
+      save_as: "ticket_type"
+      values:
+        name: "Wizard Type"
+        code: "WTYPE"
+        category_id: "REC: category"
+
+    - step: "Setup - create communication"
+      action: "create"
+      model: "helpdesk_communication"
+      save_as: "communication"
+      as_user: "base.user_admin"
+      values:
+        title: "Wizard Communication"
+        partner_id: "REC: contact"
+
+    - step: "Setup - create ticket user"
+      action: "create"
+      model: "res.users"
+      save_as: "ticket_user"
+      values:
+        name: "Wizard Ticket User"
+        login: "wizard_ticket_user"
+        groups_id:
+          - [
+              6,
+              0,
+              ["REF: base.group_user", "REF: ssi_helpdesk.helpdesk_ticket_user_group"],
+            ]
+
+    - step: "Setup - create plain user"
+      action: "create"
+      model: "res.users"
+      save_as: "plain_user"
+      values:
+        name: "Wizard Plain User"
+        login: "wizard_plain_user"
+        groups_id:
+          - [6, 0, ["REF: base.group_user"]]
+
+scenarios:
+  - name: "Create Ticket From Communication - ACL and onchange"
+    steps:
+      - step: "Ticket user can create the wizard"
+        action: "create"
+        model: "create_ticket_from_communication"
+        save_as: "wizard"
+        as_user: "ticket_user"
+        values:
+          communication_id: "REC: communication"
+          category_id: "REC: category"
+          type_id: "REC: ticket_type"
+
+      - step: "Plain user cannot create the wizard"
+        action: "create"
+        model: "create_ticket_from_communication"
+        as_user: "plain_user"
+        expect_error:
+          type: "AccessError"
+        values:
+          communication_id: "REC: communication"
+          category_id: "REC: category"
+          type_id: "REC: ticket_type"
+
+      - step: "Changing category clears type"
+        action: "form"
+        model: "create_ticket_from_communication"
+        as_user: "base.user_admin"
+        save: false
+        ops:
+          - set: {communication_id: "REC: communication"}
+          - set: {category_id: "REC: category"}
+          - set: {type_id: "REC: ticket_type"}
+          - set: {category_id: "REC: category_2"}
+          - assert:
+              type_id:
+                type: "value"
+                operator: "is_falsy"

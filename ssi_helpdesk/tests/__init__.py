@@ -2,4 +2,7 @@
 # Copyright 2024 PT. Simetri Sinergi Indonesia
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from . import test_helpdesk_ticket  # noqa: F401
+from . import (  # noqa: F401
+    test_create_ticket_from_communication,
+    test_helpdesk_ticket,
+)
