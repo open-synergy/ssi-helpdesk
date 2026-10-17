@@ -8,6 +8,8 @@ from . import (  # noqa: F401
     test_helpdesk_ticket,
     test_helpdesk_ticket_onchange,
     test_split_helpdesk_ticket,
+    test_ui_helpdesk_channel,
+    test_ui_helpdesk_contact_group,
     test_ui_helpdesk_ticket,
 )
 from . import test_ui_helpdesk_type_category  # noqa: F401

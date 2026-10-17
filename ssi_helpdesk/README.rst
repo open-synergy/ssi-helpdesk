@@ -28,6 +28,16 @@ Work Instruction
 * `Delete Helpdesk Type <docs/helpdesk_type/03-delete.html>`_
 * `Deactivate Helpdesk Type <docs/helpdesk_type/04-deactivate.html>`_
 * `Activate Helpdesk Type <docs/helpdesk_type/05-activate.html>`_
+* `Create Helpdesk Channel <docs/helpdesk_channel/01-create.html>`_
+* `Edit Helpdesk Channel <docs/helpdesk_channel/02-edit.html>`_
+* `Delete Helpdesk Channel <docs/helpdesk_channel/03-delete.html>`_
+* `Deactivate Helpdesk Channel <docs/helpdesk_channel/04-deactivate.html>`_
+* `Activate Helpdesk Channel <docs/helpdesk_channel/05-activate.html>`_
+* `Create Helpdesk Contact Group <docs/helpdesk_contact_group/01-create.html>`_
+* `Edit Helpdesk Contact Group <docs/helpdesk_contact_group/02-edit.html>`_
+* `Delete Helpdesk Contact Group <docs/helpdesk_contact_group/03-delete.html>`_
+* `Deactivate Helpdesk Contact Group <docs/helpdesk_contact_group/04-deactivate.html>`_
+* `Activate Helpdesk Contact Group <docs/helpdesk_contact_group/05-activate.html>`_
 
 Installation
 ============
