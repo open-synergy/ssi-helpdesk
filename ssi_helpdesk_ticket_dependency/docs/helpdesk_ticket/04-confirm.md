@@ -11,12 +11,13 @@
   ticket that is already started, and every external dependency is ticked **External
   Resolved**.
 
-## Modified Flow
+## Modified Validation
 
-- Anchor: after Flow step 4 (_Click OK on the confirmation dialog_), when a dependency
-  above is not met, an error dialog names the blockers and the ticket stays **On
-  Progress**. Click **OK** to close the dialog, satisfy the blockers and confirm the
-  ticket again. The same dependencies are checked again when the last approval completes
+- Confirm will fail if a _Finish to Finish_ dependency has a blocker ticket that is not
+  **Done**, **Cancelled** or **Terminated**, if a _Start to Finish_ dependency has a
+  blocker ticket that has not started yet, or if an external dependency is not ticked
+  **External Resolved**. The error message names the blockers, and the ticket stays **On
+  Progress**. The same dependencies are checked again when the last approval completes
   the ticket.
 
 ## Additional Post-Condition

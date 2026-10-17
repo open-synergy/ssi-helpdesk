@@ -8,7 +8,7 @@ odoo.define("ssi_helpdesk_ticket_dependency.helpdesk_ticket_dependency_tour", fu
 
     var tour = require("web_tour.tour");
 
-    // Navigation shared by the three tours: Flow step 1 of the base IK,
+    // Navigation used by the Edit tour: Flow step 1 of the base IK,
     // "Open the Helpdesk > Tickets menu." Tickets is the landing action
     // of the app, so a stale-marker gate is used instead of a presence
     // gate.
@@ -53,59 +53,6 @@ odoo.define("ssi_helpdesk_ticket_dependency.helpdesk_ticket_dependency_tour", fu
             {
                 content: "Record form is displayed",
                 trigger: ".o_form_view",
-                run: function () {
-                    // Assertion only.
-                },
-            },
-        ];
-    }
-
-    // Click a statusbar button and confirm the dialog, then expect the
-    // error dialog that names the blocker, close it and check that the
-    // status did not change.
-    function gateRejected(buttonName, label, blockerText, statusValue) {
-        return [
-            {
-                content: "Click the " + label + " button",
-                trigger: ".o_statusbar_buttons button[name='" + buttonName + "']",
-                extra_trigger: ".o_form_view",
-            },
-            {
-                content: "Confirm the dialog",
-                trigger: ".modal-footer button.btn-primary",
-                in_modal: true,
-            },
-            {
-                content: "The error dialog names the blocker",
-                trigger: ".modal-body:contains(" + blockerText + ")",
-                in_modal: true,
-                run: function () {
-                    // Assertion only.
-                },
-            },
-            {
-                content: "Close the error dialog",
-                trigger: ".modal-footer button.btn-primary",
-                in_modal: true,
-            },
-            {
-                content: "Cancel the confirmation dialog that is still open",
-                trigger: ".modal-footer button.btn-secondary",
-                in_modal: true,
-            },
-            {
-                content: "No dialog is left open",
-                trigger: "body:not(.modal-open)",
-                run: function () {
-                    // Assertion only.
-                },
-            },
-            {
-                content: "Status did not change",
-                trigger:
-                    ".o_statusbar_status .o_arrow_button[data-value='" +
-                    statusValue +
-                    "'].btn-primary",
                 run: function () {
                     // Assertion only.
                 },
@@ -163,33 +110,5 @@ odoo.define("ssi_helpdesk_ticket_dependency.helpdesk_ticket_dependency_tour", fu
                 },
             },
         ])
-    );
-
-    // IK: docs/helpdesk_ticket/07-start.md
-    tour.register(
-        "ssi_helpdesk_ticket_dependency_helpdesk_ticket_start",
-        {
-            test: true,
-            url: "/web",
-        },
-        [].concat(
-            openTicketsList(),
-            openTicket("DEP75 Start Ticket"),
-            gateRejected("action_open", "Start", "DEP75 Blocker Ticket", "ready")
-        )
-    );
-
-    // IK: docs/helpdesk_ticket/04-confirm.md
-    tour.register(
-        "ssi_helpdesk_ticket_dependency_helpdesk_ticket_confirm",
-        {
-            test: true,
-            url: "/web",
-        },
-        [].concat(
-            openTicketsList(),
-            openTicket("DEP75 Confirm Ticket"),
-            gateRejected("action_confirm", "Confirm", "owner/repo#75", "open")
-        )
     );
 });

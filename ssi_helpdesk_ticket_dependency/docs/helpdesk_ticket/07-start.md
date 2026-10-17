@@ -10,12 +10,13 @@
   is **Done**, **Cancelled** or **Terminated**, and every _Start to Start_ dependency
   has a blocker ticket that is already started (**On Progress** or later).
 
-## Modified Flow
+## Modified Validation
 
-- Anchor: after Flow step 4 (_Click OK on the confirmation dialog_), when a dependency
-  above is not met, an error dialog names the blocker tickets and their dependency types
-  and the ticket stays **Ready to Start**. Click **OK** to close the dialog, satisfy the
-  blockers and start the ticket again.
+- Start will fail if a _Finish to Start_ dependency has a blocker ticket that is not
+  **Done**, **Cancelled** or **Terminated**, or if a _Start to Start_ dependency has a
+  blocker ticket that has not started yet (not **On Progress** or later). The error
+  message names the blocker tickets and their dependency types, and the ticket stays
+  **Ready to Start**.
 
 ## Additional Post-Condition
 
