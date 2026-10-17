@@ -32,12 +32,12 @@
      should be kept informed. Reset when **Contact** changes.
    - **CC To**: Select additional contacts that should receive updates. Reset when
      **Contact** or **Contact Group** changes.
-   - **Update Progress**: Keep checked if the customer expects progress updates.
    - **Category**: Select the ticket category.
    - **Type**: Select the ticket type. Available options are based on **Category**.
    - **Duration**: Automatically filled from **Type**. Change if needed.
    - **Deadline**: Automatically filled from **Duration** and **Date**. Change if
      needed.
+   - **Update Progress**: Keep checked if the customer expects progress updates.
 5. Optionally, on the **Description** tab, describe the problem.
 6. Click **Save**.
 

@@ -85,6 +85,12 @@ class HelpdeskCommunication(models.Model):
         "message_ids",
     )
     def _compute_message(self):
+        """Compute the latest company and partner messages.
+
+        Looks at the latest email or comment message and stores it in
+        ``latest_message_id`` when written by the company, otherwise
+        in ``latest_partner_message_id``.
+        """
         for record in self:
             if (
                 len(
@@ -141,6 +147,12 @@ class HelpdeskCommunication(models.Model):
         "latest_partner_message_id",
     )
     def _compute_need_respon(self):
+        """Compute whether the communication waits for a response.
+
+        ``need_respon`` is True when the latest company message is
+        newer than the latest partner message, or when only a company
+        message exists. Otherwise it is False.
+        """
         for record in self:
             if not record.latest_message_id and not record.latest_partner_message_id:
                 record.need_respon = False
