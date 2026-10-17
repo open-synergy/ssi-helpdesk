@@ -6,6 +6,13 @@ from odoo import api, fields, models
 
 
 class HelpdeskTicketDataRequirement(models.Model):
+    """Data requirement line of a helpdesk ticket.
+
+    Records one piece of data the requester must provide for the
+    ticket, optionally typed, with a URL or attachment and the date it
+    was submitted.
+    """
+
     _name = "helpdesk_ticket.data_requirement"
     _description = "Helpdesk Ticket Data Requirement"
     _order = "ticket_id, sequence, id"
@@ -56,6 +63,11 @@ class HelpdeskTicketDataRequirement(models.Model):
         "date_submit",
     )
     def _compute_state(self):
+        """Compute the state of the requirement.
+
+        The state is ``done`` once the submit date is filled, otherwise
+        ``open``.
+        """
         for record in self:
             result = "open"
             if record.date_submit:
@@ -66,6 +78,10 @@ class HelpdeskTicketDataRequirement(models.Model):
         "type_id",
     )
     def onchange_name(self):
+        """Fill the requirement name from the selected type.
+
+        The name is the type name, or empty when no type is selected.
+        """
         self.name = False
         if self.type_id:
             self.name = self.type_id.name
