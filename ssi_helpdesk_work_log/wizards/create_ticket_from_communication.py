@@ -11,6 +11,11 @@ class CreateTicketFromCommunication(models.TransientModel):
     _description = "Create Ticket From Communication"
 
     def _run_ticket_onchange(self):
+        """Fill the work estimation of the ticket created by the wizard.
+
+        Runs the base ticket onchange, then calls
+        ``onchange_work_estimation`` on the resulting ticket.
+        """
         self.ensure_one()
         _super = super(CreateTicketFromCommunication, self)
         _super._run_ticket_onchange()

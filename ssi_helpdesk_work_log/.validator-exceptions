@@ -1,0 +1,5 @@
+# Extension wizards: the models are defined and covered by ACL in ssi_helpdesk;
+# this module only extends them through _inherit, so adding ACL here would
+# duplicate the access rules.
+module acl-wizard-satu-user-access-tanpa-all-access|create_ticket_from_communication: tidak ada ACL sama sekali -- Wizard model is defined and has its ACL in ssi_helpdesk; this module only extends it through _inherit.
+module acl-wizard-satu-user-access-tanpa-all-access|split_helpdesk_ticket: tidak ada ACL sama sekali -- Wizard model is defined and has its ACL in ssi_helpdesk; this module only extends it through _inherit.

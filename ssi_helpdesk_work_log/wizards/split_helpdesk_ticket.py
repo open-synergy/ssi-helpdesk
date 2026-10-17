@@ -10,6 +10,11 @@ class SplitHelpdeskTicket(models.TransientModel):
     _inherit = "split_helpdesk_ticket"
 
     def _run_ticket_onchange(self):
+        """Fill the work estimation of the ticket created by the split.
+
+        Runs the base ticket onchange, then calls
+        ``onchange_work_estimation`` on the resulting ticket.
+        """
         self.ensure_one()
         _super = super(SplitHelpdeskTicket, self)
         _super._run_ticket_onchange()

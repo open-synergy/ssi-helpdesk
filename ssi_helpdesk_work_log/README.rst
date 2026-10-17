@@ -7,6 +7,13 @@ Helpdesk - Work Log Integration
 ===============================
 
 
+Work Instruction
+================
+
+* `Create Helpdesk Ticket (Work Log) <docs/helpdesk_ticket/01-create.html>`_
+* `Create Helpdesk Type Category (Work Log) <docs/helpdesk_type_category/01-create.html>`_
+* `Create Helpdesk Type (Work Log) <docs/helpdesk_type/01-create.html>`_
+
 Installation
 ============
 

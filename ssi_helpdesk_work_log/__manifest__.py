@@ -11,10 +11,12 @@
     "depends": [
         "ssi_helpdesk",
         "ssi_work_log_mixin",
+        "web_tour",
     ],
     "data": [
         "views/helpdesk_type_views.xml",
         "views/helpdesk_type_category_views.xml",
+        "views/assets_ssi_helpdesk_work_log_tours.xml",
     ],
     "demo": [],
     "images": [],

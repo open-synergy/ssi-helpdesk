@@ -9,5 +9,8 @@ from odoo.tests import tagged
 
 @tagged("post_install", "-at_install")
 class TestHelpdeskWorkLog(YamlTransactionCase):
+    """Test the work log integration of ``helpdesk_ticket``."""
+
     def test_helpdesk_work_log(self):
+        """Run the ticket scenario with a typed work estimation."""
         self.run_yaml_scenario("test_data_helpdesk_work_log.yaml")
