@@ -38,6 +38,14 @@ Work Instruction
 * `Delete Helpdesk Contact Group <docs/helpdesk_contact_group/03-delete.html>`_
 * `Deactivate Helpdesk Contact Group <docs/helpdesk_contact_group/04-deactivate.html>`_
 * `Activate Helpdesk Contact Group <docs/helpdesk_contact_group/05-activate.html>`_
+* `Create Helpdesk Communication <docs/helpdesk_communication/01-create.html>`_
+* `Edit Helpdesk Communication <docs/helpdesk_communication/02-edit.html>`_
+* `Delete Helpdesk Communication <docs/helpdesk_communication/03-delete.html>`_
+* `Start Helpdesk Communication <docs/helpdesk_communication/07-start.html>`_
+* `Finish Helpdesk Communication <docs/helpdesk_communication/09-finish.html>`_
+* `Restart Helpdesk Communication <docs/helpdesk_communication/12-restart.html>`_
+* `Reload Followers Helpdesk Communication <docs/helpdesk_communication/14-reload-followers.html>`_
+* `Create Ticket From Helpdesk Communication <docs/helpdesk_communication/15-create-ticket.html>`_
 
 Installation
 ============
