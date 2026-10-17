@@ -298,6 +298,13 @@ class HelpdeskTicket(models.Model):
         "contact_group_ids",
     )
     def onchange_additional_partner_ids(self):
+        """Recompute the CC contacts from the selected contact groups.
+
+        Collects the contacts of all selected contact groups, leaves
+        out the ticket contact and stores the rest in
+        ``additional_partner_ids``. Without groups the field is
+        emptied.
+        """
         self.additional_partner_ids = [(6, 0, [])]
 
         if self.contact_group_ids:
@@ -340,6 +347,11 @@ class HelpdeskTicket(models.Model):
         "date",
     )
     def onchange_date_deadline(self):
+        """Recompute the deadline from the selected duration.
+
+        The deadline is the ticket date moved forward by the duration.
+        Without a duration the deadline is emptied.
+        """
         self.date_deadline = False
         if self.duration_id:
             self.date_deadline = self.duration_id.get_duration(self.date)
