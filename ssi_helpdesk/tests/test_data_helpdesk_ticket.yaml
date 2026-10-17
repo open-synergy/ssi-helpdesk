@@ -1,3 +1,6 @@
+options:
+  auto_refresh: true
+
 scenarios:
   - name: "Helpdesk Ticket - Full Workflow: draft to done"
     steps:
@@ -65,11 +68,6 @@ scenarios:
             type: "value"
             expected: "ready"
 
-      - step: "Invalidate cache after ready"
-        action: "call"
-        target: "ticket"
-        method: "invalidate_cache"
-
       - step: "Action open - ready to open"
         action: "call"
         target: "ticket"
@@ -80,11 +78,6 @@ scenarios:
             type: "value"
             expected: "open"
 
-      - step: "Invalidate cache after open"
-        action: "call"
-        target: "ticket"
-        method: "invalidate_cache"
-
       - step: "Action confirm - open to confirm"
         action: "call"
         target: "ticket"
@@ -94,11 +87,6 @@ scenarios:
           state:
             type: "value"
             expected: "confirm"
-
-      - step: "Invalidate cache after confirm"
-        action: "call"
-        target: "ticket"
-        method: "invalidate_cache"
 
       - step: "Action approve - confirm to done"
         action: "call"
@@ -153,11 +141,6 @@ scenarios:
         method: "action_ready"
         as_user: "base.user_admin"
 
-      - step: "Invalidate cache"
-        action: "call"
-        target: "ticket"
-        method: "invalidate_cache"
-
       - step: "Action cancel - ready to cancel"
         action: "call"
         target: "ticket"
@@ -169,11 +152,6 @@ scenarios:
           state:
             type: "value"
             expected: "cancel"
-
-      - step: "Invalidate cache after cancel"
-        action: "call"
-        target: "ticket"
-        method: "invalidate_cache"
 
       - step: "Action restart - cancel to draft"
         action: "call"
@@ -274,32 +252,17 @@ scenarios:
         method: "action_ready"
         as_user: "base.user_admin"
 
-      - step: "Invalidate cache"
-        action: "call"
-        target: "ticket"
-        method: "invalidate_cache"
-
       - step: "Action open"
         action: "call"
         target: "ticket"
         method: "action_open"
         as_user: "base.user_admin"
 
-      - step: "Invalidate cache"
-        action: "call"
-        target: "ticket"
-        method: "invalidate_cache"
-
       - step: "Create finishing communication"
         action: "call"
         target: "ticket"
         method: "action_create_finishing_communication"
         as_user: "base.user_admin"
-
-      - step: "Invalidate cache after finishing comm"
-        action: "call"
-        target: "ticket"
-        method: "invalidate_cache"
 
       - step: "Assert finishing communication created"
         action: "assert"
