@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 OpenSynergy Indonesia
+     Copyright 2026 PT. Simetri Sinergi Indonesia
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <template
+        id="assets_tests_helpdesk_data_requirement_resolution_type"
+        name="ssi_helpdesk assets tests - data requirement and resolution documentation types"
+        inherit_id="web.assets_tests"
+    >
+        <xpath expr="." position="inside">
+            <script
+                type="text/javascript"
+                src="/ssi_helpdesk/static/tests/tours/helpdesk_data_requirement_type_tour.js"
+            />
+            <script
+                type="text/javascript"
+                src="/ssi_helpdesk/static/tests/tours/helpdesk_resolution_documentation_type_tour.js"
+            />
+        </xpath>
+    </template>
+</odoo>

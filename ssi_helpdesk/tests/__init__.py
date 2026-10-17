@@ -7,6 +7,8 @@ from . import (  # noqa: F401
     test_helpdesk_communication,
     test_helpdesk_ticket,
     test_helpdesk_ticket_onchange,
+    test_ui_helpdesk_data_requirement_type,
+    test_ui_helpdesk_resolution_documentation_type,
     test_split_helpdesk_ticket,
     test_ui_helpdesk_channel,
     test_ui_helpdesk_communication,
