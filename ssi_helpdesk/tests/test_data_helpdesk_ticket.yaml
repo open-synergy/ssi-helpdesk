@@ -140,6 +140,10 @@ scenarios:
         target: "ticket"
         method: "action_ready"
         as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "ready"
 
       - step: "Action cancel - ready to cancel"
         action: "call"
@@ -251,12 +255,20 @@ scenarios:
         target: "ticket"
         method: "action_ready"
         as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "ready"
 
       - step: "Action open"
         action: "call"
         target: "ticket"
         method: "action_open"
         as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "open"
 
       - step: "Create finishing communication"
         action: "call"
