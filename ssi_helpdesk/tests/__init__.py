@@ -8,4 +8,5 @@ from . import (  # noqa: F401
     test_helpdesk_ticket,
     test_helpdesk_ticket_onchange,
     test_split_helpdesk_ticket,
+    test_ui_helpdesk_ticket,
 )
