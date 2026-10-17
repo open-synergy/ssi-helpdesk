@@ -20,6 +20,14 @@ _RES_MODEL = "helpdesk_ticket"
 
 
 def _migrate_junction_table(cr):
+    """Copy ticket data requirement links into the document table.
+
+    Rows of the old many2many junction table are inserted into
+    ``data_requirement_document`` with the ticket as related document.
+    The copy is skipped when the junction table no longer exists.
+
+    :param cr: database cursor
+    """
     openupgrade.logged_query(
         cr,
         """
@@ -52,4 +60,9 @@ def _migrate_junction_table(cr):
 
 @openupgrade.migrate()
 def migrate(env, version):
+    """Migrate ticket data requirements to data requirement documents.
+
+    :param env: Odoo environment
+    :param version: previously installed module version
+    """
     _migrate_junction_table(env.cr)
