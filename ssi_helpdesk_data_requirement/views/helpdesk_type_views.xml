@@ -22,6 +22,15 @@
                             <field name="type_id" />
                             <field name="title" />
                         </tree>
+                        <form>
+                            <group name="data_requirement_form" colspan="4" col="2">
+                                <field name="model_id" invisible="1" />
+                                <field name="model_name" invisible="1" />
+                                <field name="object_id" invisible="1" />
+                                <field name="type_id" />
+                                <field name="title" />
+                            </group>
+                        </form>
                     </field>
                 </page>
             </xpath>

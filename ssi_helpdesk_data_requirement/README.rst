@@ -6,6 +6,11 @@
 Helpdesk - Data Requirement Integration
 =======================================
 
+Work Instruction
+================
+
+* `Edit Helpdesk Ticket (Data Requirement) <docs/helpdesk_ticket/02-edit.html>`_
+* `Edit Helpdesk Type (Data Requirement) <docs/helpdesk_type/02-edit.html>`_
 
 Installation
 ============

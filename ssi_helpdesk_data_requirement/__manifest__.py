@@ -11,8 +11,13 @@
     "depends": [
         "ssi_helpdesk",
         "ssi_data_requirement_mixin",
+        "web_tour",
     ],
-    "data": ["security/ir.model.access.csv", "views/helpdesk_type_views.xml"],
+    "data": [
+        "security/ir.model.access.csv",
+        "views/helpdesk_type_views.xml",
+        "views/assets_helpdesk_data_requirement_tours.xml",
+    ],
     "demo": [],
     "images": [],
 }
