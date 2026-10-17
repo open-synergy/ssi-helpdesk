@@ -9,8 +9,8 @@
 
 ## Modified Flow
 
-- Anchor: after Flow step 2 (_Find and open the record to edit_), the ticket form shows
-  a **Dependencies** tab.
+- Anchor: after Flow step 3 (_Click the Edit button_), the ticket form shows a
+  **Dependencies** tab.
 - Open the **Dependencies** tab to see the **Start Blocked** and **Finish Blocked**
   fields, the list of dependencies of the ticket, and the list of tickets that wait for
   this ticket.

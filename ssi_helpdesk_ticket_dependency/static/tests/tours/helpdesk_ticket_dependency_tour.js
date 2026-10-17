@@ -89,6 +89,18 @@ odoo.define("ssi_helpdesk_ticket_dependency.helpdesk_ticket_dependency_tour", fu
                 in_modal: true,
             },
             {
+                content: "Cancel the confirmation dialog that is still open",
+                trigger: ".modal-footer button.btn-secondary",
+                in_modal: true,
+            },
+            {
+                content: "No dialog is left open",
+                trigger: "body:not(.modal-open)",
+                run: function () {
+                    // Assertion only.
+                },
+            },
+            {
                 content: "Status did not change",
                 trigger:
                     ".o_statusbar_status .o_arrow_button[data-value='" +
@@ -102,8 +114,8 @@ odoo.define("ssi_helpdesk_ticket_dependency.helpdesk_ticket_dependency_tour", fu
     }
 
     // IK: docs/helpdesk_ticket/02-edit.md
-    // Delta tour: navigation follows the base IK, then the Dependencies
-    // tab is asserted. Saving is not part of this tour; dependency
+    // Delta tour: navigation and Edit follow the base IK, then the
+    // Dependencies tab is asserted. Saving is not part of this tour; dependency
     // values are a unit-test concern.
     tour.register(
         "ssi_helpdesk_ticket_dependency_helpdesk_ticket_edit",
@@ -112,6 +124,18 @@ odoo.define("ssi_helpdesk_ticket_dependency.helpdesk_ticket_dependency_tour", fu
             url: "/web",
         },
         [].concat(openTicketsList(), openTicket("DEP75 Edit Ticket"), [
+            {
+                content: "Click the Edit button",
+                trigger: ".o_form_button_edit",
+                extra_trigger: ".o_form_view",
+            },
+            {
+                content: "Form is now editable",
+                trigger: ".o_form_view.o_form_editable",
+                run: function () {
+                    // Assertion only.
+                },
+            },
             {
                 content: "Open the Dependencies tab",
                 trigger: ".o_notebook .nav-link:contains(Dependencies)",
