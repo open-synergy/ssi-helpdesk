@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 OpenSynergy Indonesia
+     Copyright 2026 PT. Simetri Sinergi Indonesia
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo noupdate="1">
+<record id="helpdesk_priority_urgent" model="helpdesk_priority">
+    <field name="name">Urgent</field>
+    <field name="code">URGENT</field>
+    <field name="sequence">10</field>
+</record>
+
+<record id="helpdesk_priority_high" model="helpdesk_priority">
+    <field name="name">High</field>
+    <field name="code">HIGH</field>
+    <field name="sequence">20</field>
+</record>
+
+<record id="helpdesk_priority_medium" model="helpdesk_priority">
+    <field name="name">Medium</field>
+    <field name="code">MEDIUM</field>
+    <field name="sequence">30</field>
+</record>
+
+<record id="helpdesk_priority_low" model="helpdesk_priority">
+    <field name="name">Low</field>
+    <field name="code">LOW</field>
+    <field name="sequence">40</field>
+</record>
+</odoo>

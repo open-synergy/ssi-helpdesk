@@ -151,6 +151,15 @@ odoo.define("ssi_helpdesk.helpdesk_ticket_tour", function (require) {
                     extra_trigger: ".o_form_view.o_form_editable",
                     run: "text Tour HD Create Ticket",
                 },
+                {
+                    // The required Priority is pre-filled (IK 01-create
+                    // step 4); the tour only checks that it is shown.
+                    content: "Priority field is shown",
+                    trigger: ".o_field_many2one[name='priority_id']",
+                    run: function () {
+                        // Assertion only.
+                    },
+                },
 
                 // Flow 6 -- Click Save.
                 {

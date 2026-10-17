@@ -3,6 +3,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from . import (
+    helpdesk_priority,
     helpdesk_type_category,
     helpdesk_type,
     helpdesk_contact_group,

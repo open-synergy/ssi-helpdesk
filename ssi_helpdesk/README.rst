@@ -18,6 +18,11 @@ Work Instruction
 * `Reject Helpdesk Ticket <docs/helpdesk_ticket/06-reject.html>`_
 * `Start Helpdesk Ticket <docs/helpdesk_ticket/07-start.html>`_
 * `Set Ready Helpdesk Ticket <docs/helpdesk_ticket/08-ready.html>`_
+* `Create Helpdesk Priority <docs/helpdesk_priority/01-create.html>`_
+* `Edit Helpdesk Priority <docs/helpdesk_priority/02-edit.html>`_
+* `Delete Helpdesk Priority <docs/helpdesk_priority/03-delete.html>`_
+* `Deactivate Helpdesk Priority <docs/helpdesk_priority/04-deactivate.html>`_
+* `Activate Helpdesk Priority <docs/helpdesk_priority/05-activate.html>`_
 * `Create Helpdesk Type Category <docs/helpdesk_type_category/01-create.html>`_
 * `Edit Helpdesk Type Category <docs/helpdesk_type_category/02-edit.html>`_
 * `Delete Helpdesk Type Category <docs/helpdesk_type_category/03-delete.html>`_

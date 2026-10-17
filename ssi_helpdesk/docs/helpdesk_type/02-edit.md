@@ -19,7 +19,7 @@
 
 1. Open the **Helpdesk > Configuration > Ticket > Types** menu.
 2. Find and open the record to edit.
-3. Change the required fields.
+3. Change the required fields, including the optional **Default Priority**.
 4. Click **Save**.
 
 ## Post-Condition

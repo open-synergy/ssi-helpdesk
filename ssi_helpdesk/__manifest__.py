@@ -5,7 +5,7 @@
 
 {
     "name": "Helpdesk",
-    "version": "14.0.3.6.0",
+    "version": "14.0.3.7.0",
     "website": "https://simetri-sinergi.id",
     "author": "OpenSynergy Indonesia, PT. Simetri Sinergi Indonesia",
     "license": "AGPL-3",
@@ -27,6 +27,7 @@
         "security/ir_module_category_data.xml",
         "security/res_group_data.xml",
         "security/ir.model.access.csv",
+        "data/helpdesk_priority_data.xml",
         "data/ir_sequence_data.xml",
         "data/sequence_template_data.xml",
         "data/policy_template_data.xml",
@@ -36,6 +37,7 @@
         "menu.xml",
         "wizards/create_ticket_from_communication_views.xml",
         "wizards/split_helpdesk_ticket_views.xml",
+        "views/helpdesk_priority_views.xml",
         "views/helpdesk_type_category_views.xml",
         "views/helpdesk_type_views.xml",
         "views/helpdesk_channel_views.xml",
@@ -46,6 +48,7 @@
         "views/helpdesk_data_requirement_type_views.xml",
         "views/assets.xml",
         "views/assets_helpdesk_type_tours.xml",
+        "views/assets_helpdesk_priority_tours.xml",
         "views/assets_tests_helpdesk_channel_contact_group.xml",
         "views/assets_helpdesk_communication_tours.xml",
         "views/assets_helpdesk_ticket_side.xml",

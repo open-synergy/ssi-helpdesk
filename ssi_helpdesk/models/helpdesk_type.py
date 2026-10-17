@@ -23,3 +23,12 @@ class HelpdeskType(models.Model):
         string="Duration",
         comodel_name="base.duration",
     )
+    priority_id = fields.Many2one(
+        string="Default Priority",
+        comodel_name="helpdesk_priority",
+        ondelete="restrict",
+        help="""Default priority of tickets with this type
+
+* Leave empty if this type does not set a default priority
+* Selecting this type on a ticket fills the ticket priority""",
+    )
