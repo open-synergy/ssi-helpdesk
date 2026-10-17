@@ -1529,7 +1529,6 @@ msgid "Website communication history"
 msgstr ""
 
 #. module: ssi_helpdesk
-#: model_terms:ir.ui.view,arch_db:ssi_helpdesk.create_ticket_from_communication_view_form
 #: model_terms:ir.ui.view,arch_db:ssi_helpdesk.split_helpdesk_ticket_view_form
 msgid "or"
 msgstr ""
