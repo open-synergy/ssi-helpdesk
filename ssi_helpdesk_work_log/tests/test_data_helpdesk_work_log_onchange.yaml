@@ -1,0 +1,69 @@
+scenarios:
+  - name: "Helpdesk Work Log Onchange - type fills the work estimation"
+    steps:
+      - step: "Setup - create category"
+        action: "create"
+        model: "helpdesk_type_category"
+        save_as: "category"
+        values:
+          name: "WL78 Category"
+          code: "WL78CAT"
+
+      - step: "Setup - create type with work estimation"
+        action: "create"
+        model: "helpdesk_type"
+        save_as: "ticket_type"
+        values:
+          name: "WL78 Type"
+          code: "WL78TYPE"
+          category_id: "REC: category"
+          work_estimation: 8.0
+
+      - step: "Selecting the type fills the work estimation"
+        action: "form"
+        model: "helpdesk_ticket"
+        as_user: "base.user_admin"
+        save: false
+        ops:
+          - set: {type_id: "REC: ticket_type"}
+          - assert:
+              work_estimation:
+                type: "value"
+                expected: 8.0
+
+  - name: "Helpdesk Work Log Onchange - clearing the type resets the estimation"
+    steps:
+      - step: "Setup - create category"
+        action: "create"
+        model: "helpdesk_type_category"
+        save_as: "category"
+        values:
+          name: "WL78 Category Reset"
+          code: "WL78CATR"
+
+      - step: "Setup - create type with work estimation"
+        action: "create"
+        model: "helpdesk_type"
+        save_as: "ticket_type"
+        values:
+          name: "WL78 Type Reset"
+          code: "WL78TYPER"
+          category_id: "REC: category"
+          work_estimation: 8.0
+
+      - step: "Clearing the type resets the work estimation"
+        action: "form"
+        model: "helpdesk_ticket"
+        as_user: "base.user_admin"
+        save: false
+        ops:
+          - set: {type_id: "REC: ticket_type"}
+          - assert:
+              work_estimation:
+                type: "value"
+                expected: 8.0
+          - set: {type_id: "EVAL: env['helpdesk_type']"}
+          - assert:
+              work_estimation:
+                type: "value"
+                expected: 0.0
