@@ -24,7 +24,7 @@ addon | version | maintainers | summary
 [ssi_helpdesk_elearning](ssi_helpdesk_elearning/) | 14.0.3.2.1 |  | Helpdesk - E-Learning Integration
 [ssi_helpdesk_odoo_implementation](ssi_helpdesk_odoo_implementation/) | 14.0.2.4.1 |  | Helpdesk - Odoo Implementation Integration
 [ssi_helpdesk_operating_unit](ssi_helpdesk_operating_unit/) | 14.0.1.0.0 |  | Helpdesk + Operating Unit
-[ssi_helpdesk_portal](ssi_helpdesk_portal/) | 14.0.1.1.1 |  | Helpdesk Portal
+[ssi_helpdesk_portal](ssi_helpdesk_portal/) | 14.0.1.1.2 |  | Helpdesk Portal
 [ssi_helpdesk_project](ssi_helpdesk_project/) | 14.0.3.3.3 |  | Helpdesk - Project Integration
 [ssi_helpdesk_work_log](ssi_helpdesk_work_log/) | 14.0.1.4.1 |  | Helpdesk - Work Log Integration
 
