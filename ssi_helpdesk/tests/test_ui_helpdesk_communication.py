@@ -57,7 +57,10 @@ class TestUiHelpdeskCommunication(HttpSavepointCase):
         cls.communication_delete = cls._create_communication(
             "Tour HC Delete Communication"
         )
+        # Drop the policy fields cached by create() before the transition.
+        cls.communication_delete.invalidate_cache()
         cls.communication_delete.with_user(cls.admin).action_reset_document_number()
+        cls.communication_delete.invalidate_cache()
 
         # Start tour -- Pre-Condition: Draft status.
         cls.communication_start = cls._create_communication(
@@ -69,13 +72,19 @@ class TestUiHelpdeskCommunication(HttpSavepointCase):
         cls.communication_finish = cls._create_communication(
             "Tour HC Finish Communication"
         )
+        # Drop the policy fields cached by create() before the transition.
+        cls.communication_finish.invalidate_cache()
         cls.communication_finish.with_user(cls.admin).action_open()
+        cls.communication_finish.invalidate_cache()
 
         # Restart tour -- Pre-Condition: On Progress status.
         cls.communication_restart = cls._create_communication(
             "Tour HC Restart Communication"
         )
+        # Drop the policy fields cached by create() before the transition.
+        cls.communication_restart.invalidate_cache()
         cls.communication_restart.with_user(cls.admin).action_open()
+        cls.communication_restart.invalidate_cache()
 
         # Reload followers tour -- Pre-Condition: # Ticket is filled with a
         # ticket whose contact is not yet a follower.
