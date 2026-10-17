@@ -110,7 +110,7 @@ scenarios:
           - set: {ticket_id: "REC: ticket"}
           - set: {course_id: "REC: course_a"}
           - set: {content_id: "REC: content_a"}
-          - set: {content_id: false}
+          - set: {content_id: "EVAL: env['slide.slide']"}
           - assert:
               url:
                 type: "value"
