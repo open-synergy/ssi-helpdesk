@@ -14,6 +14,17 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: ssi_helpdesk
+#: code:addons/ssi_helpdesk/models/helpdesk_ticket.py:0
+#, python-format
+msgid ""
+"\n"
+"Context: %s\n"
+"Database ID: %s\n"
+"Problem: Tickets split from this ticket are not finished yet: %s\n"
+"Solution: Finish, cancel or terminate the split tickets first\n"
+msgstr ""
+
+#. module: ssi_helpdesk
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_create_ticket_from_communication__communication_id
 msgid "# Communication"
 msgstr ""
