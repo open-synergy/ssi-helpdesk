@@ -8,6 +8,14 @@ from odoo.addons.ssi_decorator import ssi_decorator
 
 
 class HelpdeskTicket(models.Model):
+    """Customer support ticket handled by the helpdesk team.
+
+    Tracks a request from a partner through the draft, confirm, open,
+    ready, done, terminate and cancel states, including approval,
+    classification, deadline, resolution documentation and the
+    communications exchanged with the requester.
+    """
+
     _name = "helpdesk_ticket"
     _inherit = [
         "mixin.transaction_cancel",
@@ -140,6 +148,10 @@ class HelpdeskTicket(models.Model):
 
     @api.model
     def _default_date(self):
+        """Return the default ticket date.
+
+        :return: today's date
+        """
         return fields.Date.today()
 
     date = fields.Date(
@@ -280,6 +292,12 @@ class HelpdeskTicket(models.Model):
         "resolution_documentation_ids.state",
     )
     def _compute_resolution_documentation_state(self):
+        """Compute the state of the resolution documentation.
+
+        ``no_need`` when no documentation is required, ``open`` when at
+        least one required documentation is still open, otherwise
+        ``done``.
+        """
         for record in self:
             result = "no_need"
 
@@ -358,6 +376,14 @@ class HelpdeskTicket(models.Model):
 
     @api.model_create_multi
     def create(self, values):
+        """Create tickets and generate their sequence.
+
+        Overridden so that every new ticket gets its number from the
+        sequence template applicable to it.
+
+        :param values: list of ``helpdesk_ticket`` value dicts
+        :return: the created ``helpdesk_ticket`` recordset
+        """
         _super = super()
         results = _super.create(values)
         for result in results:
@@ -401,11 +427,22 @@ class HelpdeskTicket(models.Model):
         return result
 
     def action_open_split(self):
+        """Open the tickets split from this ticket.
+
+        :return: window action listing the child tickets
+        """
         for record in self.sudo():
             result = record._open_split()
         return result
 
     def _open_split(self):
+        """Build the window action listing tickets split from this one.
+
+        The action context defaults ``split_id`` to this ticket so new
+        child tickets are linked to it.
+
+        :return: window action dict
+        """
         waction = self.env.ref("ssi_helpdesk.helpdesk_ticket_action").read()[0]
         new_context = {
             "default_split_id": self.id,
