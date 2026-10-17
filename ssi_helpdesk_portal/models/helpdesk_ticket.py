@@ -22,11 +22,27 @@ class HelpdeskTicket(models.Model):
     ]
 
     def get_helpdesk_url(self):
+        """Return the public website URL of the ticket.
+
+        :return: Path of the form ``/helpdesk/<slug>``.
+        :rtype: str
+        """
         self.ensure_one()
         return "/helpdesk/%s" % slug(self)
 
     @api.model
     def create(self, values):
+        """Create a ticket, completing the values for website submissions.
+
+        When the context flag ``from_website`` is set, the title,
+        partner, responsible user and description are taken from the
+        context, and the uploaded files are stored as attachments
+        posted to the ticket chatter.
+
+        :param dict values: Values of the ticket to create.
+        :return: The created ticket.
+        :rtype: recordset of ``helpdesk_ticket``
+        """
         if self.env.context.get("from_website"):
             context = self.env.context
             values.update(

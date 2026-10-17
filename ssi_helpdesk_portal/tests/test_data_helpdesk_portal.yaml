@@ -1,3 +1,6 @@
+options:
+  auto_refresh: true
+
 scenarios:
   - name: "Helpdesk Portal - Ticket with Portal Mixin"
     steps:
@@ -47,11 +50,10 @@ scenarios:
         target: "ticket"
         method: "action_ready"
         as_user: "base.user_admin"
-
-      - step: "Invalidate cache"
-        action: "call"
-        target: "ticket"
-        method: "invalidate_cache"
+        asserts:
+          state:
+            type: "value"
+            expected: "ready"
 
       - step: "Action open"
         action: "call"
