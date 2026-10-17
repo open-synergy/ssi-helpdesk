@@ -59,11 +59,17 @@ class TestUiHelpdeskTicket(HttpSavepointCase):
         # Python via ``action_ready()``.
         cls.ticket_start = cls._create_ticket("Tour HD Start Ticket")
         cls.ticket_start.with_user(cls.admin).action_ready()
+        # _compute_policy fills every policy field at once and is not
+        # context dependent, so the value cached before the transition
+        # must be dropped before the next policy reader.
+        cls.ticket_start.invalidate_cache()
 
         # Confirm tour -- Pre-Condition: On Progress status.
         cls.ticket_confirm = cls._create_ticket("Tour HD Confirm Ticket")
         cls.ticket_confirm.with_user(cls.admin).action_ready()
+        cls.ticket_confirm.invalidate_cache()
         cls.ticket_confirm.with_user(cls.admin).action_open()
+        cls.ticket_confirm.invalidate_cache()
 
         # Approve tour -- Pre-Condition: Waiting for Approval status.
         cls.ticket_approve = cls._create_ticket("Tour HD Approve Ticket")
@@ -128,12 +134,16 @@ class TestUiHelpdeskTicket(HttpSavepointCase):
         """Move ``ticket`` from Draft to Waiting for Approval.
 
         Uses the action methods, not ``write()``, so that sequence
-        numbering and approval creation run as in the UI.
+        numbering and approval creation run as in the UI. The cache is
+        invalidated after every transition because the policy fields
+        are computed together and cached across users.
 
         :param ticket: a draft ``helpdesk_ticket`` record
         """
         ticket.with_user(cls.admin).action_ready()
+        ticket.invalidate_cache()
         ticket.with_user(cls.admin).action_open()
+        ticket.invalidate_cache()
         ticket.with_user(cls.admin).action_confirm()
         # approve_ok and reject_ok read active_approver_user_ids, which
         # is computed from the approval records action_confirm() just
