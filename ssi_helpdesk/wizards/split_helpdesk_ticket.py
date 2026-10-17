@@ -6,11 +6,21 @@ from odoo import api, fields, models
 
 
 class SplitHelpdeskTicket(models.TransientModel):
+    """Collect the input needed to split a helpdesk ticket.
+
+    The wizard copies the source ticket into a new one with its own
+    title, category, type and description, and links the two tickets.
+    """
+
     _name = "split_helpdesk_ticket"
     _description = "Split Helpdesk Ticket"
 
     @api.model
     def _default_ticket_id(self):
+        """Return the ticket this wizard was opened from.
+
+        :return: ``helpdesk_ticket`` id from ``active_id``, or ``False``
+        """
         return self.env.context.get("active_id", False)
 
     ticket_id = fields.Many2one(
@@ -48,16 +58,30 @@ class SplitHelpdeskTicket(models.TransientModel):
         self.type_id = False
 
     def action_confirm(self):
+        """Split the ticket and open the resulting one.
+
+        :return: an ``ir.actions.act_window`` dict for the new ticket
+        """
         for record in self.sudo():
             result = record._split_ticket()
         return result
 
     def _run_ticket_onchange(self):
+        """Recompute the duration and deadline of the split result.
+
+        Side effect: runs the ticket onchange methods on the result.
+        """
         self.ensure_one()
         self.result_ticket_id.onchange_duration_id()
         self.result_ticket_id.onchange_date_deadline()
 
     def _prepare_split_values(self):
+        """Build the values used to copy the source ticket.
+
+        Extension point: override in a glue module to add more values.
+
+        :return: dict of ``helpdesk_ticket`` values
+        """
         self.ensure_one()
         return {
             "title": self.title,
@@ -68,6 +92,12 @@ class SplitHelpdeskTicket(models.TransientModel):
         }
 
     def _split_ticket(self):
+        """Copy the source ticket into a new one and link them.
+
+        Side effect: writes the new ticket on ``result_ticket_id``.
+
+        :return: an ``ir.actions.act_window`` dict for the new ticket
+        """
         self.ensure_one()
         ticket = self.ticket_id.copy(default=self._prepare_split_values())
         self.write(
