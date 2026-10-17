@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_helpdesk_ticket_dependency_all,helpdesk_ticket.dependency - user,model_helpdesk_ticket_dependency,,1,0,0,0
+access_helpdesk_ticket_dependency_viewer,helpdesk_ticket.dependency - viewer,model_helpdesk_ticket_dependency,ssi_helpdesk.helpdesk_ticket_viewer_group,1,0,0,0
+access_helpdesk_ticket_dependency_user,helpdesk_ticket.dependency - all,model_helpdesk_ticket_dependency,ssi_helpdesk.helpdesk_ticket_user_group,1,1,1,1

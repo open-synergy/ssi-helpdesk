@@ -1,0 +1,609 @@
+options:
+  auto_refresh: true
+
+scenarios:
+  - name: "Ticket Dependency - gates hold start and finish by type"
+    steps:
+      - step: "Setup - create company partner"
+        action: "create"
+        model: "res.partner"
+        save_as: "company"
+        values:
+          name: "Dep Gate Company"
+          is_company: true
+      - step: "Setup - create contact person"
+        action: "create"
+        model: "res.partner"
+        save_as: "contact"
+        values:
+          name: "Dep Gate Contact"
+          is_company: false
+          parent_id: "EVAL: registry['company'].id"
+      - step: "Setup - create helpdesk type category"
+        action: "create"
+        model: "helpdesk_type_category"
+        save_as: "type_category"
+        values:
+          name: "Dep Gate Category"
+          code: "DGCAT"
+      - step: "Setup - create helpdesk type"
+        action: "create"
+        model: "helpdesk_type"
+        save_as: "ticket_type"
+        values:
+          name: "Dep Gate Type"
+          code: "DGTYPE"
+          category_id: "EVAL: registry['type_category'].id"
+      - step: "Setup - create ticket Dep Blocker FS"
+        action: "create"
+        model: "helpdesk_ticket"
+        save_as: "b_fs"
+        as_user: "base.user_admin"
+        values:
+          title: "Dep Blocker FS"
+          partner_id: "EVAL: registry['contact'].id"
+          commercial_partner_id: "EVAL: registry['company'].id"
+          type_id: "EVAL: registry['ticket_type'].id"
+          type_category_id: "EVAL: registry['type_category'].id"
+      - step: "Setup - create ticket Dep Blocker SS"
+        action: "create"
+        model: "helpdesk_ticket"
+        save_as: "b_ss"
+        as_user: "base.user_admin"
+        values:
+          title: "Dep Blocker SS"
+          partner_id: "EVAL: registry['contact'].id"
+          commercial_partner_id: "EVAL: registry['company'].id"
+          type_id: "EVAL: registry['ticket_type'].id"
+          type_category_id: "EVAL: registry['type_category'].id"
+      - step: "Setup - create ticket Dep Blocker FF"
+        action: "create"
+        model: "helpdesk_ticket"
+        save_as: "b_ff"
+        as_user: "base.user_admin"
+        values:
+          title: "Dep Blocker FF"
+          partner_id: "EVAL: registry['contact'].id"
+          commercial_partner_id: "EVAL: registry['company'].id"
+          type_id: "EVAL: registry['ticket_type'].id"
+          type_category_id: "EVAL: registry['type_category'].id"
+      - step: "Setup - create ticket Dep Blocker SF"
+        action: "create"
+        model: "helpdesk_ticket"
+        save_as: "b_sf"
+        as_user: "base.user_admin"
+        values:
+          title: "Dep Blocker SF"
+          partner_id: "EVAL: registry['contact'].id"
+          commercial_partner_id: "EVAL: registry['company'].id"
+          type_id: "EVAL: registry['ticket_type'].id"
+          type_category_id: "EVAL: registry['type_category'].id"
+      - step: "Setup - create ticket Dep Blocker Cancel"
+        action: "create"
+        model: "helpdesk_ticket"
+        save_as: "b_cancel"
+        as_user: "base.user_admin"
+        values:
+          title: "Dep Blocker Cancel"
+          partner_id: "EVAL: registry['contact'].id"
+          commercial_partner_id: "EVAL: registry['company'].id"
+          type_id: "EVAL: registry['ticket_type'].id"
+          type_category_id: "EVAL: registry['type_category'].id"
+      - step: "Setup - create ticket Dep Subject FS"
+        action: "create"
+        model: "helpdesk_ticket"
+        save_as: "s_fs"
+        as_user: "base.user_admin"
+        values:
+          title: "Dep Subject FS"
+          partner_id: "EVAL: registry['contact'].id"
+          commercial_partner_id: "EVAL: registry['company'].id"
+          type_id: "EVAL: registry['ticket_type'].id"
+          type_category_id: "EVAL: registry['type_category'].id"
+      - step: "Setup - create ticket Dep Subject SS"
+        action: "create"
+        model: "helpdesk_ticket"
+        save_as: "s_ss"
+        as_user: "base.user_admin"
+        values:
+          title: "Dep Subject SS"
+          partner_id: "EVAL: registry['contact'].id"
+          commercial_partner_id: "EVAL: registry['company'].id"
+          type_id: "EVAL: registry['ticket_type'].id"
+          type_category_id: "EVAL: registry['type_category'].id"
+      - step: "Setup - create ticket Dep Subject FF"
+        action: "create"
+        model: "helpdesk_ticket"
+        save_as: "s_ff"
+        as_user: "base.user_admin"
+        values:
+          title: "Dep Subject FF"
+          partner_id: "EVAL: registry['contact'].id"
+          commercial_partner_id: "EVAL: registry['company'].id"
+          type_id: "EVAL: registry['ticket_type'].id"
+          type_category_id: "EVAL: registry['type_category'].id"
+      - step: "Setup - create ticket Dep Subject SF"
+        action: "create"
+        model: "helpdesk_ticket"
+        save_as: "s_sf"
+        as_user: "base.user_admin"
+        values:
+          title: "Dep Subject SF"
+          partner_id: "EVAL: registry['contact'].id"
+          commercial_partner_id: "EVAL: registry['company'].id"
+          type_id: "EVAL: registry['ticket_type'].id"
+          type_category_id: "EVAL: registry['type_category'].id"
+      - step: "Setup - create ticket Dep Subject External"
+        action: "create"
+        model: "helpdesk_ticket"
+        save_as: "s_ext"
+        as_user: "base.user_admin"
+        values:
+          title: "Dep Subject External"
+          partner_id: "EVAL: registry['contact'].id"
+          commercial_partner_id: "EVAL: registry['company'].id"
+          type_id: "EVAL: registry['ticket_type'].id"
+          type_category_id: "EVAL: registry['type_category'].id"
+      - step: "Setup - create ticket Dep Subject Cancel"
+        action: "create"
+        model: "helpdesk_ticket"
+        save_as: "s_cancel"
+        as_user: "base.user_admin"
+        values:
+          title: "Dep Subject Cancel"
+          partner_id: "EVAL: registry['contact'].id"
+          commercial_partner_id: "EVAL: registry['company'].id"
+          type_id: "EVAL: registry['ticket_type'].id"
+          type_category_id: "EVAL: registry['type_category'].id"
+      - step: "Setup - FS dependency"
+        action: "create"
+        model: "helpdesk_ticket.dependency"
+        save_as: "d_fs"
+        values:
+          ticket_id: "EVAL: registry['s_fs'].id"
+          blocker_kind: "ticket"
+          blocker_ticket_id: "EVAL: registry['b_fs'].id"
+          dependency_type: "fs"
+      - step: "Setup - SS dependency"
+        action: "create"
+        model: "helpdesk_ticket.dependency"
+        save_as: "d_ss"
+        values:
+          ticket_id: "EVAL: registry['s_ss'].id"
+          blocker_kind: "ticket"
+          blocker_ticket_id: "EVAL: registry['b_ss'].id"
+          dependency_type: "ss"
+      - step: "Setup - FF dependency"
+        action: "create"
+        model: "helpdesk_ticket.dependency"
+        save_as: "d_ff"
+        values:
+          ticket_id: "EVAL: registry['s_ff'].id"
+          blocker_kind: "ticket"
+          blocker_ticket_id: "EVAL: registry['b_ff'].id"
+          dependency_type: "ff"
+      - step: "Setup - SF dependency"
+        action: "create"
+        model: "helpdesk_ticket.dependency"
+        save_as: "d_sf"
+        values:
+          ticket_id: "EVAL: registry['s_sf'].id"
+          blocker_kind: "ticket"
+          blocker_ticket_id: "EVAL: registry['b_sf'].id"
+          dependency_type: "sf"
+      - step: "Setup - external dependency"
+        action: "create"
+        model: "helpdesk_ticket.dependency"
+        save_as: "d_ext"
+        values:
+          ticket_id: "EVAL: registry['s_ext'].id"
+          blocker_kind: "external"
+          external_reference: "owner/repo#112"
+      - step: "Setup - FS dependency on a ticket to cancel"
+        action: "create"
+        model: "helpdesk_ticket.dependency"
+        save_as: "d_cancel"
+        values:
+          ticket_id: "EVAL: registry['s_cancel'].id"
+          blocker_kind: "ticket"
+          blocker_ticket_id: "EVAL: registry['b_cancel'].id"
+          dependency_type: "fs"
+      - step: "FS subject is start blocked"
+        action: "assert"
+        target: "s_fs"
+        asserts:
+          start_blocked:
+            type: "value"
+            expected: true
+          finish_blocked:
+            type: "value"
+            expected: false
+          blocked:
+            type: "value"
+            expected: true
+      - step: "FS subject ready"
+        action: "call"
+        target: "s_fs"
+        method: "action_ready"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "ready"
+      - step: "FS start rejected while the blocker is draft"
+        action: "call"
+        target: "s_fs"
+        method: "action_open"
+        as_user: "base.user_admin"
+        expect_error:
+          type: "UserError"
+          message_contains: "Dep Blocker FS"
+      - step: "FS blocker ready"
+        action: "call"
+        target: "b_fs"
+        method: "action_ready"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "ready"
+      - step: "FS blocker open"
+        action: "call"
+        target: "b_fs"
+        method: "action_open"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "open"
+      - step: "FS start still rejected while the blocker is open"
+        action: "call"
+        target: "s_fs"
+        method: "action_open"
+        as_user: "base.user_admin"
+        expect_error:
+          type: "UserError"
+          message_contains: "Dep Blocker FS"
+      - step: "FS blocker confirm"
+        action: "call"
+        target: "b_fs"
+        method: "action_confirm"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "confirm"
+      - step: "FS blocker approve"
+        action: "call"
+        target: "b_fs"
+        method: "action_approve_approval"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "done"
+      - step: "FS subject is released once the blocker is done"
+        action: "assert"
+        target: "s_fs"
+        asserts:
+          start_blocked:
+            type: "value"
+            expected: false
+          blocked:
+            type: "value"
+            expected: false
+      - step: "FS start accepted after the blocker is done"
+        action: "call"
+        target: "s_fs"
+        method: "action_open"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "open"
+      - step: "SS subject ready"
+        action: "call"
+        target: "s_ss"
+        method: "action_ready"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "ready"
+      - step: "SS start rejected while the blocker is draft"
+        action: "call"
+        target: "s_ss"
+        method: "action_open"
+        as_user: "base.user_admin"
+        expect_error:
+          type: "UserError"
+          message_contains: "Dep Blocker SS"
+      - step: "SS blocker ready"
+        action: "call"
+        target: "b_ss"
+        method: "action_ready"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "ready"
+      - step: "SS start rejected while the blocker is only ready"
+        action: "call"
+        target: "s_ss"
+        method: "action_open"
+        as_user: "base.user_admin"
+        expect_error:
+          type: "UserError"
+          message_contains: "Dep Blocker SS"
+      - step: "SS blocker open"
+        action: "call"
+        target: "b_ss"
+        method: "action_open"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "open"
+      - step: "SS start accepted once the blocker is open"
+        action: "call"
+        target: "s_ss"
+        method: "action_open"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "open"
+      - step: "FF subject ready"
+        action: "call"
+        target: "s_ff"
+        method: "action_ready"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "ready"
+      - step: "FF subject open is not held by a finish dependency"
+        action: "call"
+        target: "s_ff"
+        method: "action_open"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "open"
+      - step: "FF subject is finish blocked only"
+        action: "assert"
+        target: "s_ff"
+        asserts:
+          start_blocked:
+            type: "value"
+            expected: false
+          finish_blocked:
+            type: "value"
+            expected: true
+          blocked:
+            type: "value"
+            expected: true
+      - step: "FF blocker ready"
+        action: "call"
+        target: "b_ff"
+        method: "action_ready"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "ready"
+      - step: "FF blocker open"
+        action: "call"
+        target: "b_ff"
+        method: "action_open"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "open"
+      - step: "FF confirm rejected while the blocker is open"
+        action: "call"
+        target: "s_ff"
+        method: "action_confirm"
+        as_user: "base.user_admin"
+        expect_error:
+          type: "UserError"
+          message_contains: "Dep Blocker FF"
+      - step: "FF blocker confirm"
+        action: "call"
+        target: "b_ff"
+        method: "action_confirm"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "confirm"
+      - step: "FF blocker approve"
+        action: "call"
+        target: "b_ff"
+        method: "action_approve_approval"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "done"
+      - step: "FF confirm accepted after the blocker is done"
+        action: "call"
+        target: "s_ff"
+        method: "action_confirm"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "confirm"
+      - step: "FF subject gets an external dependency late"
+        action: "create"
+        model: "helpdesk_ticket.dependency"
+        save_as: "d_late"
+        values:
+          ticket_id: "EVAL: registry['s_ff'].id"
+          blocker_kind: "external"
+          external_reference: "owner/repo#late"
+      - step: "FF subject waits for approval and is finish blocked"
+        action: "assert"
+        target: "s_ff"
+        asserts:
+          state:
+            type: "value"
+            expected: "confirm"
+          finish_blocked:
+            type: "value"
+            expected: true
+      - step: "FF approve rejected by the done gate"
+        action: "call"
+        target: "s_ff"
+        method: "action_approve_approval"
+        as_user: "base.user_admin"
+        expect_error:
+          type: "UserError"
+          message_contains: "owner/repo#late"
+      - step: "FF resolve the late external dependency"
+        action: "write"
+        target: "d_late"
+        values:
+          external_resolved: true
+      - step: "FF approve accepted once everything is satisfied"
+        action: "call"
+        target: "s_ff"
+        method: "action_approve_approval"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "done"
+      - step: "SF subject ready"
+        action: "call"
+        target: "s_sf"
+        method: "action_ready"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "ready"
+      - step: "SF subject open"
+        action: "call"
+        target: "s_sf"
+        method: "action_open"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "open"
+      - step: "SF confirm rejected while the blocker is draft"
+        action: "call"
+        target: "s_sf"
+        method: "action_confirm"
+        as_user: "base.user_admin"
+        expect_error:
+          type: "UserError"
+          message_contains: "Dep Blocker SF"
+      - step: "SF blocker ready"
+        action: "call"
+        target: "b_sf"
+        method: "action_ready"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "ready"
+      - step: "SF blocker open"
+        action: "call"
+        target: "b_sf"
+        method: "action_open"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "open"
+      - step: "SF confirm accepted once the blocker is started"
+        action: "call"
+        target: "s_sf"
+        method: "action_confirm"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "confirm"
+      - step: "External subject ready"
+        action: "call"
+        target: "s_ext"
+        method: "action_ready"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "ready"
+      - step: "External subject open"
+        action: "call"
+        target: "s_ext"
+        method: "action_open"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "open"
+      - step: "External confirm rejected while unresolved"
+        action: "call"
+        target: "s_ext"
+        method: "action_confirm"
+        as_user: "base.user_admin"
+        expect_error:
+          type: "UserError"
+          message_contains: "owner/repo#112"
+      - step: "External dependency resolved"
+        action: "write"
+        target: "d_ext"
+        values:
+          external_resolved: true
+      - step: "External confirm accepted once resolved"
+        action: "call"
+        target: "s_ext"
+        method: "action_confirm"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "confirm"
+      - step: "Cancel subject ready"
+        action: "call"
+        target: "s_cancel"
+        method: "action_ready"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "ready"
+      - step: "Cancel start rejected while the blocker is draft"
+        action: "call"
+        target: "s_cancel"
+        method: "action_open"
+        as_user: "base.user_admin"
+        expect_error:
+          type: "UserError"
+          message_contains: "Dep Blocker Cancel"
+      - step: "Cancel the blocker"
+        action: "call"
+        target: "b_cancel"
+        method: "action_cancel"
+        as_user: "base.user_admin"
+        context:
+          bypass_cancel_reason: true
+        asserts:
+          state:
+            type: "value"
+            expected: "cancel"
+      - step: "Cancel start accepted after the blocker is cancelled"
+        action: "call"
+        target: "s_cancel"
+        method: "action_open"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "open"
