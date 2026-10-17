@@ -18,6 +18,16 @@ Work Instruction
 * `Reject Helpdesk Ticket <docs/helpdesk_ticket/06-reject.html>`_
 * `Start Helpdesk Ticket <docs/helpdesk_ticket/07-start.html>`_
 * `Set Ready Helpdesk Ticket <docs/helpdesk_ticket/08-ready.html>`_
+* `Create Helpdesk Type Category <docs/helpdesk_type_category/01-create.html>`_
+* `Edit Helpdesk Type Category <docs/helpdesk_type_category/02-edit.html>`_
+* `Delete Helpdesk Type Category <docs/helpdesk_type_category/03-delete.html>`_
+* `Deactivate Helpdesk Type Category <docs/helpdesk_type_category/04-deactivate.html>`_
+* `Activate Helpdesk Type Category <docs/helpdesk_type_category/05-activate.html>`_
+* `Create Helpdesk Type <docs/helpdesk_type/01-create.html>`_
+* `Edit Helpdesk Type <docs/helpdesk_type/02-edit.html>`_
+* `Delete Helpdesk Type <docs/helpdesk_type/03-delete.html>`_
+* `Deactivate Helpdesk Type <docs/helpdesk_type/04-deactivate.html>`_
+* `Activate Helpdesk Type <docs/helpdesk_type/05-activate.html>`_
 
 Installation
 ============

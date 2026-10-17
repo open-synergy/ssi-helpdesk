@@ -10,3 +10,5 @@ from . import (  # noqa: F401
     test_split_helpdesk_ticket,
     test_ui_helpdesk_ticket,
 )
+from . import test_ui_helpdesk_type_category  # noqa: F401
+from . import test_ui_helpdesk_type  # noqa: F401
