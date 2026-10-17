@@ -7,6 +7,14 @@ Helpdesk - Project Integration
 ==============================
 
 
+Work Instruction
+================
+
+* `Create Helpdesk Type <docs/helpdesk_type/01-create.html>`_
+* `Edit Helpdesk Ticket <docs/helpdesk_ticket/02-edit.html>`_
+* `Create Task from Helpdesk Ticket <docs/helpdesk_ticket/09-create-task.html>`_
+* `Edit Task <docs/project_task/02-edit.html>`_
+
 Installation
 ============
 

@@ -9,5 +9,12 @@ from odoo.tests import tagged
 
 @tagged("post_install", "-at_install")
 class TestHelpdeskProject(YamlTransactionCase):
+    """Scenario tests for the helpdesk and project integration.
+
+    Covers a ticket carrying the project fields of
+    ``ssi_helpdesk_project`` through its draft, ready and open states.
+    """
+
     def test_helpdesk_project(self):
+        """Run the ticket with project integration scenario."""
         self.run_yaml_scenario("test_data_helpdesk_project.yaml")
