@@ -13,6 +13,7 @@
     "installable": True,
     "depends": [
         "ssi_helpdesk",
+        "web_tour",
         "ssi_operating_unit_mixin",
     ],
     "data": [
@@ -20,7 +21,8 @@
         "security/res_group/helpdesk_communication.xml",
         "security/ir_rule/helpdesk_ticket.xml",
         "security/ir_rule/helpdesk_communication.xml",
-        "view/helpdesk_ticket.xml",
-        "view/helpdesk_communication.xml",
+        "views/helpdesk_ticket.xml",
+        "views/helpdesk_communication.xml",
+        "views/assets_tests_helpdesk_operating_unit.xml",
     ],
 }
