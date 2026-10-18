@@ -21,6 +21,7 @@
         "ssi_transaction_ready_mixin",
         "base_automation",
         "base_duration",
+        "ssi_tag_mixin",
         "web_tour",
     ],
     "data": [

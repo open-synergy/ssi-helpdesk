@@ -20,6 +20,7 @@ class HelpdeskCommunication(models.Model):
     _inherit = [
         "mixin.transaction_done",
         "mixin.transaction_open",
+        "mixin.tag",
     ]
     _description = "Helpdesk Communication"
     _approval_from_state = "draft"

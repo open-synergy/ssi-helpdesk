@@ -19,6 +19,7 @@
                 <field name="ticket_id" />
                 <field name="date" />
                 <field name="title" />
+                <field name="global_tag_ids" string="Tags" />
                 <field name="channel_id" optional="hide" />
             </xpath>
             <xpath expr="//group[@name='group_by']" position="inside">
@@ -57,6 +58,12 @@
                 <field name="ticket_id" />
                 <field name="date" />
                 <field name="title" />
+                <field
+                        name="global_tag_ids"
+                        string="Tags"
+                        widget="many2many_tags"
+                        optional="show"
+                    />
                 <field name="channel_id" optional="hide" />
             </xpath>
         </data>
@@ -80,6 +87,14 @@
                 <xpath expr="//group[@name='header_right']" position="inside">
                     <field name="date" />
                     <field name="channel_id" />
+                    <field
+                        name="global_tag_ids"
+                        string="Tags"
+                        widget="many2many_tags"
+                        options="{'color_field': 'color'}"
+                        domain="[('category_id', 'in', allowed_global_tag_category_ids)]"
+                    />
+                    <field name="allowed_global_tag_category_ids" invisible="1" />
                     <field
                         name="ticket_id"
                         domain="[('commercial_partner_id','=',commercial_partner_id)]"

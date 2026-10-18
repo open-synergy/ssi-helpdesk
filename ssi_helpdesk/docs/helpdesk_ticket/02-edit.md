@@ -17,7 +17,8 @@
 2. Find and open the record to edit.
 3. Click the **Edit** button. **(14.0 only — the form opens directly editable on
    16.0+)**
-4. Change the required fields (for example **Title**).
+4. Change the required fields (for example **Title**). Optionally add or remove
+   **Tags**.
 5. Click **Save**.
 
 ## Post-Condition

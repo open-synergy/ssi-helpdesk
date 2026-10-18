@@ -1,0 +1,222 @@
+options:
+  auto_refresh: true
+
+setup:
+  steps:
+    - step: "Setup - create company partner"
+      action: "create"
+      model: "res.partner"
+      save_as: "company"
+      values:
+        name: "Test Company TAG"
+        is_company: true
+
+    - step: "Setup - create contact person"
+      action: "create"
+      model: "res.partner"
+      save_as: "contact"
+      values:
+        name: "Test Contact TAG"
+        is_company: false
+        parent_id: "EVAL: registry['company'].id"
+
+scenarios:
+  - name: "Helpdesk Tag - Ticket Global Tag"
+    steps:
+      - step: "Setup - create helpdesk type category"
+        action: "create"
+        model: "helpdesk_type_category"
+        save_as: "type_category"
+        values:
+          name: "Test Category TG1"
+          code: "TCATTG1"
+
+      - step: "Setup - create helpdesk type"
+        action: "create"
+        model: "helpdesk_type"
+        save_as: "ticket_type"
+        values:
+          name: "Test Type TG1"
+          code: "TTYPETG1"
+          category_id: "REC: type_category.id"
+
+      - step: "Create category g"
+        action: "create"
+        model: "global_tag_category"
+        save_as: "category_g"
+        values:
+          name: "Test Category TGCATG1"
+          code: "TGCATG1"
+          global_use: true
+
+      - step: "Create tag tag_g"
+        action: "create"
+        model: "global_tag"
+        save_as: "tag_g"
+        values:
+          name: "Test Tag TGTAGG1"
+          code: "TGTAGG1"
+          category_id: "REC: category_g.id"
+
+      - step: "Create ticket with a global tag"
+        action: "create"
+        model: "helpdesk_ticket"
+        save_as: "ticket"
+        as_user: "base.user_admin"
+        values:
+          title: "Test Ticket TAG"
+          partner_id: "REC: contact.id"
+          commercial_partner_id: "REC: company.id"
+          type_id: "REC: ticket_type.id"
+          type_category_id: "REC: type_category.id"
+          global_tag_ids:
+            - [6, 0, ["REC: tag_g.id"]]
+
+      - step: "Assert ticket carries the tag"
+        action: "assert"
+        target: "ticket"
+        asserts:
+          global_tag_ids:
+            type: "m2m"
+            check: "exact"
+            expected_records:
+              - "REC: tag_g"
+          allowed_global_tag_category_ids:
+            type: "m2m"
+            check: "contains"
+            expected_records:
+              - "REC: category_g"
+
+  - name: "Helpdesk Tag - Communication Global Tag"
+    steps:
+      - step: "Create category g"
+        action: "create"
+        model: "global_tag_category"
+        save_as: "category_g"
+        values:
+          name: "Test Category TGCATG2"
+          code: "TGCATG2"
+          global_use: true
+
+      - step: "Create tag tag_g"
+        action: "create"
+        model: "global_tag"
+        save_as: "tag_g"
+        values:
+          name: "Test Tag TGTAGG2"
+          code: "TGTAGG2"
+          category_id: "REC: category_g.id"
+
+      - step: "Create communication with a global tag"
+        action: "create"
+        model: "helpdesk_communication"
+        save_as: "communication"
+        as_user: "base.user_admin"
+        values:
+          title: "Test Communication TAG"
+          partner_id: "REC: contact.id"
+          global_tag_ids:
+            - [6, 0, ["REC: tag_g.id"]]
+
+      - step: "Assert communication carries the tag"
+        action: "assert"
+        target: "communication"
+        asserts:
+          global_tag_ids:
+            type: "m2m"
+            check: "exact"
+            expected_records:
+              - "REC: tag_g"
+
+  - name: "Helpdesk Tag - Model Linked Category Allowed"
+    steps:
+      - step: "Setup - create helpdesk type category"
+        action: "create"
+        model: "helpdesk_type_category"
+        save_as: "type_category"
+        values:
+          name: "Test Category TG3"
+          code: "TCATTG3"
+
+      - step: "Setup - create helpdesk type"
+        action: "create"
+        model: "helpdesk_type"
+        save_as: "ticket_type"
+        values:
+          name: "Test Type TG3"
+          code: "TTYPETG3"
+          category_id: "REC: type_category.id"
+
+      - step: "Create category linked to the ticket model"
+        action: "create"
+        model: "global_tag_category"
+        save_as: "category_linked"
+        values:
+          name: "Test Category TGCATL3"
+          code: "TGCATL3"
+          global_use: false
+
+      - step: "Create category not linked to any model"
+        action: "create"
+        model: "global_tag_category"
+        save_as: "category_free"
+        values:
+          name: "Test Category TGCATF3"
+          code: "TGCATF3"
+          global_use: false
+
+      - step: "Find the ticket ir.model record"
+        action: "search"
+        model: "ir.model"
+        domain:
+          - ["model", "=", "helpdesk_ticket"]
+        save_as: "ticket_model"
+        expect_count: 1
+
+      - step: "Link the category to the ticket model"
+        action: "write"
+        target: "ticket_model"
+        values:
+          global_tag_category_ids:
+            - [6, 0, ["REC: category_linked.id"]]
+
+      - step: "Assert the model now lists the linked category"
+        action: "assert"
+        target: "ticket_model"
+        asserts:
+          global_tag_category_ids:
+            type: "m2m"
+            check: "contains"
+            expected_records:
+              - "REC: category_linked"
+
+      - step: "Create ticket"
+        action: "create"
+        model: "helpdesk_ticket"
+        save_as: "ticket"
+        as_user: "base.user_admin"
+        values:
+          title: "Test Ticket TAG 3"
+          partner_id: "REC: contact.id"
+          commercial_partner_id: "REC: company.id"
+          type_id: "REC: ticket_type.id"
+          type_category_id: "REC: type_category.id"
+
+      - step: "Assert linked category is allowed"
+        action: "assert"
+        target: "ticket"
+        asserts:
+          allowed_global_tag_category_ids:
+            type: "m2m"
+            check: "contains"
+            expected_records:
+              - "REC: category_linked"
+
+      - step: "Find allowed categories not linked"
+        action: "search"
+        model: "global_tag_category"
+        domain:
+          - ["id", "in", "EVAL: registry['ticket'].allowed_global_tag_category_ids.ids"]
+          - ["id", "=", "REC: category_free.id"]
+        save_as: "unlinked_allowed"
+        expect_count: 0
