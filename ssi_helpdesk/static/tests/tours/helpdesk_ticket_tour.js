@@ -241,6 +241,16 @@ odoo.define("ssi_helpdesk.helpdesk_ticket_tour", function (require) {
                     content: "Click Add a line",
                     trigger: ".tab-pane.active .o_field_x2many_list_row_add a",
                 },
+                // Wait for the line dialog. Without a modal the Documentation
+                // trigger would match the ticket form behind it.
+                {
+                    content: "The Resolution Documentation dialog is displayed",
+                    trigger: ".modal-title:contains(Create Resolution Documentations)",
+                    in_modal: false,
+                    run: function () {
+                        // Assertion only.
+                    },
+                },
                 // Flow 6 -- Fill Documentation. The line form opens in a
                 // dialog; 14.0 in-modal triggers are not prefixed with
                 // .modal.
