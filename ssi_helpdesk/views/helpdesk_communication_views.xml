@@ -58,7 +58,12 @@
                 <field name="ticket_id" />
                 <field name="date" />
                 <field name="title" />
-                <field name="global_tag_ids" widget="many2many_tags" optional="show" />
+                <field
+                        name="global_tag_ids"
+                        string="Tags"
+                        widget="many2many_tags"
+                        optional="show"
+                    />
                 <field name="channel_id" optional="hide" />
             </xpath>
         </data>
@@ -84,6 +89,7 @@
                     <field name="channel_id" />
                     <field
                         name="global_tag_ids"
+                        string="Tags"
                         widget="many2many_tags"
                         options="{'color_field': 'color'}"
                         domain="[('category_id', 'in', allowed_global_tag_category_ids)]"

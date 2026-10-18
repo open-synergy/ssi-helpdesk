@@ -142,7 +142,7 @@ odoo.define("ssi_helpdesk.helpdesk_communication_tour", function (require) {
                 // Tags is optional (IK 01-create step 4); the tour only
                 // checks that the field is shown.
                 content: "Tags field is shown",
-                trigger: ".o_field_many2many_tags[name='global_tag_ids']",
+                trigger: ".o_field_widget[name='global_tag_ids']",
                 run: assertOnly,
             },
 
@@ -193,7 +193,7 @@ odoo.define("ssi_helpdesk.helpdesk_communication_tour", function (require) {
                 // Flow 4 -- Tags is optional; check that it is editable.
                 {
                     content: "Tags field is editable",
-                    trigger: ".o_field_many2many_tags[name='global_tag_ids']",
+                    trigger: ".o_field_widget[name='global_tag_ids']",
                     extra_trigger: ".o_form_view.o_form_editable",
                     run: assertOnly,
                 },

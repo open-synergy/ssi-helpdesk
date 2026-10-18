@@ -1,3 +1,6 @@
+options:
+  auto_refresh: true
+
 setup:
   steps:
     - step: "Setup - create company partner"
@@ -176,6 +179,16 @@ scenarios:
         values:
           global_tag_category_ids:
             - [6, 0, ["REC: category_linked.id"]]
+
+      - step: "Assert the model now lists the linked category"
+        action: "assert"
+        target: "ticket_model"
+        asserts:
+          global_tag_category_ids:
+            type: "m2m"
+            check: "contains"
+            expected_records:
+              - "REC: category_linked"
 
       - step: "Create ticket"
         action: "create"

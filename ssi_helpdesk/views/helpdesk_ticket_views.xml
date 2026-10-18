@@ -97,7 +97,12 @@
                 <field name="date_deadline" />
                 <field name="type_id" />
                 <field name="priority_id" />
-                <field name="global_tag_ids" widget="many2many_tags" optional="show" />
+                <field
+                        name="global_tag_ids"
+                        string="Tags"
+                        widget="many2many_tags"
+                        optional="show"
+                    />
                 <field name="latest_message_date" optional="hide" />
                 <field name="latest_partner_message_date" optional="hide" />
             </xpath>
@@ -145,6 +150,7 @@
                     />
                     <field
                         name="global_tag_ids"
+                        string="Tags"
                         widget="many2many_tags"
                         options="{'color_field': 'color'}"
                         domain="[('category_id', 'in', allowed_global_tag_category_ids)]"
