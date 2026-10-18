@@ -209,6 +209,11 @@ msgid "Allowed Policy Templates"
 msgstr ""
 
 #. module: ssi_helpdesk
+#: model:ir.model.fields.selection,name:ssi_helpdesk.selection__helpdesk_communication__waiting_for__answer
+msgid "Answer"
+msgstr ""
+
+#. module: ssi_helpdesk
 #: model:ir.model.fields,help:ssi_helpdesk.field_helpdesk_ticket__approval_template_id
 msgid "Approval Configuration"
 msgstr ""
@@ -466,6 +471,11 @@ msgid ""
 "Confirm policy\n"
 "\n"
 "* If active user can see and execute 'Confirm' button"
+msgstr ""
+
+#. module: ssi_helpdesk
+#: model:ir.model.fields.selection,name:ssi_helpdesk.selection__helpdesk_communication__waiting_for__confirmation
+msgid "Confirmation"
 msgstr ""
 
 #. module: ssi_helpdesk
@@ -912,6 +922,11 @@ msgid "In Progress"
 msgstr ""
 
 #. module: ssi_helpdesk
+#: model:ir.model.fields.selection,name:ssi_helpdesk.selection__helpdesk_communication__waiting_for__information
+msgid "Information Only"
+msgstr ""
+
+#. module: ssi_helpdesk
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_channel__message_is_follower
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_communication__message_is_follower
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_contact_group__message_is_follower
@@ -1269,6 +1284,18 @@ msgstr ""
 #. module: ssi_helpdesk
 #: model_terms:ir.ui.view,arch_db:ssi_helpdesk.helpdesk_ticket_view_form
 msgid "Open Split Result(s)"
+msgstr ""
+
+#. module: ssi_helpdesk
+#: model:ir.model.fields,help:ssi_helpdesk.field_helpdesk_ticket__communication_waiting_confirmation_count
+msgid "Open communications waiting for a confirmation from the contact."
+msgstr ""
+
+#. module: ssi_helpdesk
+#: model:ir.model.fields,help:ssi_helpdesk.field_helpdesk_ticket__communication_waiting_answer_count
+msgid ""
+"Open communications waiting for an answer from the contact. An empty Waiting"
+" For counts as an answer."
 msgstr ""
 
 #. module: ssi_helpdesk
@@ -1663,8 +1690,38 @@ msgid "Viewer"
 msgstr ""
 
 #. module: ssi_helpdesk
+#: model_terms:ir.ui.view,arch_db:ssi_helpdesk.helpdesk_ticket_view_form
+msgid "Waiting Answer"
+msgstr ""
+
+#. module: ssi_helpdesk
+#: model_terms:ir.ui.view,arch_db:ssi_helpdesk.helpdesk_ticket_view_form
+msgid "Waiting Confirmation"
+msgstr ""
+
+#. module: ssi_helpdesk
+#: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_communication__waiting_for
+msgid "Waiting For"
+msgstr ""
+
+#. module: ssi_helpdesk
 #: model_terms:ir.ui.view,arch_db:ssi_helpdesk.helpdesk_ticket_view_search
 msgid "Waiting Resolution Document"
+msgstr ""
+
+#. module: ssi_helpdesk
+#: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_ticket__communication_waiting_answer_count
+msgid "Waiting for Answer Count"
+msgstr ""
+
+#. module: ssi_helpdesk
+#: model_terms:ir.ui.view,arch_db:ssi_helpdesk.helpdesk_communication_view_search
+msgid "Waiting for Confirmation"
+msgstr ""
+
+#. module: ssi_helpdesk
+#: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_ticket__communication_waiting_confirmation_count
+msgid "Waiting for Confirmation Count"
 msgstr ""
 
 #. module: ssi_helpdesk
@@ -1701,4 +1758,11 @@ msgstr ""
 #: model:ir.model.fields,help:ssi_helpdesk.field_helpdesk_type__website_message_ids
 #: model:ir.model.fields,help:ssi_helpdesk.field_helpdesk_type_category__website_message_ids
 msgid "Website communication history"
+msgstr ""
+
+#. module: ssi_helpdesk
+#: model:ir.model.fields,help:ssi_helpdesk.field_helpdesk_communication__waiting_for
+msgid ""
+"What the company is waiting for from the contact after its latest message. "
+"It is emptied when the contact replies."
 msgstr ""
