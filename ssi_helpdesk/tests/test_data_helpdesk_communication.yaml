@@ -113,3 +113,100 @@ scenarios:
           - ["partner_id", "=", "REC: contact.id"]
         save_as: "followers"
         expect_count: 0
+
+  - name: "Helpdesk Communication - Need Respon From Messages"
+    steps:
+      - step: "Create communication"
+        action: "create"
+        model: "helpdesk_communication"
+        save_as: "communication"
+        as_user: "base.user_admin"
+        values:
+          title: "Test Need Respon HC"
+          partner_id: "EVAL: registry['contact'].id"
+
+      - step: "Assert no message gives empty fields and draft state"
+        action: "assert"
+        target: "communication"
+        refresh: true
+        asserts:
+          latest_message_id:
+            type: "value"
+            operator: "is_falsy"
+          latest_partner_message_id:
+            type: "value"
+            operator: "is_falsy"
+          need_respon:
+            type: "value"
+            expected: false
+          state:
+            type: "value"
+            expected: "draft"
+
+      - step: "Post a comment written by the company"
+        action: "call"
+        target: "communication"
+        method: "message_post"
+        as_user: "base.user_admin"
+        kwargs:
+          body: "Company message"
+          message_type: "comment"
+          author_id: "EVAL: env.company.partner_id.id"
+        asserts:
+          need_respon:
+            type: "value"
+            expected: true
+          state:
+            type: "value"
+            expected: "open"
+        refresh: true
+
+      - step: "Assert company message stored and no partner message"
+        action: "assert"
+        target: "communication"
+        refresh: true
+        asserts:
+          latest_message_id:
+            type: "value"
+            operator: "is_truthy"
+          latest_partner_message_id:
+            type: "value"
+            operator: "is_falsy"
+
+      - step: "Post a comment written by the customer contact"
+        action: "call"
+        target: "communication"
+        method: "message_post"
+        as_user: "base.user_admin"
+        kwargs:
+          body: "Customer reply"
+          message_type: "comment"
+          author_id: "EVAL: registry['contact'].id"
+        asserts:
+          need_respon:
+            type: "value"
+            expected: false
+          state:
+            type: "value"
+            expected: "draft"
+        refresh: true
+
+      - step: "Assert both messages stored and the first one is kept"
+        action: "assert"
+        target: "communication"
+        refresh: true
+        asserts:
+          latest_message_id:
+            type: "value"
+            operator: "is_truthy"
+          latest_partner_message_id:
+            type: "value"
+            operator: "is_truthy"
+          latest_message_id.body:
+            type: "value"
+            operator: "contains"
+            expected: "Company message"
+          latest_partner_message_id.body:
+            type: "value"
+            operator: "contains"
+            expected: "Customer reply"
