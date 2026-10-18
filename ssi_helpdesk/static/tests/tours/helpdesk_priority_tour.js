@@ -132,7 +132,11 @@ odoo.define("ssi_helpdesk.helpdesk_priority_tour", function (require) {
             // Flow 2 — Find and open the record to edit.
             {
                 content: "Open the record",
-                trigger: ".o_data_row:contains(TOUR-HDP-EDIT) .o_data_cell[name=name]",
+                // 14.0 list cells have no ``name`` attribute and the first
+                // cell is the sequence handle. The code cell holds
+                // TOURHDPEDIT, so only the name cell matches.
+                trigger:
+                    ".o_data_row:contains(TOUR-HDP-EDIT) .o_data_cell:contains(TOUR-HDP-EDIT)",
                 extra_trigger: ".o_list_view",
             },
             {
