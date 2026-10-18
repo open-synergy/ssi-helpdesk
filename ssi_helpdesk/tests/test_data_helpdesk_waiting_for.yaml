@@ -1,0 +1,299 @@
+setup:
+  steps:
+    - step: "Setup - create company partner"
+      action: "create"
+      model: "res.partner"
+      save_as: "company"
+      values:
+        name: "Test Company WF"
+        is_company: true
+
+    - step: "Setup - create contact person"
+      action: "create"
+      model: "res.partner"
+      save_as: "contact"
+      values:
+        name: "Test Contact WF"
+        is_company: false
+        parent_id: "EVAL: registry['company'].id"
+
+scenarios:
+  - name: "Waiting For - ticket counters"
+    steps:
+      - step: "Setup - create helpdesk type category"
+        action: "create"
+        model: "helpdesk_type_category"
+        save_as: "type_category"
+        values:
+          name: "Test Category WF"
+          code: "TCATWF"
+
+      - step: "Setup - create helpdesk type"
+        action: "create"
+        model: "helpdesk_type"
+        save_as: "ticket_type"
+        values:
+          name: "Test Type WF"
+          code: "TTYPEWF"
+          category_id: "EVAL: registry['type_category'].id"
+
+      - step: "Create ticket"
+        action: "create"
+        model: "helpdesk_ticket"
+        save_as: "ticket"
+        as_user: "base.user_admin"
+        values:
+          title: "Test Ticket WF"
+          partner_id: "EVAL: registry['contact'].id"
+          commercial_partner_id: "EVAL: registry['company'].id"
+          type_id: "EVAL: registry['ticket_type'].id"
+          type_category_id: "EVAL: registry['type_category'].id"
+
+      - step: "Create communication waiting for confirmation"
+        action: "create"
+        model: "helpdesk_communication"
+        save_as: "comm_confirmation"
+        as_user: "base.user_admin"
+        values:
+          title: "Test WF Confirmation"
+          partner_id: "EVAL: registry['contact'].id"
+          ticket_id: "EVAL: registry['ticket'].id"
+
+      - step: "Create communication with empty Waiting For"
+        action: "create"
+        model: "helpdesk_communication"
+        save_as: "comm_empty"
+        as_user: "base.user_admin"
+        values:
+          title: "Test WF Empty"
+          partner_id: "EVAL: registry['contact'].id"
+          ticket_id: "EVAL: registry['ticket'].id"
+
+      - step: "Create draft communication marked as confirmation"
+        action: "create"
+        model: "helpdesk_communication"
+        save_as: "comm_draft"
+        as_user: "base.user_admin"
+        values:
+          title: "Test WF Draft"
+          partner_id: "EVAL: registry['contact'].id"
+          ticket_id: "EVAL: registry['ticket'].id"
+          waiting_for: "confirmation"
+
+      - step: "Company writes on the confirmation communication"
+        action: "call"
+        target: "comm_confirmation"
+        method: "message_post"
+        as_user: "base.user_admin"
+        kwargs:
+          body: "Please confirm"
+          message_type: "comment"
+          author_id: "EVAL: env.company.partner_id.id"
+        asserts:
+          state:
+            type: "value"
+            expected: "open"
+        refresh: true
+
+      - step: "Company writes on the empty communication"
+        action: "call"
+        target: "comm_empty"
+        method: "message_post"
+        as_user: "base.user_admin"
+        kwargs:
+          body: "Any news?"
+          message_type: "comment"
+          author_id: "EVAL: env.company.partner_id.id"
+        asserts:
+          state:
+            type: "value"
+            expected: "open"
+        refresh: true
+
+      - step: "Mark the open communication as waiting for confirmation"
+        action: "write"
+        target: "comm_confirmation"
+        as_user: "base.user_admin"
+        values:
+          waiting_for: "confirmation"
+
+      - step: "Assert ticket counters"
+        action: "assert"
+        target: "ticket"
+        refresh: true
+        asserts:
+          communication_waiting_confirmation_count:
+            type: "value"
+            expected: 1
+          communication_waiting_answer_count:
+            type: "value"
+            expected: 1
+          communication_draft_count:
+            type: "value"
+            expected: 1
+          communication_open_count:
+            type: "value"
+            expected: 2
+
+      - step: "Mark the empty communication as waiting for an answer"
+        action: "write"
+        target: "comm_empty"
+        as_user: "base.user_admin"
+        values:
+          waiting_for: "answer"
+
+      - step: "Assert an explicit answer still counts as waiting answer"
+        action: "assert"
+        target: "ticket"
+        refresh: true
+        asserts:
+          communication_waiting_confirmation_count:
+            type: "value"
+            expected: 1
+          communication_waiting_answer_count:
+            type: "value"
+            expected: 1
+
+      - step: "Mark the empty communication as information only"
+        action: "write"
+        target: "comm_empty"
+        as_user: "base.user_admin"
+        values:
+          waiting_for: "information"
+
+      - step: "Assert information only is counted in neither group"
+        action: "assert"
+        target: "ticket"
+        refresh: true
+        asserts:
+          communication_waiting_confirmation_count:
+            type: "value"
+            expected: 1
+          communication_waiting_answer_count:
+            type: "value"
+            expected: 0
+
+  - name: "Waiting For - cleared by partner reply"
+    steps:
+      - step: "Create communication"
+        action: "create"
+        model: "helpdesk_communication"
+        save_as: "communication"
+        as_user: "base.user_admin"
+        values:
+          title: "Test WF Cleared"
+          partner_id: "EVAL: registry['contact'].id"
+
+      - step: "Company writes first"
+        action: "call"
+        target: "communication"
+        method: "message_post"
+        as_user: "base.user_admin"
+        kwargs:
+          body: "Company message"
+          message_type: "comment"
+          author_id: "EVAL: env.company.partner_id.id"
+
+      - step: "Mark as waiting for confirmation"
+        action: "write"
+        target: "communication"
+        as_user: "base.user_admin"
+        values:
+          waiting_for: "confirmation"
+
+      - step: "Assert the marker is kept"
+        action: "assert"
+        target: "communication"
+        refresh: true
+        asserts:
+          waiting_for:
+            type: "value"
+            expected: "confirmation"
+
+      - step: "Contact replies"
+        action: "call"
+        target: "communication"
+        method: "message_post"
+        as_user: "base.user_admin"
+        kwargs:
+          body: "Customer reply"
+          message_type: "comment"
+          email_from: "test.contact.wf@example.com"
+          author_id: "EVAL: registry['contact'].id"
+
+      - step: "Assert the marker is cleared"
+        action: "assert"
+        target: "communication"
+        refresh: true
+        asserts:
+          waiting_for:
+            type: "value"
+            operator: "is_falsy"
+
+  - name: "Waiting For - company message does not clear it"
+    steps:
+      - step: "Create communication"
+        action: "create"
+        model: "helpdesk_communication"
+        save_as: "communication"
+        as_user: "base.user_admin"
+        values:
+          title: "Test WF Company Keeps"
+          partner_id: "EVAL: registry['contact'].id"
+
+      - step: "Company writes first"
+        action: "call"
+        target: "communication"
+        method: "message_post"
+        as_user: "base.user_admin"
+        kwargs:
+          body: "First company message"
+          message_type: "comment"
+          author_id: "EVAL: env.company.partner_id.id"
+
+      - step: "Mark as waiting for confirmation"
+        action: "write"
+        target: "communication"
+        as_user: "base.user_admin"
+        values:
+          waiting_for: "confirmation"
+
+      - step: "Company writes again"
+        action: "call"
+        target: "communication"
+        method: "message_post"
+        as_user: "base.user_admin"
+        kwargs:
+          body: "Second company message"
+          message_type: "comment"
+          author_id: "EVAL: env.company.partner_id.id"
+
+      - step: "Assert the marker is unchanged"
+        action: "assert"
+        target: "communication"
+        refresh: true
+        asserts:
+          waiting_for:
+            type: "value"
+            expected: "confirmation"
+
+  - name: "Waiting For - value outside the selection is rejected"
+    steps:
+      - step: "Create communication"
+        action: "create"
+        model: "helpdesk_communication"
+        save_as: "communication"
+        as_user: "base.user_admin"
+        values:
+          title: "Test WF Invalid"
+          partner_id: "EVAL: registry['contact'].id"
+
+      - step: "Write an invalid value"
+        action: "write"
+        target: "communication"
+        as_user: "base.user_admin"
+        expect_error:
+          type: "ValueError"
+          message_contains: "Wrong value"
+        values:
+          waiting_for: "bogus"

@@ -21,6 +21,12 @@
                 <field name="title" />
                 <field name="global_tag_ids" string="Tags" />
                 <field name="channel_id" optional="hide" />
+                <separator />
+                <filter
+                        name="waiting_for_confirmation"
+                        string="Waiting for Confirmation"
+                        domain="[('waiting_for','=','confirmation')]"
+                    />
             </xpath>
             <xpath expr="//group[@name='group_by']" position="inside">
                 <filter
@@ -65,6 +71,7 @@
                         optional="show"
                     />
                 <field name="channel_id" optional="hide" />
+                <field name="waiting_for" optional="show" />
             </xpath>
         </data>
     </field>
@@ -136,6 +143,7 @@
                             <field name="latest_message_date" />
                             <field name="latest_partner_message_id" />
                             <field name="latest_partner_message_date" />
+                            <field name="waiting_for" />
                             <field name="need_respon" />
                         </group>
                     </page>

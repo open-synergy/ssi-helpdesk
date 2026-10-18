@@ -155,6 +155,42 @@ class HelpdeskCommunication(models.Model):
         compute_sudo=True,
     )
 
+    @api.depends(
+        "latest_partner_message_id",
+    )
+    def _compute_waiting_for(self):
+        """Clear the waiting-for marker when the partner has replied.
+
+        The field is stored and editable, so the compute only runs when
+        ``latest_partner_message_id`` changes. When the newest message
+        is written by the partner, the marker is emptied; otherwise the
+        current value is kept.
+        """
+        for record in self:
+            result = record.waiting_for
+            partner_message = record.latest_partner_message_id
+            company_message = record.latest_message_id
+            if partner_message and (
+                not company_message or partner_message.id > company_message.id
+            ):
+                result = False
+            record.waiting_for = result
+
+    waiting_for = fields.Selection(
+        string="Waiting For",
+        selection=[
+            ("answer", "Answer"),
+            ("confirmation", "Confirmation"),
+            ("information", "Information Only"),
+        ],
+        compute="_compute_waiting_for",
+        store=True,
+        readonly=False,
+        compute_sudo=True,
+        help="What the company is waiting for from the contact after its "
+        "latest message. It is emptied when the contact replies.",
+    )
+
     @api.model
     def _default_date(self):
         """Return the default communication date.
