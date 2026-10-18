@@ -133,6 +133,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_data_requirement_type__message_needaction
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_priority__message_needaction
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_resolution_documentation_type__message_needaction
+#: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_root_cause__message_needaction
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_ticket__message_needaction
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_type__message_needaction
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_type_category__message_needaction
@@ -151,6 +152,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_data_requirement_type__active
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_priority__active
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_resolution_documentation_type__active
+#: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_root_cause__active
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_type__active
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_type_category__active
 msgid "Active"
@@ -178,6 +180,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_data_requirement_type__activity_ids
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_priority__activity_ids
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_resolution_documentation_type__activity_ids
+#: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_root_cause__activity_ids
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_ticket__activity_ids
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_type__activity_ids
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_type_category__activity_ids
@@ -192,6 +195,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_data_requirement_type__activity_exception_decoration
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_priority__activity_exception_decoration
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_resolution_documentation_type__activity_exception_decoration
+#: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_root_cause__activity_exception_decoration
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_ticket__activity_exception_decoration
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_type__activity_exception_decoration
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_type_category__activity_exception_decoration
@@ -205,6 +209,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_data_requirement_type__activity_state
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_priority__activity_state
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_resolution_documentation_type__activity_state
+#: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_root_cause__activity_state
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_ticket__activity_state
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_type__activity_state
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_type_category__activity_state
@@ -218,6 +223,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_data_requirement_type__activity_type_icon
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_priority__activity_type_icon
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_resolution_documentation_type__activity_type_icon
+#: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_root_cause__activity_type_icon
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_ticket__activity_type_icon
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_type__activity_type_icon
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_type_category__activity_type_icon
@@ -298,6 +304,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_data_requirement_type__message_attachment_count
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_priority__message_attachment_count
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_resolution_documentation_type__message_attachment_count
+#: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_root_cause__message_attachment_count
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_ticket__message_attachment_count
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_type__message_attachment_count
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_type_category__message_attachment_count
@@ -438,6 +445,30 @@ msgid "Channels"
 msgstr ""
 
 #. module: ssi_helpdesk
+#: model:ir.model.fields,help:ssi_helpdesk.field_helpdesk_resolution_documentation_type__requires_root_cause
+#: model:ir.model.fields,help:ssi_helpdesk.field_helpdesk_ticket_resolution_documentation__requires_root_cause
+msgid ""
+"Check this box if a root cause must be filled before a documentation line of"
+" this type is done."
+msgstr ""
+
+#. module: ssi_helpdesk
+#: model:ir.model.fields,help:ssi_helpdesk.field_helpdesk_resolution_documentation_type__third_party
+#: model:ir.model.fields,help:ssi_helpdesk.field_helpdesk_ticket_resolution_documentation__third_party
+msgid ""
+"Check this box if a third party is involved in this kind of documentation. "
+"It is informative only."
+msgstr ""
+
+#. module: ssi_helpdesk
+#: model:ir.model.fields,help:ssi_helpdesk.field_helpdesk_resolution_documentation_type__requires_customer_confirmation
+#: model:ir.model.fields,help:ssi_helpdesk.field_helpdesk_ticket_resolution_documentation__requires_customer_confirmation
+msgid ""
+"Check this box if the documentation must be proven by a message sent by the "
+"customer, not by the company."
+msgstr ""
+
+#. module: ssi_helpdesk
 #: model_terms:ir.ui.view,arch_db:ssi_helpdesk.helpdesk_ticket_view_form
 msgid "Classification"
 msgstr ""
@@ -448,8 +479,10 @@ msgstr ""
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_data_requirement_type__code
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_priority__code
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_resolution_documentation_type__code
+#: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_root_cause__code
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_type__code
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_type_category__code
+#: model:ir.model.fields.selection,name:ssi_helpdesk.selection__helpdesk_resolution_documentation_type__required_evidence_kind__code
 #: model:ir.model.fields.selection,name:ssi_helpdesk.selection__helpdesk_ticket_resolution_documentation__evidence_kind__code
 msgid "Code"
 msgstr ""
@@ -582,6 +615,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_data_requirement_type__create_uid
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_priority__create_uid
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_resolution_documentation_type__create_uid
+#: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_root_cause__create_uid
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_ticket__create_uid
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_ticket_data_requirement__create_uid
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_ticket_force_close__create_uid
@@ -601,6 +635,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_data_requirement_type__create_date
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_priority__create_date
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_resolution_documentation_type__create_date
+#: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_root_cause__create_date
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_ticket__create_date
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_ticket_data_requirement__create_date
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_ticket_force_close__create_date
@@ -644,6 +679,7 @@ msgstr ""
 
 #. module: ssi_helpdesk
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_ticket_resolution_documentation__decision_note
+#: model:ir.model.fields.selection,name:ssi_helpdesk.selection__helpdesk_resolution_documentation_type__required_evidence_kind__decision
 #: model:ir.model.fields.selection,name:ssi_helpdesk.selection__helpdesk_ticket_resolution_documentation__evidence_kind__decision
 msgid "Decision"
 msgstr ""
@@ -684,6 +720,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_data_requirement_type__display_name
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_priority__display_name
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_resolution_documentation_type__display_name
+#: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_root_cause__display_name
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_ticket__display_name
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_ticket_data_requirement__display_name
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_ticket_force_close__display_name
@@ -766,6 +803,11 @@ msgid "Evidence Kind"
 msgstr ""
 
 #. module: ssi_helpdesk
+#: model:ir.model.fields,help:ssi_helpdesk.field_helpdesk_ticket_resolution_documentation__root_cause_note
+msgid "Explanation of the root cause."
+msgstr ""
+
+#. module: ssi_helpdesk
 #: model_terms:ir.ui.view,arch_db:ssi_helpdesk.helpdesk_ticket_view_form
 msgid "Finishing"
 msgstr ""
@@ -782,6 +824,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_data_requirement_type__message_follower_ids
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_priority__message_follower_ids
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_resolution_documentation_type__message_follower_ids
+#: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_root_cause__message_follower_ids
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_ticket__message_follower_ids
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_type__message_follower_ids
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_type_category__message_follower_ids
@@ -795,6 +838,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_data_requirement_type__message_channel_ids
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_priority__message_channel_ids
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_resolution_documentation_type__message_channel_ids
+#: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_root_cause__message_channel_ids
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_ticket__message_channel_ids
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_type__message_channel_ids
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_type_category__message_channel_ids
@@ -808,6 +852,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_data_requirement_type__message_partner_ids
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_priority__message_partner_ids
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_resolution_documentation_type__message_partner_ids
+#: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_root_cause__message_partner_ids
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_ticket__message_partner_ids
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_type__message_partner_ids
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_type_category__message_partner_ids
@@ -821,6 +866,7 @@ msgstr ""
 #: model:ir.model.fields,help:ssi_helpdesk.field_helpdesk_data_requirement_type__activity_type_icon
 #: model:ir.model.fields,help:ssi_helpdesk.field_helpdesk_priority__activity_type_icon
 #: model:ir.model.fields,help:ssi_helpdesk.field_helpdesk_resolution_documentation_type__activity_type_icon
+#: model:ir.model.fields,help:ssi_helpdesk.field_helpdesk_root_cause__activity_type_icon
 #: model:ir.model.fields,help:ssi_helpdesk.field_helpdesk_ticket__activity_type_icon
 #: model:ir.model.fields,help:ssi_helpdesk.field_helpdesk_type__activity_type_icon
 #: model:ir.model.fields,help:ssi_helpdesk.field_helpdesk_type_category__activity_type_icon
@@ -945,6 +991,12 @@ msgid "Helpdesk Resolution Documentation Type"
 msgstr ""
 
 #. module: ssi_helpdesk
+#: model:ir.model,name:ssi_helpdesk.model_helpdesk_root_cause
+#: model:res.groups,name:ssi_helpdesk.helpdesk_root_cause_group
+msgid "Helpdesk Root Cause"
+msgstr ""
+
+#. module: ssi_helpdesk
 #: model:ir.model,name:ssi_helpdesk.model_helpdesk_ticket
 #: model:ir.module.category,name:ssi_helpdesk.helpdesk_ticket_data_ownership_module_category
 #: model:ir.module.category,name:ssi_helpdesk.helpdesk_ticket_workflow_module_category
@@ -1001,6 +1053,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_data_requirement_type__id
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_priority__id
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_resolution_documentation_type__id
+#: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_root_cause__id
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_ticket__id
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_ticket_data_requirement__id
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_ticket_force_close__id
@@ -1019,6 +1072,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_data_requirement_type__activity_exception_icon
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_priority__activity_exception_icon
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_resolution_documentation_type__activity_exception_icon
+#: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_root_cause__activity_exception_icon
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_ticket__activity_exception_icon
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_type__activity_exception_icon
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_type_category__activity_exception_icon
@@ -1032,6 +1086,7 @@ msgstr ""
 #: model:ir.model.fields,help:ssi_helpdesk.field_helpdesk_data_requirement_type__activity_exception_icon
 #: model:ir.model.fields,help:ssi_helpdesk.field_helpdesk_priority__activity_exception_icon
 #: model:ir.model.fields,help:ssi_helpdesk.field_helpdesk_resolution_documentation_type__activity_exception_icon
+#: model:ir.model.fields,help:ssi_helpdesk.field_helpdesk_root_cause__activity_exception_icon
 #: model:ir.model.fields,help:ssi_helpdesk.field_helpdesk_ticket__activity_exception_icon
 #: model:ir.model.fields,help:ssi_helpdesk.field_helpdesk_type__activity_exception_icon
 #: model:ir.model.fields,help:ssi_helpdesk.field_helpdesk_type_category__activity_exception_icon
@@ -1051,6 +1106,8 @@ msgstr ""
 #: model:ir.model.fields,help:ssi_helpdesk.field_helpdesk_priority__message_unread
 #: model:ir.model.fields,help:ssi_helpdesk.field_helpdesk_resolution_documentation_type__message_needaction
 #: model:ir.model.fields,help:ssi_helpdesk.field_helpdesk_resolution_documentation_type__message_unread
+#: model:ir.model.fields,help:ssi_helpdesk.field_helpdesk_root_cause__message_needaction
+#: model:ir.model.fields,help:ssi_helpdesk.field_helpdesk_root_cause__message_unread
 #: model:ir.model.fields,help:ssi_helpdesk.field_helpdesk_ticket__message_needaction
 #: model:ir.model.fields,help:ssi_helpdesk.field_helpdesk_ticket__message_unread
 #: model:ir.model.fields,help:ssi_helpdesk.field_helpdesk_type__message_needaction
@@ -1067,6 +1124,7 @@ msgstr ""
 #: model:ir.model.fields,help:ssi_helpdesk.field_helpdesk_data_requirement_type__message_has_error
 #: model:ir.model.fields,help:ssi_helpdesk.field_helpdesk_priority__message_has_error
 #: model:ir.model.fields,help:ssi_helpdesk.field_helpdesk_resolution_documentation_type__message_has_error
+#: model:ir.model.fields,help:ssi_helpdesk.field_helpdesk_root_cause__message_has_error
 #: model:ir.model.fields,help:ssi_helpdesk.field_helpdesk_ticket__message_has_error
 #: model:ir.model.fields,help:ssi_helpdesk.field_helpdesk_type__message_has_error
 #: model:ir.model.fields,help:ssi_helpdesk.field_helpdesk_type_category__message_has_error
@@ -1092,10 +1150,19 @@ msgstr ""
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_data_requirement_type__message_is_follower
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_priority__message_is_follower
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_resolution_documentation_type__message_is_follower
+#: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_root_cause__message_is_follower
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_ticket__message_is_follower
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_type__message_is_follower
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_type_category__message_is_follower
 msgid "Is Follower"
+msgstr ""
+
+#. module: ssi_helpdesk
+#: model:ir.model.fields,help:ssi_helpdesk.field_helpdesk_resolution_documentation_type__required_evidence_kind
+#: model:ir.model.fields,help:ssi_helpdesk.field_helpdesk_ticket_resolution_documentation__required_evidence_kind
+msgid ""
+"Kind of evidence that a documentation line of this type must use. Leave "
+"empty to accept any evidence kind."
 msgstr ""
 
 #. module: ssi_helpdesk
@@ -1113,6 +1180,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_data_requirement_type____last_update
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_priority____last_update
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_resolution_documentation_type____last_update
+#: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_root_cause____last_update
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_ticket____last_update
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_ticket_data_requirement____last_update
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_ticket_force_close____last_update
@@ -1132,6 +1200,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_data_requirement_type__write_uid
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_priority__write_uid
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_resolution_documentation_type__write_uid
+#: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_root_cause__write_uid
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_ticket__write_uid
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_ticket_data_requirement__write_uid
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_ticket_force_close__write_uid
@@ -1151,6 +1220,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_data_requirement_type__write_date
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_priority__write_date
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_resolution_documentation_type__write_date
+#: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_root_cause__write_date
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_ticket__write_date
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_ticket_data_requirement__write_date
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_ticket_force_close__write_date
@@ -1196,6 +1266,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_data_requirement_type__message_main_attachment_id
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_priority__message_main_attachment_id
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_resolution_documentation_type__message_main_attachment_id
+#: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_root_cause__message_main_attachment_id
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_ticket__message_main_attachment_id
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_type__message_main_attachment_id
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_type_category__message_main_attachment_id
@@ -1217,6 +1288,7 @@ msgstr ""
 #: model:ir.model.fields,help:ssi_helpdesk.field_helpdesk_data_requirement_type__active
 #: model:ir.model.fields,help:ssi_helpdesk.field_helpdesk_priority__active
 #: model:ir.model.fields,help:ssi_helpdesk.field_helpdesk_resolution_documentation_type__active
+#: model:ir.model.fields,help:ssi_helpdesk.field_helpdesk_root_cause__active
 #: model:ir.model.fields,help:ssi_helpdesk.field_helpdesk_type__active
 #: model:ir.model.fields,help:ssi_helpdesk.field_helpdesk_type_category__active
 msgid ""
@@ -1234,6 +1306,7 @@ msgstr ""
 #: model:ir.model.fields,help:ssi_helpdesk.field_helpdesk_data_requirement_type__code
 #: model:ir.model.fields,help:ssi_helpdesk.field_helpdesk_priority__code
 #: model:ir.model.fields,help:ssi_helpdesk.field_helpdesk_resolution_documentation_type__code
+#: model:ir.model.fields,help:ssi_helpdesk.field_helpdesk_root_cause__code
 #: model:ir.model.fields,help:ssi_helpdesk.field_helpdesk_type__code
 #: model:ir.model.fields,help:ssi_helpdesk.field_helpdesk_type_category__code
 msgid ""
@@ -1252,6 +1325,7 @@ msgstr ""
 
 #. module: ssi_helpdesk
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_ticket_resolution_documentation__message_id
+#: model:ir.model.fields.selection,name:ssi_helpdesk.selection__helpdesk_resolution_documentation_type__required_evidence_kind__message
 #: model:ir.model.fields.selection,name:ssi_helpdesk.selection__helpdesk_ticket_resolution_documentation__evidence_kind__message
 msgid "Message"
 msgstr ""
@@ -1263,6 +1337,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_data_requirement_type__message_has_error
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_priority__message_has_error
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_resolution_documentation_type__message_has_error
+#: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_root_cause__message_has_error
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_ticket__message_has_error
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_type__message_has_error
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_type_category__message_has_error
@@ -1276,6 +1351,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_data_requirement_type__message_ids
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_priority__message_ids
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_resolution_documentation_type__message_ids
+#: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_root_cause__message_ids
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_ticket__message_ids
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_type__message_ids
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_type_category__message_ids
@@ -1289,6 +1365,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_data_requirement_type__my_activity_date_deadline
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_priority__my_activity_date_deadline
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_resolution_documentation_type__my_activity_date_deadline
+#: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_root_cause__my_activity_date_deadline
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_ticket__my_activity_date_deadline
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_type__my_activity_date_deadline
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_type_category__my_activity_date_deadline
@@ -1301,6 +1378,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_data_requirement_type__name
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_priority__name
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_resolution_documentation_type__name
+#: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_root_cause__name
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_type__name
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_type_category__name
 msgid "Name"
@@ -1328,6 +1406,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_data_requirement_type__activity_date_deadline
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_priority__activity_date_deadline
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_resolution_documentation_type__activity_date_deadline
+#: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_root_cause__activity_date_deadline
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_ticket__activity_date_deadline
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_type__activity_date_deadline
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_type_category__activity_date_deadline
@@ -1341,6 +1420,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_data_requirement_type__activity_summary
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_priority__activity_summary
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_resolution_documentation_type__activity_summary
+#: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_root_cause__activity_summary
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_ticket__activity_summary
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_type__activity_summary
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_type_category__activity_summary
@@ -1354,6 +1434,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_data_requirement_type__activity_type_id
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_priority__activity_type_id
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_resolution_documentation_type__activity_type_id
+#: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_root_cause__activity_type_id
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_ticket__activity_type_id
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_type__activity_type_id
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_type_category__activity_type_id
@@ -1388,6 +1469,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_data_requirement_type__note
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_priority__note
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_resolution_documentation_type__note
+#: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_root_cause__note
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_ticket__note
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_type__note
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_type_category__note
@@ -1401,6 +1483,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_data_requirement_type__message_needaction_counter
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_priority__message_needaction_counter
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_resolution_documentation_type__message_needaction_counter
+#: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_root_cause__message_needaction_counter
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_ticket__message_needaction_counter
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_type__message_needaction_counter
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_type_category__message_needaction_counter
@@ -1414,6 +1497,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_data_requirement_type__message_has_error_counter
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_priority__message_has_error_counter
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_resolution_documentation_type__message_has_error_counter
+#: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_root_cause__message_has_error_counter
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_ticket__message_has_error_counter
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_type__message_has_error_counter
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_type_category__message_has_error_counter
@@ -1427,6 +1511,7 @@ msgstr ""
 #: model:ir.model.fields,help:ssi_helpdesk.field_helpdesk_data_requirement_type__message_needaction_counter
 #: model:ir.model.fields,help:ssi_helpdesk.field_helpdesk_priority__message_needaction_counter
 #: model:ir.model.fields,help:ssi_helpdesk.field_helpdesk_resolution_documentation_type__message_needaction_counter
+#: model:ir.model.fields,help:ssi_helpdesk.field_helpdesk_root_cause__message_needaction_counter
 #: model:ir.model.fields,help:ssi_helpdesk.field_helpdesk_ticket__message_needaction_counter
 #: model:ir.model.fields,help:ssi_helpdesk.field_helpdesk_type__message_needaction_counter
 #: model:ir.model.fields,help:ssi_helpdesk.field_helpdesk_type_category__message_needaction_counter
@@ -1440,6 +1525,7 @@ msgstr ""
 #: model:ir.model.fields,help:ssi_helpdesk.field_helpdesk_data_requirement_type__message_has_error_counter
 #: model:ir.model.fields,help:ssi_helpdesk.field_helpdesk_priority__message_has_error_counter
 #: model:ir.model.fields,help:ssi_helpdesk.field_helpdesk_resolution_documentation_type__message_has_error_counter
+#: model:ir.model.fields,help:ssi_helpdesk.field_helpdesk_root_cause__message_has_error_counter
 #: model:ir.model.fields,help:ssi_helpdesk.field_helpdesk_ticket__message_has_error_counter
 #: model:ir.model.fields,help:ssi_helpdesk.field_helpdesk_type__message_has_error_counter
 #: model:ir.model.fields,help:ssi_helpdesk.field_helpdesk_type_category__message_has_error_counter
@@ -1453,6 +1539,7 @@ msgstr ""
 #: model:ir.model.fields,help:ssi_helpdesk.field_helpdesk_data_requirement_type__message_unread_counter
 #: model:ir.model.fields,help:ssi_helpdesk.field_helpdesk_priority__message_unread_counter
 #: model:ir.model.fields,help:ssi_helpdesk.field_helpdesk_resolution_documentation_type__message_unread_counter
+#: model:ir.model.fields,help:ssi_helpdesk.field_helpdesk_root_cause__message_unread_counter
 #: model:ir.model.fields,help:ssi_helpdesk.field_helpdesk_ticket__message_unread_counter
 #: model:ir.model.fields,help:ssi_helpdesk.field_helpdesk_type__message_unread_counter
 #: model:ir.model.fields,help:ssi_helpdesk.field_helpdesk_type_category__message_unread_counter
@@ -1461,6 +1548,7 @@ msgstr ""
 
 #. module: ssi_helpdesk
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_ticket_resolution_documentation__evidence_record_ref
+#: model:ir.model.fields.selection,name:ssi_helpdesk.selection__helpdesk_resolution_documentation_type__required_evidence_kind__record
 #: model:ir.model.fields.selection,name:ssi_helpdesk.selection__helpdesk_ticket_resolution_documentation__evidence_kind__record
 msgid "Odoo Record"
 msgstr ""
@@ -1566,6 +1654,12 @@ msgid "Reporting"
 msgstr ""
 
 #. module: ssi_helpdesk
+#: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_resolution_documentation_type__required_evidence_kind
+#: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_ticket_resolution_documentation__required_evidence_kind
+msgid "Required Evidence Kind"
+msgstr ""
+
+#. module: ssi_helpdesk
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_type__resolution_documentation_template_ids
 msgid "Required Resolution Documentations"
 msgstr ""
@@ -1583,6 +1677,18 @@ msgstr ""
 #. module: ssi_helpdesk
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_ticket_data_requirement__name
 msgid "Requirement"
+msgstr ""
+
+#. module: ssi_helpdesk
+#: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_resolution_documentation_type__requires_customer_confirmation
+#: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_ticket_resolution_documentation__requires_customer_confirmation
+msgid "Requires Customer Confirmation"
+msgstr ""
+
+#. module: ssi_helpdesk
+#: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_resolution_documentation_type__requires_root_cause
+#: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_ticket_resolution_documentation__requires_root_cause
+msgid "Requires Root Cause"
 msgstr ""
 
 #. module: ssi_helpdesk
@@ -1625,6 +1731,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_data_requirement_type__activity_user_id
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_priority__activity_user_id
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_resolution_documentation_type__activity_user_id
+#: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_root_cause__activity_user_id
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_ticket__activity_user_id
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_type__activity_user_id
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_type_category__activity_user_id
@@ -1652,6 +1759,30 @@ msgstr ""
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_communication__reviewer_id
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_ticket__reviewer_id
 msgid "Reviewer"
+msgstr ""
+
+#. module: ssi_helpdesk
+#: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_ticket_resolution_documentation__root_cause_id
+#: model_terms:ir.ui.view,arch_db:ssi_helpdesk.helpdesk_ticket_view_form
+msgid "Root Cause"
+msgstr ""
+
+#. module: ssi_helpdesk
+#: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_ticket_resolution_documentation__root_cause_note
+msgid "Root Cause Note"
+msgstr ""
+
+#. module: ssi_helpdesk
+#: model:ir.actions.act_window,name:ssi_helpdesk.helpdesk_root_cause_action
+#: model:ir.ui.menu,name:ssi_helpdesk.helpdesk_root_cause_menu
+msgid "Root Causes"
+msgstr ""
+
+#. module: ssi_helpdesk
+#: model:ir.model.fields,help:ssi_helpdesk.field_helpdesk_ticket_resolution_documentation__root_cause_id
+msgid ""
+"Root cause of the ticket problem. It is required to complete a documentation"
+" whose type requires a root cause."
 msgstr ""
 
 #. module: ssi_helpdesk
@@ -1702,6 +1833,7 @@ msgstr ""
 #: model:ir.model.fields,help:ssi_helpdesk.field_helpdesk_data_requirement_type__activity_state
 #: model:ir.model.fields,help:ssi_helpdesk.field_helpdesk_priority__activity_state
 #: model:ir.model.fields,help:ssi_helpdesk.field_helpdesk_resolution_documentation_type__activity_state
+#: model:ir.model.fields,help:ssi_helpdesk.field_helpdesk_root_cause__activity_state
 #: model:ir.model.fields,help:ssi_helpdesk.field_helpdesk_ticket__activity_state
 #: model:ir.model.fields,help:ssi_helpdesk.field_helpdesk_type__activity_state
 #: model:ir.model.fields,help:ssi_helpdesk.field_helpdesk_type_category__activity_state
@@ -1733,6 +1865,12 @@ msgid ""
 "Terminate policy\n"
 "\n"
 "* If active user can see and execute 'Terminate' button"
+msgstr ""
+
+#. module: ssi_helpdesk
+#: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_resolution_documentation_type__third_party
+#: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_ticket_resolution_documentation__third_party
+msgid "Third Party"
 msgstr ""
 
 #. module: ssi_helpdesk
@@ -1804,6 +1942,7 @@ msgstr ""
 #: model:ir.model.fields,help:ssi_helpdesk.field_helpdesk_data_requirement_type__activity_exception_decoration
 #: model:ir.model.fields,help:ssi_helpdesk.field_helpdesk_priority__activity_exception_decoration
 #: model:ir.model.fields,help:ssi_helpdesk.field_helpdesk_resolution_documentation_type__activity_exception_decoration
+#: model:ir.model.fields,help:ssi_helpdesk.field_helpdesk_root_cause__activity_exception_decoration
 #: model:ir.model.fields,help:ssi_helpdesk.field_helpdesk_ticket__activity_exception_decoration
 #: model:ir.model.fields,help:ssi_helpdesk.field_helpdesk_type__activity_exception_decoration
 #: model:ir.model.fields,help:ssi_helpdesk.field_helpdesk_type_category__activity_exception_decoration
@@ -1819,6 +1958,7 @@ msgstr ""
 #. module: ssi_helpdesk
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_ticket_data_requirement__url
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_ticket_resolution_documentation__url
+#: model:ir.model.fields.selection,name:ssi_helpdesk.selection__helpdesk_resolution_documentation_type__required_evidence_kind__url
 #: model:ir.model.fields.selection,name:ssi_helpdesk.selection__helpdesk_ticket_resolution_documentation__evidence_kind__url
 msgid "URL"
 msgstr ""
@@ -1830,6 +1970,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_data_requirement_type__message_unread
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_priority__message_unread
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_resolution_documentation_type__message_unread
+#: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_root_cause__message_unread
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_ticket__message_unread
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_type__message_unread
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_type_category__message_unread
@@ -1843,6 +1984,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_data_requirement_type__message_unread_counter
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_priority__message_unread_counter
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_resolution_documentation_type__message_unread_counter
+#: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_root_cause__message_unread_counter
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_ticket__message_unread_counter
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_type__message_unread_counter
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_type_category__message_unread_counter
@@ -1972,6 +2114,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_data_requirement_type__website_message_ids
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_priority__website_message_ids
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_resolution_documentation_type__website_message_ids
+#: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_root_cause__website_message_ids
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_ticket__website_message_ids
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_type__website_message_ids
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_type_category__website_message_ids
@@ -1985,6 +2128,7 @@ msgstr ""
 #: model:ir.model.fields,help:ssi_helpdesk.field_helpdesk_data_requirement_type__website_message_ids
 #: model:ir.model.fields,help:ssi_helpdesk.field_helpdesk_priority__website_message_ids
 #: model:ir.model.fields,help:ssi_helpdesk.field_helpdesk_resolution_documentation_type__website_message_ids
+#: model:ir.model.fields,help:ssi_helpdesk.field_helpdesk_root_cause__website_message_ids
 #: model:ir.model.fields,help:ssi_helpdesk.field_helpdesk_ticket__website_message_ids
 #: model:ir.model.fields,help:ssi_helpdesk.field_helpdesk_type__website_message_ids
 #: model:ir.model.fields,help:ssi_helpdesk.field_helpdesk_type_category__website_message_ids
