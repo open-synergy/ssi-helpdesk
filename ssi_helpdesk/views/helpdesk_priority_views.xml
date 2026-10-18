@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 OpenSynergy Indonesia
+     Copyright 2026 PT. Simetri Sinergi Indonesia
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo>
+<record id="helpdesk_priority_view_search" model="ir.ui.view">
+    <field name="name">helpdesk_priority - search</field>
+    <field name="model">helpdesk_priority</field>
+    <field
+            name="inherit_id"
+            ref="ssi_master_data_mixin.mixin_master_data_view_search"
+        />
+    <field name="mode">primary</field>
+    <field name="arch" type="xml">
+        <data>
+            <xpath expr="//field[@name='code']" position="after">
+                <field name="sequence" />
+            </xpath>
+        </data>
+    </field>
+</record>
+
+<record id="helpdesk_priority_view_tree" model="ir.ui.view">
+    <field name="name">helpdesk_priority - tree</field>
+    <field name="model">helpdesk_priority</field>
+    <field name="inherit_id" ref="ssi_master_data_mixin.mixin_master_data_view_tree" />
+    <field name="mode">primary</field>
+    <field name="arch" type="xml">
+        <data>
+            <xpath expr="//field[@name='id']" position="before">
+                <field name="sequence" widget="handle" />
+            </xpath>
+        </data>
+    </field>
+</record>
+
+<record id="helpdesk_priority_view_form" model="ir.ui.view">
+    <field name="name">helpdesk_priority - form</field>
+    <field name="model">helpdesk_priority</field>
+    <field name="inherit_id" ref="ssi_master_data_mixin.mixin_master_data_view_form" />
+    <field name="mode">primary</field>
+    <field name="arch" type="xml">
+        <data>
+            <xpath expr="//field[@name='active']" position="after">
+                <field name="sequence" />
+            </xpath>
+        </data>
+    </field>
+</record>
+
+<record id="helpdesk_priority_action" model="ir.actions.act_window">
+    <field name="name">Priorities</field>
+    <field name="type">ir.actions.act_window</field>
+    <field name="res_model">helpdesk_priority</field>
+    <field name="view_mode">tree,form</field>
+</record>
+
+<menuitem
+        id="helpdesk_priority_menu"
+        name="Priorities"
+        parent="menu_helpdesk_ticket_configuration"
+        action="helpdesk_priority_action"
+        groups="helpdesk_priority_group"
+        sequence="110"
+    />
+
+</odoo>

@@ -34,6 +34,8 @@
      **Contact** or **Contact Group** changes.
    - **Category**: Select the ticket category.
    - **Type**: Select the ticket type. Available options are based on **Category**.
+   - **Priority** _(required)_: Automatically filled with **Medium**, or with the
+     **Default Priority** of the selected **Type** when it has one. Change if needed.
    - **Duration**: Automatically filled from **Type**. Change if needed.
    - **Deadline**: Automatically filled from **Duration** and **Date**. Change if
      needed.

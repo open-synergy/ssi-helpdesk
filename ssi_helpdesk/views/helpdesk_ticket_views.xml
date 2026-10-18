@@ -18,6 +18,7 @@
                 <field name="commercial_partner_id" />
                 <field name="type_id" />
                 <field name="type_category_id" />
+                <field name="priority_id" />
                 <field name="title" />
             </xpath>
             <xpath expr="//separator[@name='activity']" position="before">
@@ -66,6 +67,11 @@
                         context="{'group_by':'type_id'}"
                     />
                 <filter
+                        name="grp_priority"
+                        string="Priority"
+                        context="{'group_by':'priority_id'}"
+                    />
+                <filter
                         name="grp_type_category"
                         string="Category "
                         context="{'group_by':'type_category_id'}"
@@ -89,6 +95,7 @@
                 <field name="date" />
                 <field name="date_deadline" />
                 <field name="type_id" />
+                <field name="priority_id" />
                 <field name="latest_message_date" optional="hide" />
                 <field name="latest_partner_message_date" optional="hide" />
             </xpath>
@@ -134,6 +141,7 @@
                         name="type_id"
                         domain="[('category_id','=',type_category_id)]"
                     />
+                    <field name="priority_id" />
                     <separator string="Time Constrains" colspan="2" />
                     <field name="date" />
                     <field name="duration_id" />

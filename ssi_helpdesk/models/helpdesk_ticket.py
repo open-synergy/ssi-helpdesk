@@ -27,6 +27,7 @@ class HelpdeskTicket(models.Model):
         "mixin.transaction_ready",
     ]
     _description = "Helpdesk Ticket"
+    _order = "priority_id, id desc"
 
     # Multiple Approval Attribute
     _approval_from_state = "open"
@@ -137,6 +138,20 @@ class HelpdeskTicket(models.Model):
         states={"draft": [("readonly", False)]},
         copy=True,
     )
+    priority_id = fields.Many2one(
+        string="Priority",
+        comodel_name="helpdesk_priority",
+        required=True,
+        ondelete="restrict",
+        default=lambda self: self._default_priority_id(),
+        readonly=True,
+        states={"draft": [("readonly", False)]},
+        copy=True,
+        help="""Ticket priority
+
+* Defaults to the Medium priority
+* Tickets are listed following the priority sequence""",
+    )
     type_category_id = fields.Many2one(
         string="Category",
         related=False,
@@ -146,6 +161,18 @@ class HelpdeskTicket(models.Model):
         states={"draft": [("readonly", False)]},
         copy=True,
     )
+
+    @api.model
+    def _default_priority_id(self):
+        """Return the default ticket priority.
+
+        :return: the Medium priority, or an empty recordset when the
+            record was removed
+        """
+        return self.env.ref(
+            "ssi_helpdesk.helpdesk_priority_medium",
+            raise_if_not_found=False,
+        )
 
     @api.model
     def _default_date(self):
@@ -360,6 +387,18 @@ class HelpdeskTicket(models.Model):
         self.duration_id = False
         if self.type_id:
             self.duration_id = self.type_id.duration_id
+
+    @api.onchange(
+        "type_id",
+    )
+    def onchange_priority_id(self):
+        """Fill the priority from the default priority of the type.
+
+        The priority is kept when the type has no default priority,
+        because the field is required.
+        """
+        if self.type_id and self.type_id.priority_id:
+            self.priority_id = self.type_id.priority_id
 
     @api.onchange(
         "duration_id",

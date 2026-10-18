@@ -27,6 +27,8 @@
      manually.
    - **Category**: Select the helpdesk type category this type belongs to.
    - **Duration**: Optionally select the duration used for tickets of this type.
+   - **Default Priority**: Optionally select the priority given to tickets of this type.
+     Leave empty to keep the ticket priority unchanged.
 4. Click **Save**.
 
 ## Post-Condition

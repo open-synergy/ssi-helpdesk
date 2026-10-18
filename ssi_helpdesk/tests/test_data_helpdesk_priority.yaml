@@ -1,0 +1,166 @@
+scenarios:
+  - name: "Helpdesk Priority - master data CRUD"
+    steps:
+      - step: "Create the priority"
+        action: "create"
+        model: "helpdesk_priority"
+        save_as: "priority"
+        values:
+          name: "HP1 Priority"
+          code: "HP1PRIO"
+          sequence: 15
+
+      - step: "Sequence is stored"
+        action: "assert"
+        target: "priority"
+        refresh: true
+        asserts:
+          sequence:
+            type: "value"
+            expected: 15
+          active:
+            type: "value"
+            expected: true
+
+      - step: "Change the sequence"
+        action: "write"
+        target: "priority"
+        values:
+          sequence: 25
+
+      - step: "Sequence is updated"
+        action: "assert"
+        target: "priority"
+        refresh: true
+        asserts:
+          sequence:
+            type: "value"
+            expected: 25
+
+      - step: "Archive the priority"
+        action: "write"
+        target: "priority"
+        values:
+          active: false
+
+      - step: "Priority is archived"
+        action: "assert"
+        target: "priority"
+        refresh: true
+        asserts:
+          active:
+            type: "value"
+            expected: false
+
+      - step: "Unarchive the priority"
+        action: "write"
+        target: "priority"
+        values:
+          active: true
+
+      - step: "Priority is active again"
+        action: "assert"
+        target: "priority"
+        refresh: true
+        asserts:
+          active:
+            type: "value"
+            expected: true
+
+      - step: "Delete the priority"
+        action: "unlink"
+        target: "priority"
+
+  - name: "Helpdesk Priority - new ticket defaults to Medium"
+    steps:
+      - step: "Setup - create company partner"
+        action: "create"
+        model: "res.partner"
+        save_as: "company"
+        values:
+          name: "HP2 Company"
+          is_company: true
+
+      - step: "Setup - create ticket contact"
+        action: "create"
+        model: "res.partner"
+        save_as: "contact"
+        values:
+          name: "HP2 Contact"
+          is_company: false
+          parent_id: "REC: company"
+
+      - step: "Create the ticket without priority"
+        action: "create"
+        model: "helpdesk_ticket"
+        save_as: "ticket"
+        as_user: "base.user_admin"
+        values:
+          title: "HP2 Ticket"
+          partner_id: "REC: contact"
+          commercial_partner_id: "REC: company"
+
+      - step: "Priority is Medium"
+        action: "assert"
+        target: "ticket"
+        refresh: true
+        asserts:
+          priority_id:
+            type: "m2o"
+            expected_xml_id: "ssi_helpdesk.helpdesk_priority_medium"
+
+  - name: "Helpdesk Priority - type default priority fills the ticket"
+    steps:
+      - step: "Setup - create category"
+        action: "create"
+        model: "helpdesk_type_category"
+        save_as: "category"
+        values:
+          name: "HP3 Category"
+          code: "HP3CAT"
+
+      - step: "Setup - create type with High default priority"
+        action: "create"
+        model: "helpdesk_type"
+        save_as: "type_high"
+        values:
+          name: "HP3 Type High"
+          code: "HP3HIGH"
+          category_id: "REC: category"
+          priority_id: "REF: ssi_helpdesk.helpdesk_priority_high"
+
+      - step: "Setup - create type without default priority"
+        action: "create"
+        model: "helpdesk_type"
+        save_as: "type_plain"
+        values:
+          name: "HP3 Type Plain"
+          code: "HP3PLAIN"
+          category_id: "REC: category"
+
+      - step: "Type with default priority sets the priority"
+        action: "form"
+        model: "helpdesk_ticket"
+        as_user: "base.user_admin"
+        save: false
+        ops:
+          - set: {type_category_id: "REC: category"}
+          - set: {type_id: "REC: type_high"}
+          - assert:
+              priority_id:
+                type: "m2o"
+                expected_xml_id: "ssi_helpdesk.helpdesk_priority_high"
+
+      - step: "Type without default priority keeps the priority"
+        action: "form"
+        model: "helpdesk_ticket"
+        as_user: "base.user_admin"
+        save: false
+        ops:
+          - set: {type_category_id: "REC: category"}
+          - set: {type_id: "REC: type_high"}
+          - set: {type_id: "REC: type_plain"}
+          - assert:
+              priority_id:
+                type: "m2o"
+                expected_xml_id: "ssi_helpdesk.helpdesk_priority_high"

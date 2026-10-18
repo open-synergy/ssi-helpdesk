@@ -13,6 +13,15 @@
         />
 </record>
 
+<record id="helpdesk_priority_group" model="res.groups">
+    <field name="name">Helpdesk Priority</field>
+    <field name="category_id" ref="helpdesk_configurator_module_category" />
+    <field
+            name="users"
+            eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"
+        />
+</record>
+
 <record id="helpdesk_type_category_group" model="res.groups">
     <field name="name">Helpdesk Type Category</field>
     <field name="category_id" ref="helpdesk_configurator_module_category" />
