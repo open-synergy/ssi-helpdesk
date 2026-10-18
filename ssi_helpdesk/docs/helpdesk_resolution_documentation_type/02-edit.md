@@ -19,7 +19,9 @@
 2. Find and open the record to edit.
 3. Click the **Edit** button. **(14.0 only — the form opens directly editable on
    16.0+)**
-4. Change the **Name**, **Code**, or **Note** as needed.
+4. Change the **Name**, **Code**, **Note**, or the requirements (**Required Evidence
+   Kind**, **Requires Customer Confirmation**, **Third Party**, **Requires Root Cause**)
+   as needed.
 5. If **Code** needs to be reassigned, first select the record in the **Resolution
    Documentation Types** list and click **Reset code** in the list toolbar, then click
    **OK** to confirm — this clears **Code** back to **/**. Reopen the record, click

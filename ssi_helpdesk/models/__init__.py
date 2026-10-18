@@ -14,5 +14,6 @@ from . import (
     helpdesk_ticket_data_requirement,
     helpdesk_data_requirement_type,
     helpdesk_resolution_documentation_type,
+    helpdesk_root_cause,
     helpdesk_ticket_resolution_documentation,
 )

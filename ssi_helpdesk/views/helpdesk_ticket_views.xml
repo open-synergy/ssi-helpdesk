@@ -235,6 +235,7 @@
                                 <field name="url" />
                                 <field name="evidence_kind" />
                                 <field name="evidence_date" />
+                                <field name="root_cause_id" />
                                 <field name="state" />
                             </tree>
                             <form>
@@ -246,6 +247,20 @@
                                     <field name="type_id" />
                                     <field name="name" />
                                     <field name="url" />
+                                    <field name="third_party" />
+                                    <field name="required_evidence_kind" />
+                                    <field name="requires_customer_confirmation" />
+                                    <field name="requires_root_cause" invisible="1" />
+                                </group>
+                                <group
+                                    name="root_cause"
+                                    string="Root Cause"
+                                    colspan="4"
+                                    col="2"
+                                    attrs="{'invisible': [('requires_root_cause', '=', False)]}"
+                                >
+                                    <field name="root_cause_id" />
+                                    <field name="root_cause_note" />
                                 </group>
                                 <group
                                     name="evidence"

@@ -1,0 +1,42 @@
+# Create Helpdesk Root Cause
+
+> **Module:** `ssi_helpdesk`\
+> **Model:** `helpdesk_root_cause`\
+> **Menu:** Helpdesk > Configuration > Ticket > Root Causes\
+> **Actor:** user in group `Helpdesk - Configurator / Helpdesk Root Cause`\
+> **Inline Actions:** `action_generate_code` (Generate Code), `action_reset_code` (Reset
+> code)
+
+## Pre-Condition
+
+- **Config:** A `sequence.template` for this model must be configured before using the
+  **Generate Code** button (see step 5). Not required when **Code** is entered manually.
+- **Access:** User is in group `Helpdesk - Configurator / Helpdesk Root Cause`.
+
+## Flow
+
+1. Open the **Helpdesk > Configuration > Ticket > Root Causes** menu.
+2. Click the **New** button. **(14.0: "Create")**
+3. Fill in the required fields:
+   - **Name** _(required)_: Enter the name of the root cause.
+   - **Code** _(required)_: Enter a unique code for this root cause, or fill with **/**
+     and use the **Generate Code** button later (see step 5) to assign one
+     automatically.
+4. Optionally, on the **Note** tab, enter a free-text note.
+5. If **Code** was left as **/**, click the **Generate Code** button in the header to
+   automatically assign a code from the configured `sequence.template`. Skip this step
+   if an explicit code was entered manually — **Generate Code** only changes records
+   whose **Code** is still **/**. To undo a previously generated code later, select the
+   record in the **Root Causes** list, click **Reset code** in the list toolbar, then
+   click **OK** to confirm — this clears **Code** back to **/** so it can be
+   regenerated.
+6. Click **Save**.
+
+## Post-Condition
+
+- A new Helpdesk Root Cause record is created, active, and shown in the **Root Causes**
+  list.
+- It is available for selection as **Root Cause** on a ticket resolution documentation
+  line.
+- If **Generate Code** was used, **Code** shows the value assigned by the sequence
+  template; otherwise it keeps the manually entered value.

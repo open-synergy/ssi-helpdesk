@@ -47,6 +47,7 @@
         "views/helpdesk_ticket_views.xml",
         "views/helpdesk_communication_views.xml",
         "views/helpdesk_resolution_documentation_type_views.xml",
+        "views/helpdesk_root_cause_views.xml",
         "views/helpdesk_data_requirement_type_views.xml",
         "views/assets.xml",
         "views/assets_helpdesk_type_tours.xml",
@@ -55,6 +56,7 @@
         "views/assets_helpdesk_communication_tours.xml",
         "views/assets_helpdesk_ticket_side.xml",
         "views/assets_helpdesk_data_requirement_resolution_type_tours.xml",
+        "views/assets_helpdesk_root_cause_tours.xml",
     ],
     "demo": [],
 }
