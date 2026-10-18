@@ -18,11 +18,11 @@ Available addons
 ----------------
 addon | version | maintainers | summary
 --- | --- | --- | ---
-[ssi_helpdesk](ssi_helpdesk/) | 14.0.3.10.0 |  | Helpdesk
+[ssi_helpdesk](ssi_helpdesk/) | 14.0.3.11.0 |  | Helpdesk
 [ssi_helpdesk_ai_trace](ssi_helpdesk_ai_trace/) | 14.0.1.1.0 |  | Helpdesk - AI Trace Integration
 [ssi_helpdesk_appointment](ssi_helpdesk_appointment/) | 14.0.1.2.1 |  | Helpdesk - Appointment Integration
 [ssi_helpdesk_data_requirement](ssi_helpdesk_data_requirement/) | 14.0.1.3.1 |  | Helpdesk - Data Requirement Integration
-[ssi_helpdesk_elearning](ssi_helpdesk_elearning/) | 14.0.3.2.1 |  | Helpdesk - E-Learning Integration
+[ssi_helpdesk_elearning](ssi_helpdesk_elearning/) | 14.0.3.3.0 |  | Helpdesk - E-Learning Integration
 [ssi_helpdesk_odoo_implementation](ssi_helpdesk_odoo_implementation/) | 14.0.2.4.1 |  | Helpdesk - Odoo Implementation Integration
 [ssi_helpdesk_operating_unit](ssi_helpdesk_operating_unit/) | 14.0.1.0.1 |  | Helpdesk + Operating Unit
 [ssi_helpdesk_portal](ssi_helpdesk_portal/) | 14.0.1.1.2 |  | Helpdesk Portal
