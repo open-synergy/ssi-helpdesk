@@ -369,18 +369,20 @@ class HelpdeskTicket(models.Model):
     def _compute_resolution_documentation_state(self):
         """Compute the state of the resolution documentation.
 
-        ``no_need`` when no documentation is required, ``open`` when at
-        least one required documentation is still open, otherwise
-        ``done``.
+        Not applicable lines are ignored. ``no_need`` when no
+        applicable documentation remains, ``open`` when at least one
+        applicable documentation is still open, otherwise ``done``.
         """
         for record in self:
             result = "no_need"
 
-            count_req = len(record.resolution_documentation_ids)
+            lines = record.resolution_documentation_ids.filtered(
+                lambda r: r.state != "cancel"
+            )
 
-            if count_req > 0:
+            if lines:
                 result = "done"
-                for req in record.resolution_documentation_ids:
+                for req in lines:
                     if req.state == "open":
                         result = "open"
 

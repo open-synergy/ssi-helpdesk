@@ -2,7 +2,8 @@
 # Copyright 2022 PT. Simetri Sinergi Indonesia
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import api, fields, models
+from odoo import _, api, fields, models
+from odoo.exceptions import ValidationError
 from odoo.tools import html_escape
 
 from .helpdesk_resolution_documentation_type import EVIDENCE_KIND_SELECTION
@@ -135,11 +136,24 @@ class HelpdeskTicketResolutionDocumentation(models.Model):
         store=False,
         compute_sudo=True,
     )
+    cancelled = fields.Boolean(
+        string="Not Applicable",
+        default=False,
+        help="Mark this documentation as not applicable. A not "
+        "applicable documentation is ignored when the documentation "
+        "status of the ticket is computed.",
+    )
+    cancel_reason = fields.Text(
+        string="Not Applicable Reason",
+        help="Reason why this documentation is not applicable. "
+        "Required when the documentation is marked as not applicable.",
+    )
     state = fields.Selection(
         string="State",
         selection=[
             ("open", "In Progress"),
             ("done", "Done"),
+            ("cancel", "Not Applicable"),
         ],
         compute="_compute_state",
         store=True,
@@ -223,6 +237,7 @@ class HelpdeskTicketResolutionDocumentation(models.Model):
             record.evidence_channel_id = result
 
     @api.depends(
+        "cancelled",
         "url",
         "evidence_kind",
         "message_id",
@@ -238,11 +253,13 @@ class HelpdeskTicketResolutionDocumentation(models.Model):
     def _compute_state(self):
         """Compute the state of the documentation.
 
-        The state is ``done`` once the evidence valid for the evidence
-        kind is filled: the message, the Odoo record, the decision
-        note, or the URL for the url and code kinds. When the kind is
-        empty the URL alone proves the documentation, which keeps the
-        behavior of the lines created before the kind existed.
+        The state is ``cancel`` when the documentation is marked as not
+        applicable, whatever its evidence. Otherwise it is ``done`` once
+        the evidence valid for the evidence kind is filled: the message,
+        the Odoo record, the decision note, or the URL for the url and
+        code kinds. When the kind is empty the URL alone proves the
+        documentation, which keeps the behavior of the lines created
+        before the kind existed.
 
         The type adds requirements. The evidence kind must be the
         required one of the type. A type that requires customer
@@ -278,7 +295,32 @@ class HelpdeskTicketResolutionDocumentation(models.Model):
             result = "open"
             if valid:
                 result = "done"
+            if record.cancelled:
+                result = "cancel"
             record.state = result
+
+    @api.constrains(
+        "cancelled",
+        "cancel_reason",
+    )
+    def _check_cancel_reason(self):
+        """Require a reason for a not applicable documentation.
+
+        :raises ValidationError: when the documentation is marked as
+            not applicable and the reason is empty
+        """
+        for record in self:
+            if record.cancelled and not (record.cancel_reason or "").strip():
+                raise ValidationError(
+                    _(
+                        "Context: Mark resolution documentation as not "
+                        "applicable\n"
+                        "Database ID: %(id)s\n"
+                        "Problem: Not applicable reason is empty\n"
+                        "Solution: Fill the not applicable reason"
+                    )
+                    % {"id": record.id}
+                )
 
     def _get_evidence_summary(self):
         """Return a readable summary of the current evidence.

@@ -296,6 +296,18 @@
                                     />
                                     <field name="evidence_date" />
                                 </group>
+                                <group
+                                    name="not_applicable"
+                                    string="Not Applicable"
+                                    colspan="4"
+                                    col="2"
+                                >
+                                    <field name="cancelled" />
+                                    <field
+                                        name="cancel_reason"
+                                        attrs="{'invisible': [('cancelled', '=', False)], 'required': [('cancelled', '=', True)]}"
+                                    />
+                                </group>
                             </form>
                         </field>
                     </page>
