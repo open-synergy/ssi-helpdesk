@@ -6,8 +6,10 @@
 Helpdesk - AI Trace Integration
 ===============================
 
-Attaches the AI trace timeline of ``ssi_ai_trace_mixin`` to helpdesk tickets.
-Internal users see a ``Chatter | AI Trace (n)`` toggle on the ticket form;
+Attaches the AI trace timeline of ``ssi_ai_trace_mixin`` to helpdesk tickets
+and to helpdesk communications, so each communication thread has its own
+timeline, separate from its ticket. Internal users see a
+``Chatter | AI Trace (n)`` toggle on the ticket and communication forms;
 portal users, including the customer of the ticket, cannot read any entry.
 
 Bug Tracker

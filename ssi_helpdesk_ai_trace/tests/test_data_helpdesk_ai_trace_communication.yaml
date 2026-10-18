@@ -1,0 +1,196 @@
+options:
+  auto_refresh: true
+
+# Every scenario is self-sufficient: the setup replays before each one.
+setup:
+  steps:
+    - step: "Create the customer company"
+      action: "create"
+      model: "res.partner"
+      save_as: "company"
+      values:
+        name: "AI Trace Company HC"
+        is_company: true
+
+    - step: "Create the customer contact"
+      action: "create"
+      model: "res.partner"
+      save_as: "contact"
+      values:
+        name: "AI Trace Contact HC"
+        is_company: false
+        parent_id: "REC: company.id"
+
+    - step: "Create the parent ticket"
+      action: "create"
+      model: "helpdesk_ticket"
+      save_as: "ticket"
+      as_user: "base.user_admin"
+      values:
+        title: "AI Trace Ticket HC"
+        partner_id: "REC: contact.id"
+        commercial_partner_id: "REC: company.id"
+
+    - step: "Create communication A"
+      action: "create"
+      model: "helpdesk_communication"
+      save_as: "comm_a"
+      as_user: "base.user_admin"
+      values:
+        title: "AI Trace Communication A"
+        partner_id: "REC: contact.id"
+        ticket_id: "REC: ticket.id"
+
+    - step: "Create communication B"
+      action: "create"
+      model: "helpdesk_communication"
+      save_as: "comm_b"
+      as_user: "base.user_admin"
+      values:
+        title: "AI Trace Communication B"
+        partner_id: "REC: contact.id"
+        ticket_id: "REC: ticket.id"
+
+    - step: "Get an empty ai_trace recordset to call the model API on"
+      action: "search"
+      model: "ai_trace"
+      domain: [["id", "=", 0]]
+      save_as: "trace_model"
+
+scenarios:
+  - name: "Entries stay on their own communication and are counted"
+    steps:
+      - step: "Append two entries to communication A and one to B"
+        action: "call"
+        target: "trace_model"
+        method: "ai_trace_append"
+        args:
+          - - model: "helpdesk_communication"
+              res_id: "REC: comm_a.id"
+              session_key: "session-1"
+              turn: 1
+              kind: "turn"
+              prompt: "a1"
+            - model: "helpdesk_communication"
+              res_id: "REC: comm_a.id"
+              session_key: "session-1"
+              turn: 2
+              kind: "turn"
+              prompt: "a2"
+            - model: "helpdesk_communication"
+              res_id: "REC: comm_b.id"
+              session_key: "session-1"
+              turn: 1
+              kind: "turn"
+              prompt: "b1"
+
+      - step: "Communication A counts its two entries"
+        action: "assert"
+        target: "comm_a"
+        asserts:
+          ai_trace_count:
+            type: "value"
+            expected: 2
+          ai_trace_ids:
+            type: "o2m"
+            check: "count"
+            expected_count: 2
+
+      - step: "Communication B counts its single entry"
+        action: "assert"
+        target: "comm_b"
+        asserts:
+          ai_trace_count:
+            type: "value"
+            expected: 1
+
+      - step: "The parent ticket gains no entry"
+        action: "search"
+        model: "ai_trace"
+        domain:
+          - ["model", "=", "helpdesk_ticket"]
+          - ["res_id", "=", "REC: ticket.id"]
+        save_as: "ticket_entries"
+        expect_count: 0
+
+  - name: "The entry takes the company of the communication"
+    steps:
+      - step: "Append one entry to communication A"
+        action: "call"
+        target: "trace_model"
+        method: "ai_trace_append"
+        args:
+          - - model: "helpdesk_communication"
+              res_id: "REC: comm_a.id"
+              session_key: "session-1"
+              turn: 1
+              kind: "turn"
+
+      - step: "Find the entry"
+        action: "search"
+        model: "ai_trace"
+        domain:
+          - ["model", "=", "helpdesk_communication"]
+          - ["res_id", "=", "REC: comm_a.id"]
+        save_as: "entry"
+        expect_count: 1
+
+      - step: "The company of the entry is the company of the communication"
+        action: "assert"
+        target: "entry"
+        asserts:
+          company_id:
+            type: "m2o"
+            expected_xml_id: "base.main_company"
+
+      - step: "The communication belongs to that same company"
+        action: "assert"
+        target: "comm_a"
+        asserts:
+          company_id:
+            type: "m2o"
+            expected_xml_id: "base.main_company"
+
+  - name: "The portal customer of the communication cannot read its traces"
+    steps:
+      - step: "Create the portal user of the customer contact"
+        action: "create"
+        model: "res.users"
+        save_as: "portal_user"
+        context:
+          no_reset_password: true
+        values:
+          name: "AI Trace Portal HC"
+          login: "ai_trace_portal_hc"
+          partner_id: "REC: contact.id"
+          groups_id: [[6, 0, ["REF: base.group_portal"]]]
+
+      - step: "Append one entry to communication A"
+        action: "call"
+        target: "trace_model"
+        method: "ai_trace_append"
+        args:
+          - - model: "helpdesk_communication"
+              res_id: "REC: comm_a.id"
+              session_key: "session-1"
+              turn: 1
+              kind: "turn"
+
+      - step: "Find the entry as the superuser"
+        action: "search"
+        model: "ai_trace"
+        domain:
+          - ["model", "=", "helpdesk_communication"]
+          - ["res_id", "=", "REC: comm_a.id"]
+        save_as: "entry"
+        expect_count: 1
+
+      - step: "The portal customer cannot read the entry"
+        action: "call"
+        target: "entry"
+        method: "read"
+        as_user: "portal_user"
+        args:
+          - ["turn"]
+        expect_error:
+          type: "AccessError"
