@@ -6,7 +6,7 @@
 
 <record id="helpdesk_ticket_force_close_view_form" model="ir.ui.view">
     <field name="name">Force Close Ticket</field>
-    <field name="model">helpdesk_ticket.force_close</field>
+    <field name="model">helpdesk_ticket_force_close</field>
     <field name="arch" type="xml">
         <form>
             <group name="group_1" colspan="4" col="2">
@@ -28,7 +28,7 @@
 
 <record id="helpdesk_ticket_force_close_action" model="ir.actions.act_window">
     <field name="name">Force Close Ticket</field>
-    <field name="res_model">helpdesk_ticket.force_close</field>
+    <field name="res_model">helpdesk_ticket_force_close</field>
     <field name="view_mode">form</field>
     <field name="view_id" ref="helpdesk_ticket_force_close_view_form" />
     <field name="target">new</field>
