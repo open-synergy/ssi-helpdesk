@@ -7,6 +7,7 @@ from . import (  # noqa: F401
     test_helpdesk_communication,
     test_helpdesk_priority,
     test_helpdesk_ticket,
+    test_helpdesk_ticket_communication_gate,
     test_helpdesk_ticket_line_onchange,
     test_helpdesk_ticket_onchange,
     test_helpdesk_ticket_split_gate,
