@@ -17,6 +17,9 @@
 - **Record:** Every ticket split from this one is **Done**, **Cancelled** or
   **Terminated**; a ticket split from it that is still in progress blocks the
   confirmation.
+- **Record:** Every communication of this ticket, other than its finishing
+  communication, is **Done**; a communication that is still **Draft** or **Open** blocks
+  the confirmation.
 - **Access:** User is in group _Helpdesk Ticket / User_.
 
 ## Flow

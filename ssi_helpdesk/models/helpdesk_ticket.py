@@ -634,6 +634,61 @@ class HelpdeskTicket(models.Model):
         self.ensure_one()
         self._check_split_tickets_finished("Finish Ticket")
 
+    @ssi_decorator.pre_confirm_check()
+    def _20_check_communications_done_on_confirm(self):
+        """Block confirmation while other communications are not done.
+
+        :raises UserError: if a communication other than the finishing
+            communication is not done yet
+        """
+        self.ensure_one()
+        self._check_communications_done("Confirm Ticket")
+
+    @ssi_decorator.pre_done_check()
+    def _20_check_communications_done_on_done(self):
+        """Block completion while other communications are not done.
+
+        Finishing the finishing communication finishes the ticket
+        through an automation, so this gate also keeps that
+        communication from being done while others remain open.
+
+        :raises UserError: if a communication other than the finishing
+            communication is not done yet
+        """
+        self.ensure_one()
+        self._check_communications_done("Finish Ticket")
+
+    def _check_communications_done(self, context):
+        """Ensure every communication but the finishing one is done.
+
+        The starting communication is not exempt. The finishing
+        communication is skipped because finishing it is what
+        finishes the ticket.
+
+        :param str context: operation name shown in the error message
+        :raises UserError: listing the communications still pending
+        """
+        self.ensure_one()
+        pending = self.communication_ids.filtered(
+            lambda x: x != self.finishing_communication_id and x.state != "done"
+        )
+        if pending:
+            error_message = _(
+                """
+Context: %s
+Database ID: %s
+Problem: Other communications of this ticket are not done yet: %s
+Solution: Mark the pending communications as done first
+Note: The finishing communication cannot be done before them
+"""
+                % (
+                    context,
+                    self.id,
+                    ", ".join("%s [%s]" % (x.name, x.title) for x in pending),
+                )
+            )
+            raise UserError(error_message)
+
     def _check_split_tickets_finished(self, context):
         """Ensure every ticket split from this one has been settled.
 
