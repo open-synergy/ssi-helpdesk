@@ -230,7 +230,63 @@ odoo.define("ssi_helpdesk.helpdesk_ticket_tour", function (require) {
                     run: "text Tour HD Edit Ticket Changed",
                 },
 
-                // Flow 5 -- Click Save.
+                // Flow 5 -- Open the Resolution Documentation(s) tab and
+                // click Add a line.
+                {
+                    content: "Open the Resolution Documentation(s) tab",
+                    trigger: ".o_notebook .nav-link:contains(Resolution Documentation)",
+                    extra_trigger: ".o_form_view.o_form_editable",
+                },
+                {
+                    content: "Click Add a line",
+                    trigger: ".tab-pane.active .o_field_x2many_list_row_add a",
+                },
+                // Flow 6 -- Fill Documentation. The line form opens in a
+                // dialog; 14.0 in-modal triggers are not prefixed with
+                // .modal.
+                {
+                    content: "Fill the Documentation",
+                    trigger: ".o_field_widget[name='name']",
+                    run: "text Tour HD Evidence",
+                },
+                // Flow 7 -- Choose the Evidence Kind (a 14.0 select carries
+                // the o_field_widget class itself).
+                {
+                    content: "Choose the Evidence Kind",
+                    trigger: "select.o_field_widget[name='evidence_kind']",
+                    run: "text Decision",
+                },
+                // Flow 8 -- Fill the Decision, shown for the Decision kind.
+                {
+                    content: "Fill the Decision",
+                    trigger: ".o_field_widget[name='decision_note']",
+                    run: "text Customer agreed to close",
+                },
+                // Flow 9 -- Save the line (Save & Close for a new line).
+                {
+                    content: "Save the line",
+                    trigger: ".modal-footer button.btn-primary",
+                    run: function () {
+                        var $btn = $(".modal:visible")
+                            .last()
+                            .find(".modal-footer button.btn-primary")
+                            .filter(function () {
+                                var t = $(this).text().trim();
+                                return t === "Save & Close" || t === "Save";
+                            });
+                        $btn[0].click();
+                    },
+                },
+                {
+                    content: "The line shows the evidence kind",
+                    trigger:
+                        ".tab-pane.active .o_data_row:contains(Tour HD Evidence):contains(Decision)",
+                    run: function () {
+                        // Assertion only; do not trigger the default click.
+                    },
+                },
+
+                // Flow 10 -- Click Save.
                 {
                     content: "Save the record",
                     trigger: ".o_form_button_save",
