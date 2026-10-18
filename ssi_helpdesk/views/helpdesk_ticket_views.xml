@@ -120,6 +120,32 @@
         />
         <field name="arch" type="xml">
             <data>
+                <xpath expr="//div[@name='button_box']" position="inside">
+                    <button
+                        name="action_open_communication_waiting_answer"
+                        type="object"
+                        class="oe_stat_button"
+                        icon="fa-reply"
+                    >
+                        <field
+                            name="communication_waiting_answer_count"
+                            widget="statinfo"
+                            string="Waiting Answer"
+                        />
+                    </button>
+                    <button
+                        name="action_open_communication_waiting_confirmation"
+                        type="object"
+                        class="oe_stat_button"
+                        icon="fa-check-square-o"
+                    >
+                        <field
+                            name="communication_waiting_confirmation_count"
+                            widget="statinfo"
+                            string="Waiting Confirmation"
+                        />
+                    </button>
+                </xpath>
                 <xpath expr="//field[@name='user_id']" position="after">
                     <field name="id" invisible="1" />
                     <field

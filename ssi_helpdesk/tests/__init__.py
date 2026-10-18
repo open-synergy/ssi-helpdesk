@@ -12,6 +12,7 @@ from . import (  # noqa: F401
     test_helpdesk_ticket_line_onchange,
     test_helpdesk_ticket_onchange,
     test_helpdesk_ticket_split_gate,
+    test_helpdesk_waiting_for,
     test_ui_helpdesk_data_requirement_type,
     test_ui_helpdesk_resolution_documentation_type,
     test_split_helpdesk_ticket,

@@ -19,10 +19,15 @@
 4. Change the fields as needed. In **Draft** status the **Title**, **Contact**,
    **Date**, **Channel** and **Responsible** can be changed; **# Ticket**, **Tags** and
    **Description** can be changed in any status.
-5. Click **Save**.
+5. Open the **Activities** tab and, if needed, set **Waiting For** to the answer the
+   company expects from the contact: **Answer**, **Confirmation** or **Information
+   Only**. **Waiting For** can be changed in any status.
+6. Click **Save**.
 
 ## Post-Condition
 
 - The record is updated with the new values.
+- **Waiting For** shows the selected value. It is emptied automatically when the contact
+  replies, and the ticket counts the record as waiting for an answer or a confirmation.
 - Once the record has left **Draft** status, the **Title**, **Contact**, **Date**,
   **Channel** and **Responsible** become read-only.

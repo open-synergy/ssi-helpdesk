@@ -292,6 +292,21 @@ class HelpdeskTicket(models.Model):
         compute="_compute_communication_count",
         compute_sudo=True,
     )
+    communication_waiting_answer_count = fields.Integer(
+        string="Waiting for Answer Count",
+        store=True,
+        compute="_compute_communication_count",
+        compute_sudo=True,
+        help="Open communications waiting for an answer from the "
+        "contact. An empty Waiting For counts as an answer.",
+    )
+    communication_waiting_confirmation_count = fields.Integer(
+        string="Waiting for Confirmation Count",
+        store=True,
+        compute="_compute_communication_count",
+        compute_sudo=True,
+        help="Open communications waiting for a confirmation from the contact.",
+    )
 
     @api.onchange("commercial_partner_id")
     def onchange_partner_id(self):
@@ -467,6 +482,30 @@ class HelpdeskTicket(models.Model):
             result = record._open_communication()
         return result
 
+    def action_open_communication_waiting_answer(self):
+        """Open the open communications waiting for an answer.
+
+        :return: ``ir.actions.act_window`` dict listing the open
+            communications whose Waiting For is empty or ``answer``
+        """
+        for record in self.sudo():
+            result = record._open_communication_waiting(
+                [("waiting_for", "in", [False, "answer"])]
+            )
+        return result
+
+    def action_open_communication_waiting_confirmation(self):
+        """Open the open communications waiting for a confirmation.
+
+        :return: ``ir.actions.act_window`` dict listing the open
+            communications whose Waiting For is ``confirmation``
+        """
+        for record in self.sudo():
+            result = record._open_communication_waiting(
+                [("waiting_for", "=", "confirmation")]
+            )
+        return result
+
     def action_open_split(self):
         """Open the tickets split from this ticket.
 
@@ -493,6 +532,26 @@ class HelpdeskTicket(models.Model):
                 "view_mode": "tree,form",
                 "domain": [("split_id", "=", self.id)],
                 "context": new_context,
+            }
+        )
+        return waction
+
+    def _open_communication_waiting(self, waiting_domain):
+        """Build the action listing open communications that are waiting.
+
+        :param waiting_domain: domain on ``waiting_for`` to add to the
+            ticket and ``open`` state restrictions
+        :return: ``ir.actions.act_window`` dict in tree and form mode
+        """
+        waction = self._open_communication()
+        waction.update(
+            {
+                "domain": [
+                    ("ticket_id", "=", self.id),
+                    ("state", "=", "open"),
+                ]
+                + waiting_domain,
+                "context": {},
             }
         )
         return waction
@@ -593,13 +652,21 @@ class HelpdeskTicket(models.Model):
             "ticket_id": self.id,
         }
 
-    @api.depends("communication_ids", "communication_ids.state")
+    @api.depends(
+        "communication_ids",
+        "communication_ids.state",
+        "communication_ids.waiting_for",
+    )
     def _compute_communication_count(self):
         """Compute the communication counters of the ticket.
 
         Fill ``communication_draft_count`` with the communications in
         ``draft`` state and ``communication_open_count`` with those in
-        ``open`` state.
+        ``open`` state. Among the open ones,
+        ``communication_waiting_answer_count`` counts those with an empty
+        or ``answer`` Waiting For and
+        ``communication_waiting_confirmation_count`` counts those with
+        ``confirmation``.
         """
         for record in self:
             record.communication_draft_count = len(
@@ -607,6 +674,16 @@ class HelpdeskTicket(models.Model):
             )
             record.communication_open_count = len(
                 record.communication_ids.filtered(lambda x: x.state == "open")
+            )
+            record.communication_waiting_answer_count = len(
+                record.communication_ids.filtered(
+                    lambda x: x.state == "open" and x.waiting_for in (False, "answer")
+                )
+            )
+            record.communication_waiting_confirmation_count = len(
+                record.communication_ids.filtered(
+                    lambda x: x.state == "open" and x.waiting_for == "confirmation"
+                )
             )
 
     @ssi_decorator.insert_on_form_view()

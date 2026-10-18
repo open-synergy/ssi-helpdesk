@@ -206,7 +206,19 @@ odoo.define("ssi_helpdesk.helpdesk_communication_tour", function (require) {
                     run: "text Tour HC Edit Communication Changed",
                 },
 
-                // Flow 5 -- Click Save.
+                // Flow 5 -- Set Waiting For on the Activities tab.
+                {
+                    content: "Open the Activities page",
+                    trigger: ".o_notebook .nav-link:contains(Activities)",
+                    extra_trigger: ".o_form_view.o_form_editable",
+                },
+                {
+                    content: "Set Waiting For to Confirmation",
+                    trigger: "select.o_field_widget[name='waiting_for']",
+                    run: "text Confirmation",
+                },
+
+                // Flow 6 -- Click Save.
                 {
                     content: "Save the record",
                     trigger: ".o_form_button_save",
@@ -214,6 +226,12 @@ odoo.define("ssi_helpdesk.helpdesk_communication_tour", function (require) {
                 {
                     content: "Record is saved",
                     trigger: ".o_form_view.o_form_readonly",
+                    run: assertOnly,
+                },
+                {
+                    content: "Waiting For shows the selected value",
+                    trigger:
+                        ".o_form_readonly .o_field_widget[name='waiting_for']:contains('Confirmation')",
                     run: assertOnly,
                 },
 
