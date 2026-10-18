@@ -32,8 +32,41 @@ msgid ""
 "\n"
 "Context: %s\n"
 "Database ID: %s\n"
+"Problem: Resolution documentation of this ticket is not done yet: %s\n"
+"Solution: Complete the pending documentation, or use Force Close\n"
+msgstr ""
+
+#. module: ssi_helpdesk
+#: code:addons/ssi_helpdesk/models/helpdesk_ticket.py:0
+#, python-format
+msgid ""
+"\n"
+"Context: %s\n"
+"Database ID: %s\n"
 "Problem: Tickets split from this ticket are not finished yet: %s\n"
 "Solution: Finish, cancel or terminate the split tickets first\n"
+msgstr ""
+
+#. module: ssi_helpdesk
+#: code:addons/ssi_helpdesk/wizards/helpdesk_ticket_force_close.py:0
+#, python-format
+msgid ""
+"\n"
+"Context: Force Close Ticket\n"
+"Database ID: %s\n"
+"Problem: Force close is not allowed\n"
+"Solution: Check the force close policy prerequisite\n"
+msgstr ""
+
+#. module: ssi_helpdesk
+#: code:addons/ssi_helpdesk/wizards/helpdesk_ticket_force_close.py:0
+#, python-format
+msgid ""
+"\n"
+"Context: Force Close Ticket\n"
+"Database ID: %s\n"
+"Problem: Force close reason is empty\n"
+"Solution: Fill in the reason to force close the ticket\n"
 msgstr ""
 
 #. module: ssi_helpdesk
@@ -80,6 +113,7 @@ msgstr ""
 
 #. module: ssi_helpdesk
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_communication__ticket_id
+#: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_ticket_force_close__ticket_id
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_split_helpdesk_ticket__ticket_id
 msgid "# Ticket"
 msgstr ""
@@ -312,6 +346,11 @@ msgid "Can Finished"
 msgstr ""
 
 #. module: ssi_helpdesk
+#: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_ticket__force_close_ok
+msgid "Can Force Close"
+msgstr ""
+
+#. module: ssi_helpdesk
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_communication__manual_number_ok
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_ticket__manual_number_ok
 msgid "Can Input Manual Document Number"
@@ -351,6 +390,7 @@ msgstr ""
 
 #. module: ssi_helpdesk
 #: model_terms:ir.ui.view,arch_db:ssi_helpdesk.create_ticket_from_communication_view_form
+#: model_terms:ir.ui.view,arch_db:ssi_helpdesk.helpdesk_ticket_force_close_view_form
 #: model_terms:ir.ui.view,arch_db:ssi_helpdesk.split_helpdesk_ticket_view_form
 msgid "Cancel"
 msgstr ""
@@ -477,6 +517,7 @@ msgstr ""
 
 #. module: ssi_helpdesk
 #: model_terms:ir.ui.view,arch_db:ssi_helpdesk.create_ticket_from_communication_view_form
+#: model_terms:ir.ui.view,arch_db:ssi_helpdesk.helpdesk_ticket_force_close_view_form
 #: model_terms:ir.ui.view,arch_db:ssi_helpdesk.split_helpdesk_ticket_view_form
 msgid "Confirm"
 msgstr ""
@@ -543,6 +584,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_resolution_documentation_type__create_uid
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_ticket__create_uid
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_ticket_data_requirement__create_uid
+#: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_ticket_force_close__create_uid
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_ticket_resolution_documentation__create_uid
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_type__create_uid
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_type_category__create_uid
@@ -561,6 +603,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_resolution_documentation_type__create_date
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_ticket__create_date
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_ticket_data_requirement__create_date
+#: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_ticket_force_close__create_date
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_ticket_resolution_documentation__create_date
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_type__create_date
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_type_category__create_date
@@ -643,6 +686,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_resolution_documentation_type__display_name
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_ticket__display_name
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_ticket_data_requirement__display_name
+#: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_ticket_force_close__display_name
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_ticket_resolution_documentation__display_name
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_type__display_name
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_type_category__display_name
@@ -784,6 +828,34 @@ msgid "Font awesome icon e.g. fa-tasks"
 msgstr ""
 
 #. module: ssi_helpdesk
+#: model_terms:ir.ui.view,arch_db:ssi_helpdesk.helpdesk_ticket_view_form
+msgid "Force Close"
+msgstr ""
+
+#. module: ssi_helpdesk
+#: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_ticket__force_close_reason
+msgid "Force Close Reason"
+msgstr ""
+
+#. module: ssi_helpdesk
+#: model:ir.actions.act_window,name:ssi_helpdesk.helpdesk_ticket_force_close_action
+msgid "Force Close Ticket"
+msgstr ""
+
+#. module: ssi_helpdesk
+#: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_ticket__force_close_user_id
+msgid "Force Closed By"
+msgstr ""
+
+#. module: ssi_helpdesk
+#: model:ir.model.fields,help:ssi_helpdesk.field_helpdesk_ticket__force_close_ok
+msgid ""
+"Force close policy\n"
+"\n"
+"* If active user can see and execute the 'Force Close' button"
+msgstr ""
+
+#. module: ssi_helpdesk
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_communication__global_tag_ids
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_ticket__global_tag_ids
 msgid "Global Tags"
@@ -885,6 +957,11 @@ msgid "Helpdesk Ticket Data Requirement"
 msgstr ""
 
 #. module: ssi_helpdesk
+#: model:ir.model,name:ssi_helpdesk.model_helpdesk_ticket_force_close
+msgid "Helpdesk Ticket Force Close"
+msgstr ""
+
+#. module: ssi_helpdesk
 #: model:ir.model,name:ssi_helpdesk.model_helpdesk_ticket_resolution_documentation
 msgid "Helpdesk Ticket Resolution Documentation"
 msgstr ""
@@ -926,6 +1003,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_resolution_documentation_type__id
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_ticket__id
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_ticket_data_requirement__id
+#: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_ticket_force_close__id
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_ticket_resolution_documentation__id
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_type__id
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_type_category__id
@@ -1037,6 +1115,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_resolution_documentation_type____last_update
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_ticket____last_update
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_ticket_data_requirement____last_update
+#: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_ticket_force_close____last_update
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_ticket_resolution_documentation____last_update
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_type____last_update
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_type_category____last_update
@@ -1055,6 +1134,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_resolution_documentation_type__write_uid
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_ticket__write_uid
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_ticket_data_requirement__write_uid
+#: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_ticket_force_close__write_uid
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_ticket_resolution_documentation__write_uid
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_type__write_uid
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_type_category__write_uid
@@ -1073,6 +1153,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_resolution_documentation_type__write_date
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_ticket__write_date
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_ticket_data_requirement__write_date
+#: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_ticket_force_close__write_date
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_ticket_resolution_documentation__write_date
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_type__write_date
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_type_category__write_date
@@ -1447,6 +1528,21 @@ msgid ""
 msgstr ""
 
 #. module: ssi_helpdesk
+#: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_ticket_force_close__reason
+msgid "Reason"
+msgstr ""
+
+#. module: ssi_helpdesk
+#: model:ir.model.fields,help:ssi_helpdesk.field_helpdesk_ticket__force_close_reason
+msgid ""
+"Reason the resolution documentation gate was bypassed\n"
+"\n"
+"* Filled by the Force Close wizard\n"
+"* While it is filled, open resolution documentations no longer block\n"
+"  confirming or finishing the ticket"
+msgstr ""
+
+#. module: ssi_helpdesk
 #: model:ir.model.fields,help:ssi_helpdesk.field_helpdesk_ticket__reject_ok
 msgid ""
 "Reject policy\n"
@@ -1797,6 +1893,14 @@ msgid ""
 "User that responsible to review document\n"
 "\n"
 "* Unless it configured to approve reviewer does not equal to approver"
+msgstr ""
+
+#. module: ssi_helpdesk
+#: model:ir.model.fields,help:ssi_helpdesk.field_helpdesk_ticket__force_close_user_id
+msgid ""
+"User who force closed the ticket\n"
+"\n"
+"* Filled by the Force Close wizard"
 msgstr ""
 
 #. module: ssi_helpdesk
