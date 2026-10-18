@@ -28,9 +28,9 @@ module. When both **Type** and **Content** are set, the content name is used.
 
 ## Modified Flow
 
-- Anchor: after Flow step 4 of the base instruction (change the required fields), open
-  the **Resolution Documentation(s)** tab and click **Add a line**.
+- Anchor: at Flow step 5 of the base instruction (open the **Resolution
+  Documentation(s)** tab and click **Add a line**).
 - The line form shows the **Course** and **Content** fields below **Type**.
 - Select a **Course**, then a **Content**; **Documentation** and **URL** are filled
-  automatically. Click **Save** on the line, then continue with Flow step 5 of the base
-  instruction.
+  automatically. The **URL** is a valid evidence for the line. Click **Save & Close** on
+  the line, then continue with Flow step 10 of the base instruction.

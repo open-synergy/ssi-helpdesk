@@ -1,0 +1,207 @@
+scenarios:
+  - name: "Resolution Documentation - Evidence Kinds, State and History"
+    steps:
+      - step: "Setup - create company partner"
+        action: "create"
+        model: "res.partner"
+        save_as: "company"
+        values:
+          name: "Evidence Company HDE"
+          is_company: true
+
+      - step: "Setup - create contact person"
+        action: "create"
+        model: "res.partner"
+        save_as: "contact"
+        values:
+          name: "Evidence Contact HDE"
+          is_company: false
+          parent_id: "EVAL: registry['company'].id"
+
+      - step: "Setup - create helpdesk type category"
+        action: "create"
+        model: "helpdesk_type_category"
+        save_as: "type_category"
+        values:
+          name: "Evidence Category HDE"
+          code: "EVCATHDE"
+
+      - step: "Setup - create helpdesk type"
+        action: "create"
+        model: "helpdesk_type"
+        save_as: "ticket_type"
+        values:
+          name: "Evidence Type HDE"
+          code: "EVTYPEHDE"
+          category_id: "EVAL: registry['type_category'].id"
+
+      - step: "Setup - create channel"
+        action: "create"
+        model: "helpdesk_channel"
+        save_as: "channel"
+        values:
+          name: "Evidence Channel HDE"
+          code: "EVCHHDE"
+
+      - step: "Setup - create ticket"
+        action: "create"
+        model: "helpdesk_ticket"
+        save_as: "ticket"
+        as_user: "base.user_admin"
+        values:
+          title: "Evidence Ticket HDE"
+          partner_id: "EVAL: registry['contact'].id"
+          commercial_partner_id: "EVAL: registry['company'].id"
+          type_id: "EVAL: registry['ticket_type'].id"
+          type_category_id: "EVAL: registry['type_category'].id"
+
+      - step: "Setup - create communication of the ticket with a channel"
+        action: "create"
+        model: "helpdesk_communication"
+        save_as: "communication"
+        as_user: "base.user_admin"
+        values:
+          title: "Evidence Communication HDE"
+          partner_id: "EVAL: registry['contact'].id"
+          ticket_id: "EVAL: registry['ticket'].id"
+          channel_id: "EVAL: registry['channel'].id"
+
+      - step: "Setup - the contact confirms in the communication"
+        action: "call"
+        target: "communication"
+        method: "message_post"
+        as_user: "base.user_admin"
+        kwargs:
+          body: "Evidence message confirmed HDE"
+          message_type: "comment"
+          email_from: "evidence.contact.hde@example.com"
+          author_id: "EVAL: registry['contact'].id"
+
+      - step: "Setup - find the confirmation message"
+        action: "search"
+        model: "mail.message"
+        domain:
+          - ["model", "=", "helpdesk_communication"]
+          - ["res_id", "=", "REC: communication.id"]
+          - ["body", "ilike", "Evidence message confirmed HDE"]
+        save_as: "evidence_msg"
+        expect_count: 1
+
+      - step: "Message evidence is done, author and channel are read from it"
+        action: "create"
+        model: "helpdesk_ticket.resolution_documentation"
+        save_as: "line_message"
+        as_user: "base.user_admin"
+        values:
+          ticket_id: "EVAL: registry['ticket'].id"
+          name: "Evidence Line Message HDE"
+          evidence_kind: "message"
+          message_id: "EVAL: registry['evidence_msg'].id"
+        asserts:
+          state:
+            type: "value"
+            expected: "done"
+          evidence_partner_id:
+            type: "m2o"
+            expected: "REC: contact"
+          evidence_channel_id:
+            type: "m2o"
+            expected: "REC: channel"
+
+      - step: "Message kind without a message stays open"
+        action: "create"
+        model: "helpdesk_ticket.resolution_documentation"
+        save_as: "line_message_empty"
+        as_user: "base.user_admin"
+        values:
+          ticket_id: "EVAL: registry['ticket'].id"
+          name: "Evidence Line Message Empty HDE"
+          evidence_kind: "message"
+        asserts:
+          state:
+            type: "value"
+            expected: "open"
+
+      - step: "Decision kind without a note stays open"
+        action: "create"
+        model: "helpdesk_ticket.resolution_documentation"
+        save_as: "line_decision"
+        as_user: "base.user_admin"
+        values:
+          ticket_id: "EVAL: registry['ticket'].id"
+          name: "Evidence Line Decision HDE"
+          evidence_kind: "decision"
+        asserts:
+          state:
+            type: "value"
+            expected: "open"
+
+      - step: "Odoo record kind with a referenced record is done"
+        action: "create"
+        model: "helpdesk_ticket.resolution_documentation"
+        save_as: "line_record"
+        as_user: "base.user_admin"
+        values:
+          ticket_id: "EVAL: registry['ticket'].id"
+          name: "Evidence Line Record HDE"
+          evidence_kind: "record"
+          evidence_record_ref: "EVAL: 'res.partner,%d' % registry['contact'].id"
+        asserts:
+          state:
+            type: "value"
+            expected: "done"
+
+      - step: "Code kind with a URL is done"
+        action: "create"
+        model: "helpdesk_ticket.resolution_documentation"
+        save_as: "line_code"
+        as_user: "base.user_admin"
+        values:
+          ticket_id: "EVAL: registry['ticket'].id"
+          name: "Evidence Line Code HDE"
+          evidence_kind: "code"
+          url: "https://example.com/pull/1"
+        asserts:
+          state:
+            type: "value"
+            expected: "done"
+
+      - step: "Legacy line without kind but with a URL is done"
+        action: "create"
+        model: "helpdesk_ticket.resolution_documentation"
+        save_as: "line_legacy"
+        as_user: "base.user_admin"
+        values:
+          ticket_id: "EVAL: registry['ticket'].id"
+          name: "Evidence Line Legacy HDE"
+          url: "https://example.com/doc"
+        asserts:
+          state:
+            type: "value"
+            expected: "done"
+
+      - step: "Change the decision note of the decision line"
+        action: "write"
+        target: "line_decision"
+        as_user: "base.user_admin"
+        values:
+          decision_note: "Customer agreed to close"
+
+      - step: "Decision line with a note is done"
+        action: "assert"
+        target: "line_decision"
+        refresh: true
+        asserts:
+          state:
+            type: "value"
+            expected: "done"
+
+      - step: "The change is logged on the ticket chatter"
+        action: "search"
+        model: "mail.message"
+        domain:
+          - ["model", "=", "helpdesk_ticket"]
+          - ["res_id", "=", "REC: ticket.id"]
+          - ["body", "ilike", "Evidence Line Decision HDE"]
+        save_as: "history_msg"
+        expect_count: 1
