@@ -5,6 +5,8 @@
 from odoo import api, fields, models
 from odoo.tools import html_escape
 
+from .helpdesk_resolution_documentation_type import EVIDENCE_KIND_SELECTION
+
 
 class HelpdeskTicketResolutionDocumentation(models.Model):
     """Resolution documentation line of a helpdesk ticket.
@@ -44,13 +46,7 @@ class HelpdeskTicketResolutionDocumentation(models.Model):
     )
     evidence_kind = fields.Selection(
         string="Evidence Kind",
-        selection=[
-            ("message", "Message"),
-            ("record", "Odoo Record"),
-            ("decision", "Decision"),
-            ("url", "URL"),
-            ("code", "Code"),
-        ],
+        selection=EVIDENCE_KIND_SELECTION,
         required=False,
         help="Kind of evidence that proves this documentation. "
         "Leave empty to prove it with the URL only.",
@@ -103,6 +99,41 @@ class HelpdeskTicketResolutionDocumentation(models.Model):
         store=True,
         compute_sudo=True,
         help="Channel of the communication that holds the evidence " "message.",
+    )
+    root_cause_id = fields.Many2one(
+        string="Root Cause",
+        comodel_name="helpdesk_root_cause",
+        ondelete="restrict",
+        help="Root cause of the ticket problem. It is required to "
+        "complete a documentation whose type requires a root cause.",
+    )
+    root_cause_note = fields.Text(
+        string="Root Cause Note",
+        help="Explanation of the root cause.",
+    )
+    required_evidence_kind = fields.Selection(
+        string="Required Evidence Kind",
+        related="type_id.required_evidence_kind",
+        store=False,
+        compute_sudo=True,
+    )
+    requires_customer_confirmation = fields.Boolean(
+        string="Requires Customer Confirmation",
+        related="type_id.requires_customer_confirmation",
+        store=False,
+        compute_sudo=True,
+    )
+    third_party = fields.Boolean(
+        string="Third Party",
+        related="type_id.third_party",
+        store=False,
+        compute_sudo=True,
+    )
+    requires_root_cause = fields.Boolean(
+        string="Requires Root Cause",
+        related="type_id.requires_root_cause",
+        store=False,
+        compute_sudo=True,
     )
     state = fields.Selection(
         string="State",
@@ -195,8 +226,14 @@ class HelpdeskTicketResolutionDocumentation(models.Model):
         "url",
         "evidence_kind",
         "message_id",
+        "evidence_partner_id",
         "evidence_record_ref",
         "decision_note",
+        "root_cause_id",
+        "type_id",
+        "type_id.required_evidence_kind",
+        "type_id.requires_customer_confirmation",
+        "type_id.requires_root_cause",
     )
     def _compute_state(self):
         """Compute the state of the documentation.
@@ -206,8 +243,16 @@ class HelpdeskTicketResolutionDocumentation(models.Model):
         note, or the URL for the url and code kinds. When the kind is
         empty the URL alone proves the documentation, which keeps the
         behavior of the lines created before the kind existed.
-        Otherwise the state is ``open``.
+
+        The type adds requirements. The evidence kind must be the
+        required one of the type. A type that requires customer
+        confirmation needs a message kind evidence whose author is not
+        a partner of a company. A type that requires a root cause needs
+        the root cause to be filled. Otherwise the state is ``open``.
         """
+        company_partners = (
+            self.env["res.company"].sudo().search([]).mapped("partner_id")
+        )
         for record in self:
             kind = record.evidence_kind
             proof = {
@@ -217,8 +262,21 @@ class HelpdeskTicketResolutionDocumentation(models.Model):
                 "url": record.url,
                 "code": record.url,
             }.get(kind, record.url)
+            valid = bool(proof)
+            doc_type = record.type_id
+            if valid and doc_type.required_evidence_kind:
+                valid = kind == doc_type.required_evidence_kind
+            if valid and doc_type.requires_customer_confirmation:
+                valid = (
+                    kind == "message"
+                    and bool(record.message_id)
+                    and bool(record.evidence_partner_id)
+                    and record.evidence_partner_id not in company_partners
+                )
+            if valid and doc_type.requires_root_cause:
+                valid = bool(record.root_cause_id)
             result = "open"
-            if proof:
+            if valid:
                 result = "done"
             record.state = result
 
@@ -308,3 +366,15 @@ class HelpdeskTicketResolutionDocumentation(models.Model):
         self.name = False
         if self.type_id:
             self.name = self.type_id.name
+
+    @api.onchange(
+        "type_id",
+    )
+    def onchange_evidence_kind(self):
+        """Fill the evidence kind from the required one of the type.
+
+        The kind is set only when the selected type requires one, so
+        the current kind is kept otherwise.
+        """
+        if self.type_id.required_evidence_kind:
+            self.evidence_kind = self.type_id.required_evidence_kind

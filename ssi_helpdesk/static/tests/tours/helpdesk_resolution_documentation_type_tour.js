@@ -79,7 +79,28 @@ odoo.define("ssi_helpdesk.helpdesk_resolution_documentation_type_tour", function
                 run: "text /",
             },
 
-            // Flow 4 -- Note tab: only the tab render is verified.
+            // Flow 4 -- Requirements: choose the required evidence kind
+            // and check Requires Root Cause.
+            {
+                content: "Choose the Required Evidence Kind",
+                trigger: "select.o_field_widget[name='required_evidence_kind']",
+                extra_trigger: ".o_form_view.o_form_editable",
+                run: "text Message",
+            },
+            {
+                content: "Check Requires Root Cause",
+                trigger: ".o_field_boolean[name='requires_root_cause'] input",
+                extra_trigger: ".o_form_view.o_form_editable",
+            },
+            {
+                content: "Requires Root Cause is checked",
+                trigger: ".o_field_boolean[name='requires_root_cause'] input:checked",
+                run: function () {
+                    // Assertion only.
+                },
+            },
+
+            // Flow 5 -- Note tab: only the tab render is verified.
             {
                 content: "Open the Note tab",
                 trigger: ".o_notebook .nav-link:contains(Note)",
@@ -92,7 +113,7 @@ odoo.define("ssi_helpdesk.helpdesk_resolution_documentation_type_tour", function
                 },
             },
 
-            // Flow 5 -- Inline Action: click Generate Code to auto-assign
+            // Flow 6 -- Inline Action: click Generate Code to auto-assign
             // the code left as "/" from the sequence.template prepared in
             // setUpClass.
             {
@@ -112,7 +133,7 @@ odoo.define("ssi_helpdesk.helpdesk_resolution_documentation_type_tour", function
                 },
             },
 
-            // Flow 6 -- Click Save.
+            // Flow 7 -- Click Save.
             {
                 content: "Save the record",
                 trigger: ".o_form_button_save",

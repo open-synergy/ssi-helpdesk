@@ -24,6 +24,10 @@
     <field name="arch" type="xml">
         <data>
             <xpath expr="//field[@name='active']" position="after">
+                <field name="required_evidence_kind" />
+                <field name="requires_customer_confirmation" />
+                <field name="third_party" />
+                <field name="requires_root_cause" />
             </xpath>
         </data>
     </field>
@@ -37,6 +41,10 @@
     <field name="arch" type="xml">
         <data>
             <xpath expr="//field[@name='active']" position="after">
+                <field name="required_evidence_kind" />
+                <field name="requires_customer_confirmation" />
+                <field name="third_party" />
+                <field name="requires_root_cause" />
             </xpath>
         </data>
     </field>

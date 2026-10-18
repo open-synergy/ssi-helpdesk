@@ -39,5 +39,10 @@
 - The record is updated with the new values.
 - A line is **Done** when the evidence of its kind is filled. A line without an
   **Evidence Kind** and with a **URL** is also **Done**.
+- When the **Type** of the line has requirements, the line is **Done** only if they are
+  met: the **Evidence Kind** equals the **Required Evidence Kind** of the type; with
+  **Requires Customer Confirmation** the evidence is a **Message** whose author
+  (**Confirmed By**) is not a company partner; with **Requires Root Cause** the **Root
+  Cause** is filled. Otherwise the line stays **In Progress**.
 - Changing the evidence of a line posts a note on the ticket chatter with the old and
   the new evidence.

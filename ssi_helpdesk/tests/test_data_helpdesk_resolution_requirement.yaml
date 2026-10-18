@@ -1,0 +1,352 @@
+scenarios:
+  - name: "Resolution Documentation Type - Requirements and Root Cause"
+    steps:
+      - step: "Setup - create client company partner"
+        action: "create"
+        model: "res.partner"
+        save_as: "client_company"
+        values:
+          name: "Requirement Client Company HDQ"
+          is_company: true
+
+      - step: "Setup - create client contact"
+        action: "create"
+        model: "res.partner"
+        save_as: "contact"
+        values:
+          name: "Requirement Contact HDQ"
+          is_company: false
+          parent_id: "EVAL: registry['client_company'].id"
+
+      - step: "Setup - create helpdesk type category"
+        action: "create"
+        model: "helpdesk_type_category"
+        save_as: "type_category"
+        values:
+          name: "Requirement Category HDQ"
+          code: "RQCATHDQ"
+
+      - step: "Setup - create helpdesk type"
+        action: "create"
+        model: "helpdesk_type"
+        save_as: "ticket_type"
+        values:
+          name: "Requirement Type HDQ"
+          code: "RQTYPEHDQ"
+          category_id: "EVAL: registry['type_category'].id"
+
+      - step: "Setup - create ticket"
+        action: "create"
+        model: "helpdesk_ticket"
+        save_as: "ticket"
+        as_user: "base.user_admin"
+        values:
+          title: "Requirement Ticket HDQ"
+          partner_id: "EVAL: registry['contact'].id"
+          commercial_partner_id: "EVAL: registry['client_company'].id"
+          type_id: "EVAL: registry['ticket_type'].id"
+          type_category_id: "EVAL: registry['type_category'].id"
+
+      - step: "Setup - the contact posts a message on the ticket"
+        action: "call"
+        target: "ticket"
+        method: "message_post"
+        as_user: "base.user_admin"
+        kwargs:
+          body: "Requirement message from client HDQ"
+          message_type: "comment"
+          email_from: "requirement.contact.hdq@example.com"
+          author_id: "EVAL: registry['contact'].id"
+
+      - step: "Setup - the company posts a message on the ticket"
+        action: "call"
+        target: "ticket"
+        method: "message_post"
+        as_user: "base.user_admin"
+        kwargs:
+          body: "Requirement message from company HDQ"
+          message_type: "comment"
+          email_from: "requirement.company.hdq@example.com"
+          author_id: "EVAL: env.company.partner_id.id"
+
+      - step: "Setup - find the client message"
+        action: "search"
+        model: "mail.message"
+        domain:
+          - ["model", "=", "helpdesk_ticket"]
+          - ["res_id", "=", "REC: ticket.id"]
+          - ["body", "ilike", "Requirement message from client HDQ"]
+        save_as: "client_msg"
+        expect_count: 1
+
+      - step: "Setup - find the company message"
+        action: "search"
+        model: "mail.message"
+        domain:
+          - ["model", "=", "helpdesk_ticket"]
+          - ["res_id", "=", "REC: ticket.id"]
+          - ["body", "ilike", "Requirement message from company HDQ"]
+        save_as: "company_msg"
+        expect_count: 1
+
+      - step: "Root cause master - create"
+        action: "create"
+        model: "helpdesk_root_cause"
+        save_as: "root_cause"
+        values:
+          name: "Requirement Root Cause HDQ"
+          code: "RQROOTHDQ"
+        asserts:
+          name:
+            type: "value"
+            expected: "Requirement Root Cause HDQ"
+          active:
+            type: "value"
+            expected: true
+
+      - step: "Root cause master - update"
+        action: "write"
+        target: "root_cause"
+        values:
+          name: "Requirement Root Cause HDQ Edited"
+
+      - step: "Root cause master - name is updated"
+        action: "assert"
+        target: "root_cause"
+        refresh: true
+        asserts:
+          name:
+            type: "value"
+            expected: "Requirement Root Cause HDQ Edited"
+
+      - step: "Root cause master - archive"
+        action: "write"
+        target: "root_cause"
+        values:
+          active: false
+
+      - step: "Root cause master - is archived"
+        action: "assert"
+        target: "root_cause"
+        refresh: true
+        asserts:
+          active:
+            type: "value"
+            expected: false
+
+      - step: "Root cause master - unarchive"
+        action: "write"
+        target: "root_cause"
+        values:
+          active: true
+
+      - step: "Root cause master - delete a spare record"
+        action: "create"
+        model: "helpdesk_root_cause"
+        save_as: "root_cause_spare"
+        values:
+          name: "Requirement Root Cause Spare HDQ"
+          code: "RQROOTSPHDQ"
+
+      - step: "Root cause master - spare record is deleted"
+        action: "unlink"
+        target: "root_cause_spare"
+
+      - step: "Setup - type requiring the message evidence kind"
+        action: "create"
+        model: "helpdesk_resolution_documentation_type"
+        save_as: "type_message"
+        values:
+          name: "Requirement Type Message HDQ"
+          code: "RQTMSGHDQ"
+          required_evidence_kind: "message"
+
+      - step: "Setup - type requiring customer confirmation"
+        action: "create"
+        model: "helpdesk_resolution_documentation_type"
+        save_as: "type_confirm"
+        values:
+          name: "Requirement Type Confirm HDQ"
+          code: "RQTCNFHDQ"
+          requires_customer_confirmation: true
+          third_party: true
+
+      - step: "Setup - type requiring a root cause"
+        action: "create"
+        model: "helpdesk_resolution_documentation_type"
+        save_as: "type_root"
+        values:
+          name: "Requirement Type Root HDQ"
+          code: "RQTRTHDQ"
+          requires_root_cause: true
+
+      - step: "Setup - type without requirement"
+        action: "create"
+        model: "helpdesk_resolution_documentation_type"
+        save_as: "type_plain"
+        values:
+          name: "Requirement Type Plain HDQ"
+          code: "RQTPLNHDQ"
+
+      - step: "Required kind - URL evidence stays open"
+        action: "create"
+        model: "helpdesk_ticket.resolution_documentation"
+        save_as: "line_kind_url"
+        as_user: "base.user_admin"
+        values:
+          ticket_id: "EVAL: registry['ticket'].id"
+          type_id: "EVAL: registry['type_message'].id"
+          name: "Requirement Line Kind URL HDQ"
+          evidence_kind: "url"
+          url: "https://example.com/requirement"
+        asserts:
+          state:
+            type: "value"
+            expected: "open"
+
+      - step: "Required kind - URL without evidence kind stays open"
+        action: "create"
+        model: "helpdesk_ticket.resolution_documentation"
+        save_as: "line_kind_empty"
+        as_user: "base.user_admin"
+        values:
+          ticket_id: "EVAL: registry['ticket'].id"
+          type_id: "EVAL: registry['type_message'].id"
+          name: "Requirement Line Kind Empty HDQ"
+          url: "https://example.com/requirement"
+        asserts:
+          state:
+            type: "value"
+            expected: "open"
+
+      - step: "Required kind - message evidence is done"
+        action: "create"
+        model: "helpdesk_ticket.resolution_documentation"
+        save_as: "line_kind_message"
+        as_user: "base.user_admin"
+        values:
+          ticket_id: "EVAL: registry['ticket'].id"
+          type_id: "EVAL: registry['type_message'].id"
+          name: "Requirement Line Kind Message HDQ"
+          evidence_kind: "message"
+          message_id: "EVAL: registry['company_msg'].id"
+        asserts:
+          state:
+            type: "value"
+            expected: "done"
+
+      - step: "Confirmation - message from the company partner stays open"
+        action: "create"
+        model: "helpdesk_ticket.resolution_documentation"
+        save_as: "line_confirm_company"
+        as_user: "base.user_admin"
+        values:
+          ticket_id: "EVAL: registry['ticket'].id"
+          type_id: "EVAL: registry['type_confirm'].id"
+          name: "Requirement Line Confirm Company HDQ"
+          evidence_kind: "message"
+          message_id: "EVAL: registry['company_msg'].id"
+        asserts:
+          state:
+            type: "value"
+            expected: "open"
+
+      - step: "Confirmation - URL evidence stays open"
+        action: "create"
+        model: "helpdesk_ticket.resolution_documentation"
+        save_as: "line_confirm_url"
+        as_user: "base.user_admin"
+        values:
+          ticket_id: "EVAL: registry['ticket'].id"
+          type_id: "EVAL: registry['type_confirm'].id"
+          name: "Requirement Line Confirm URL HDQ"
+          evidence_kind: "url"
+          url: "https://example.com/requirement"
+        asserts:
+          state:
+            type: "value"
+            expected: "open"
+
+      - step: "Confirmation - message from the client contact is done"
+        action: "create"
+        model: "helpdesk_ticket.resolution_documentation"
+        save_as: "line_confirm_client"
+        as_user: "base.user_admin"
+        values:
+          ticket_id: "EVAL: registry['ticket'].id"
+          type_id: "EVAL: registry['type_confirm'].id"
+          name: "Requirement Line Confirm Client HDQ"
+          evidence_kind: "message"
+          message_id: "EVAL: registry['client_msg'].id"
+        asserts:
+          state:
+            type: "value"
+            expected: "done"
+          third_party:
+            type: "value"
+            expected: true
+
+      - step: "Root cause - valid evidence without root cause stays open"
+        action: "create"
+        model: "helpdesk_ticket.resolution_documentation"
+        save_as: "line_root"
+        as_user: "base.user_admin"
+        values:
+          ticket_id: "EVAL: registry['ticket'].id"
+          type_id: "EVAL: registry['type_root'].id"
+          name: "Requirement Line Root HDQ"
+          evidence_kind: "url"
+          url: "https://example.com/requirement"
+        asserts:
+          state:
+            type: "value"
+            expected: "open"
+          requires_root_cause:
+            type: "value"
+            expected: true
+
+      - step: "Root cause - fill the root cause"
+        action: "write"
+        target: "line_root"
+        as_user: "base.user_admin"
+        values:
+          root_cause_id: "EVAL: registry['root_cause'].id"
+
+      - step: "Root cause - line with a root cause is done"
+        action: "assert"
+        target: "line_root"
+        refresh: true
+        asserts:
+          state:
+            type: "value"
+            expected: "done"
+
+      - step: "Without attribute - URL evidence is done like before"
+        action: "create"
+        model: "helpdesk_ticket.resolution_documentation"
+        save_as: "line_plain"
+        as_user: "base.user_admin"
+        values:
+          ticket_id: "EVAL: registry['ticket'].id"
+          type_id: "EVAL: registry['type_plain'].id"
+          name: "Requirement Line Plain HDQ"
+          url: "https://example.com/requirement"
+        asserts:
+          state:
+            type: "value"
+            expected: "done"
+
+      - step: "Type change - requiring a root cause reopens the line"
+        action: "write"
+        target: "type_plain"
+        values:
+          requires_root_cause: true
+
+      - step: "Type change - the plain line is open again"
+        action: "assert"
+        target: "line_plain"
+        refresh: true
+        asserts:
+          state:
+            type: "value"
+            expected: "open"
