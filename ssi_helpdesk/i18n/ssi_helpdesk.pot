@@ -597,6 +597,16 @@ msgid "Contacts"
 msgstr ""
 
 #. module: ssi_helpdesk
+#: code:addons/ssi_helpdesk/models/helpdesk_ticket_resolution_documentation.py:0
+#, python-format
+msgid ""
+"Context: Mark resolution documentation as not applicable\n"
+"Database ID: %(id)s\n"
+"Problem: Not applicable reason is empty\n"
+"Solution: Fill the not applicable reason"
+msgstr ""
+
+#. module: ssi_helpdesk
 #: model:ir.actions.act_window,name:ssi_helpdesk.create_ticket_from_communication_action
 #: model_terms:ir.ui.view,arch_db:ssi_helpdesk.helpdesk_communication_view_form
 msgid "Create Ticket"
@@ -1283,6 +1293,13 @@ msgid ""
 msgstr ""
 
 #. module: ssi_helpdesk
+#: model:ir.model.fields,help:ssi_helpdesk.field_helpdesk_ticket_resolution_documentation__cancelled
+msgid ""
+"Mark this documentation as not applicable. A not applicable documentation is"
+" ignored when the documentation status of the ticket is computed."
+msgstr ""
+
+#. module: ssi_helpdesk
 #: model:ir.model.fields,help:ssi_helpdesk.field_helpdesk_channel__active
 #: model:ir.model.fields,help:ssi_helpdesk.field_helpdesk_contact_group__active
 #: model:ir.model.fields,help:ssi_helpdesk.field_helpdesk_data_requirement_type__active
@@ -1458,6 +1475,18 @@ msgid "No Subject"
 msgstr ""
 
 #. module: ssi_helpdesk
+#: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_ticket_resolution_documentation__cancelled
+#: model:ir.model.fields.selection,name:ssi_helpdesk.selection__helpdesk_ticket_resolution_documentation__state__cancel
+#: model_terms:ir.ui.view,arch_db:ssi_helpdesk.helpdesk_ticket_view_form
+msgid "Not Applicable"
+msgstr ""
+
+#. module: ssi_helpdesk
+#: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_ticket_resolution_documentation__cancel_reason
+msgid "Not Applicable Reason"
+msgstr ""
+
+#. module: ssi_helpdesk
 #: model:ir.model.fields.selection,name:ssi_helpdesk.selection__helpdesk_ticket__resolution_documentation_state__no_need
 msgid "Not Needed"
 msgstr ""
@@ -1628,6 +1657,13 @@ msgid ""
 "* Filled by the Force Close wizard\n"
 "* While it is filled, open resolution documentations no longer block\n"
 "  confirming or finishing the ticket"
+msgstr ""
+
+#. module: ssi_helpdesk
+#: model:ir.model.fields,help:ssi_helpdesk.field_helpdesk_ticket_resolution_documentation__cancel_reason
+msgid ""
+"Reason why this documentation is not applicable. Required when the "
+"documentation is marked as not applicable."
 msgstr ""
 
 #. module: ssi_helpdesk
