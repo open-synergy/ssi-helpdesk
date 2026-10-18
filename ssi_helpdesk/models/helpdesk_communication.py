@@ -84,40 +84,46 @@ class HelpdeskCommunication(models.Model):
     @api.depends(
         "message_ids",
     )
-    def _compute_message(self):
-        """Compute the latest company and partner messages.
+    def _compute_need_respon(self):
+        """Compute the latest messages and the waiting-for-response flag.
 
-        Looks at the latest email or comment message and stores it in
-        ``latest_message_id`` when written by the company, otherwise
-        in ``latest_partner_message_id``.
+        The three stored fields are computed together, from local
+        variables, so the ``base.automation`` rules that read
+        ``need_respon`` never see a value derived from stale sources.
+
+        Among the email and comment messages, ``latest_message_id`` is
+        the newest one written by the company partner and
+        ``latest_partner_message_id`` is the newest one written by
+        anybody else. ``need_respon`` is True when only a company
+        message exists, or when the company message is newer than the
+        partner message. Otherwise it is False.
         """
         for record in self:
-            if (
-                len(
-                    record.message_ids.filtered(
-                        lambda r: r.message_type in ["email", "comment"]
-                    )
-                )
-                == 0
-            ):
-                continue
-
-            latest_message = record.message_ids.filtered(
+            company_partner_id = record.company_id.partner_id.id
+            messages = record.message_ids.filtered(
                 lambda r: r.message_type in ["email", "comment"]
-            )[0]
-            if (
-                latest_message.author_id.commercial_partner_id.id
-                == record.company_id.partner_id.id
-            ):
-                record.latest_message_id = latest_message
-            else:
-                record.latest_partner_message_id = latest_message
+            ).sorted("id", reverse=True)
+            company_messages = messages.filtered(
+                lambda r: r.author_id.commercial_partner_id.id == company_partner_id
+            )
+            company_message = company_messages[:1]
+            partner_message = (messages - company_messages)[:1]
+
+            result = False
+            if company_message and not partner_message:
+                result = True
+            elif company_message and partner_message:
+                result = company_message.id > partner_message.id
+
+            record.latest_message_id = company_message
+            record.latest_partner_message_id = partner_message
+            record.need_respon = result
 
     latest_message_id = fields.Many2one(
         string="Latest Message",
         comodel_name="mail.message",
         readonly=True,
-        compute="_compute_message",
+        compute="_compute_need_respon",
         store=True,
         compute_sudo=True,
     )
@@ -131,7 +137,7 @@ class HelpdeskCommunication(models.Model):
         string="Latest Partner Message",
         comodel_name="mail.message",
         readonly=True,
-        compute="_compute_message",
+        compute="_compute_need_respon",
         store=True,
         compute_sudo=True,
     )
@@ -141,39 +147,6 @@ class HelpdeskCommunication(models.Model):
         store=True,
         compute_sudo=True,
     )
-
-    @api.depends(
-        "latest_message_id",
-        "latest_partner_message_id",
-    )
-    def _compute_need_respon(self):
-        """Compute whether the communication waits for a response.
-
-        ``need_respon`` is True when the latest company message is
-        newer than the latest partner message, or when only a company
-        message exists. Otherwise it is False.
-        """
-        for record in self:
-            if not record.latest_message_id and not record.latest_partner_message_id:
-                record.need_respon = False
-                continue
-
-            if record.latest_message_id and not record.latest_partner_message_id:
-                record.need_respon = True
-                continue
-
-            if not record.latest_message_id and record.latest_partner_message_id:
-                record.need_respon = False
-                continue
-
-            if record.latest_message_id.id > record.latest_partner_message_id.id:
-                record.need_respon = True
-                continue
-
-            if record.latest_partner_message_id.id > record.latest_message_id.id:
-                record.need_respon = False
-                continue
-
     need_respon = fields.Boolean(
         string="Waiting for Respon",
         compute="_compute_need_respon",
