@@ -197,6 +197,12 @@ msgid "All"
 msgstr ""
 
 #. module: ssi_helpdesk
+#: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_communication__allowed_global_tag_category_ids
+#: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_ticket__allowed_global_tag_category_ids
+msgid "Allowed Global Tag Categories"
+msgstr ""
+
+#. module: ssi_helpdesk
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_communication__allowed_policy_template_ids
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_ticket__allowed_policy_template_ids
 msgid "Allowed Policy Templates"
@@ -690,6 +696,12 @@ msgstr ""
 #: model:ir.model.fields,help:ssi_helpdesk.field_helpdesk_type__activity_type_icon
 #: model:ir.model.fields,help:ssi_helpdesk.field_helpdesk_type_category__activity_type_icon
 msgid "Font awesome icon e.g. fa-tasks"
+msgstr ""
+
+#. module: ssi_helpdesk
+#: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_communication__global_tag_ids
+#: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_ticket__global_tag_ids
+msgid "Global Tags"
 msgstr ""
 
 #. module: ssi_helpdesk
@@ -1450,6 +1462,16 @@ msgid ""
 "Overdue: Due date is already passed\n"
 "Today: Activity date is today\n"
 "Planned: Future activities."
+msgstr ""
+
+#. module: ssi_helpdesk
+#: model_terms:ir.ui.view,arch_db:ssi_helpdesk.helpdesk_communication_view_form
+#: model_terms:ir.ui.view,arch_db:ssi_helpdesk.helpdesk_communication_view_search
+#: model_terms:ir.ui.view,arch_db:ssi_helpdesk.helpdesk_communication_view_tree
+#: model_terms:ir.ui.view,arch_db:ssi_helpdesk.helpdesk_ticket_view_form
+#: model_terms:ir.ui.view,arch_db:ssi_helpdesk.helpdesk_ticket_view_search
+#: model_terms:ir.ui.view,arch_db:ssi_helpdesk.helpdesk_ticket_view_tree
+msgid "Tags"
 msgstr ""
 
 #. module: ssi_helpdesk
