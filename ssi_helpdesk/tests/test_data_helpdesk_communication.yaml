@@ -181,6 +181,7 @@ scenarios:
         kwargs:
           body: "Customer reply"
           message_type: "comment"
+          email_from: "test.contact.hc@example.com"
           author_id: "EVAL: registry['contact'].id"
         asserts:
           need_respon:
