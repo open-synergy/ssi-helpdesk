@@ -146,8 +146,18 @@
                         />
                     </button>
                 </xpath>
+                <xpath expr="//header" position="inside">
+                    <button
+                        name="%(helpdesk_ticket_force_close_action)d"
+                        type="action"
+                        string="Force Close"
+                        class="oe_highlight"
+                        attrs="{'invisible':['|','|',('force_close_ok','=',False),('resolution_documentation_state','!=','open'),('force_close_reason','!=',False)]}"
+                    />
+                </xpath>
                 <xpath expr="//field[@name='user_id']" position="after">
                     <field name="id" invisible="1" />
+                    <field name="force_close_ok" invisible="1" />
                     <field
                         name="commercial_partner_id"
                         domain="[('parent_id','=',False)]"
@@ -208,6 +218,14 @@
                     <page name="resolution" string="Resolution Documentation(s)">
                         <group name="resolution" colspan="4" col="2">
                             <field name="resolution_documentation_state" />
+                            <field
+                                name="force_close_reason"
+                                attrs="{'invisible':[('force_close_reason','=',False)]}"
+                            />
+                            <field
+                                name="force_close_user_id"
+                                attrs="{'invisible':[('force_close_reason','=',False)]}"
+                            />
                         </group>
                         <field name="resolution_documentation_ids">
                             <tree>

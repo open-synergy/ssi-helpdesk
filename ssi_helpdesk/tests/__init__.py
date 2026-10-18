@@ -9,6 +9,7 @@ from . import (  # noqa: F401
     test_helpdesk_tag,
     test_helpdesk_ticket,
     test_helpdesk_ticket_communication_gate,
+    test_helpdesk_ticket_force_close,
     test_helpdesk_ticket_line_onchange,
     test_helpdesk_ticket_onchange,
     test_helpdesk_ticket_resolution_evidence,

@@ -533,4 +533,63 @@ odoo.define("ssi_helpdesk.helpdesk_ticket_tour", function (require) {
             assertStatus("reject", "Rejected")
         )
     );
+
+    // IK: docs/helpdesk_ticket/18-force-close.md
+    tour.register(
+        "ssi_helpdesk_helpdesk_ticket_force_close",
+        {
+            test: true,
+            url: "/web",
+        },
+        [].concat(
+            openTicketsList(),
+            // Flow 2 -- Open the record to force close.
+            openTicket("Tour HD Force Close Ticket"),
+            [
+                // Flow 3 -- Click Force Close. The button is type="action",
+                // so its name is a numeric action id and it is matched by
+                // label.
+                {
+                    content: "Click the Force Close button",
+                    trigger:
+                        ".o_statusbar_buttons button:enabled:contains('Force Close')",
+                    extra_trigger: ".o_form_view",
+                },
+                {
+                    content: "The wizard is displayed",
+                    trigger: ".modal-title:contains(Force Close Ticket)",
+                    in_modal: false,
+                    run: function () {
+                        // Assertion only; do not trigger the default click.
+                    },
+                },
+                // Flow 4 -- Fill in the Reason.
+                {
+                    content: "Fill in the Reason",
+                    trigger: ".o_field_widget[name='reason']",
+                    run: "text Tour HD force close reason",
+                },
+                // Flow 5 -- Click Confirm on the wizard.
+                {
+                    content: "Confirm the wizard",
+                    trigger: ".modal-footer button[name='action_confirm']",
+                },
+                // Post-Condition -- Force Close Reason is shown on the
+                // Resolution Documentation(s) tab.
+                {
+                    content: "Open the Resolution Documentation(s) tab",
+                    trigger: ".o_notebook .nav-link:contains(Resolution)",
+                    extra_trigger: "body:not(:has(.modal))",
+                },
+                {
+                    content: "The Force Close Reason is recorded",
+                    trigger:
+                        ".o_form_view .o_field_widget[name='force_close_reason']:contains(Tour HD force close reason)",
+                    run: function () {
+                        // Assertion only; do not trigger the default click.
+                    },
+                },
+            ]
+        )
+    );
 });

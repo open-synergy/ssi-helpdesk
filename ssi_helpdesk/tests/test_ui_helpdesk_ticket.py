@@ -10,7 +10,8 @@ class TestUiHelpdeskTicket(HttpSavepointCase):
     """Tour tests for the ``helpdesk_ticket`` work instructions.
 
     Covers create/edit/delete/confirm/approve/reject/start/ready
-    (``docs/helpdesk_ticket/01-create.md`` through ``08-ready.md``).
+    (``docs/helpdesk_ticket/01-create.md`` through ``08-ready.md``) and
+    force close (``docs/helpdesk_ticket/18-force-close.md``).
     All master data is built from scratch in ``setUpClass``. Tours run
     as ``admin``, which belongs to the ticket validator group.
     """
@@ -100,6 +101,21 @@ class TestUiHelpdeskTicket(HttpSavepointCase):
         cls.ticket_confirm.invalidate_cache()
         cls.ticket_confirm.with_user(cls.admin).action_open()
         cls.ticket_confirm.invalidate_cache()
+
+        # Force Close tour -- Pre-Condition: On Progress status with one
+        # resolution documentation still open.
+        cls.ticket_force_close = cls._create_ticket("Tour HD Force Close Ticket")
+        cls.ticket_force_close.with_user(cls.admin).action_ready()
+        cls.ticket_force_close.invalidate_cache()
+        cls.ticket_force_close.with_user(cls.admin).action_open()
+        cls.ticket_force_close.invalidate_cache()
+        cls.env["helpdesk_ticket.resolution_documentation"].with_user(cls.admin).create(
+            {
+                "ticket_id": cls.ticket_force_close.id,
+                "name": "Tour HD Runbook",
+            }
+        )
+        cls.ticket_force_close.invalidate_cache()
 
         # Approve tour -- Pre-Condition: Waiting for Approval status.
         cls.ticket_approve = cls._create_ticket("Tour HD Approve Ticket")
@@ -235,3 +251,12 @@ class TestUiHelpdeskTicket(HttpSavepointCase):
         IK: docs/helpdesk_ticket/08-ready.md
         """
         self.start_tour("/web", "ssi_helpdesk_helpdesk_ticket_ready", login="admin")
+
+    def test_force_close(self):
+        """Run the force close tour for ``helpdesk_ticket``.
+
+        IK: docs/helpdesk_ticket/18-force-close.md
+        """
+        self.start_tour(
+            "/web", "ssi_helpdesk_helpdesk_ticket_force_close", login="admin"
+        )

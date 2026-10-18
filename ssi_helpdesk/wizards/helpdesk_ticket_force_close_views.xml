@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 OpenSynergy Indonesia
+     Copyright 2026 PT. Simetri Sinergi Indonesia
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo>
+
+<record id="helpdesk_ticket_force_close_view_form" model="ir.ui.view">
+    <field name="name">Force Close Ticket</field>
+    <field name="model">helpdesk_ticket.force_close</field>
+    <field name="arch" type="xml">
+        <form>
+            <group name="group_1" colspan="4" col="2">
+                <field name="ticket_id" invisible="1" />
+                <field name="reason" />
+            </group>
+            <footer>
+                <button
+                        string="Confirm"
+                        name="action_confirm"
+                        type="object"
+                        class="btn-primary"
+                    />
+                <button string="Cancel" class="btn-default" special="cancel" />
+            </footer>
+        </form>
+    </field>
+</record>
+
+<record id="helpdesk_ticket_force_close_action" model="ir.actions.act_window">
+    <field name="name">Force Close Ticket</field>
+    <field name="res_model">helpdesk_ticket.force_close</field>
+    <field name="view_mode">form</field>
+    <field name="view_id" ref="helpdesk_ticket_force_close_view_form" />
+    <field name="target">new</field>
+</record>
+
+</odoo>
