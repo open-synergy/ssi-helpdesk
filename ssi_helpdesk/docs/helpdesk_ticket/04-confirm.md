@@ -20,6 +20,10 @@
 - **Record:** Every communication of this ticket, other than its finishing
   communication, is **Done**; a communication that is still **Draft** or **Open** blocks
   the confirmation.
+- **Record:** **Resolution Documentation Status** is not **In Progress**: every
+  resolution documentation of this ticket has its URL filled. A documentation that is
+  still in progress blocks the confirmation, unless the ticket was force closed (see
+  `18-force-close`); the error message names the pending documentation.
 - **Access:** User is in group _Helpdesk Ticket / User_.
 
 ## Flow

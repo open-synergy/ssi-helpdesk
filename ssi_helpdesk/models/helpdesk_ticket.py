@@ -54,6 +54,7 @@ class HelpdeskTicket(models.Model):
         "terminate_ok",
         "restart_ok",
         "manual_number_ok",
+        "force_close_ok",
     ]
     _header_button_order = [
         "action_ready",
@@ -280,6 +281,35 @@ class HelpdeskTicket(models.Model):
         store=True,
         compute_sudo=True,
     )
+    force_close_reason = fields.Text(
+        string="Force Close Reason",
+        readonly=True,
+        copy=False,
+        tracking=True,
+        help="""Reason the resolution documentation gate was bypassed
+
+* Filled by the Force Close wizard
+* While it is filled, open resolution documentations no longer block
+  confirming or finishing the ticket""",
+    )
+    force_close_user_id = fields.Many2one(
+        string="Force Closed By",
+        comodel_name="res.users",
+        readonly=True,
+        copy=False,
+        ondelete="restrict",
+        help="""User who force closed the ticket
+
+* Filled by the Force Close wizard""",
+    )
+    force_close_ok = fields.Boolean(
+        string="Can Force Close",
+        compute="_compute_policy",
+        compute_sudo=True,
+        help="""Force close policy
+
+* If active user can see and execute the 'Force Close' button""",
+    )
     communication_draft_count = fields.Integer(
         string="Need Respond Count",
         store=True,
@@ -327,6 +357,7 @@ class HelpdeskTicket(models.Model):
             "restart_ok",
             "terminate_ok",
             "manual_number_ok",
+            "force_close_ok",
         ]
         res += policy_field
         return res
@@ -769,6 +800,59 @@ class HelpdeskTicket(models.Model):
         """
         self.ensure_one()
         self._check_communications_done("Finish Ticket")
+
+    @ssi_decorator.pre_confirm_check()
+    def _30_check_resolution_documentation_done_on_confirm(self):
+        """Block confirmation while resolution documentation is open.
+
+        :raises UserError: if a resolution documentation is still open
+            and the ticket was not force closed
+        """
+        self.ensure_one()
+        self._check_resolution_documentation_done("Confirm Ticket")
+
+    @ssi_decorator.pre_done_check()
+    def _30_check_resolution_documentation_done_on_done(self):
+        """Block completion while resolution documentation is open.
+
+        :raises UserError: if a resolution documentation is still open
+            and the ticket was not force closed
+        """
+        self.ensure_one()
+        self._check_resolution_documentation_done("Finish Ticket")
+
+    def _check_resolution_documentation_done(self, context):
+        """Ensure the resolution documentation is done or bypassed.
+
+        The gate only applies while ``resolution_documentation_state``
+        is ``open``. A filled ``force_close_reason`` bypasses it, but
+        never the split and communication gates.
+
+        :param str context: operation name shown in the error message
+        :raises UserError: listing the documentations still open
+        """
+        self.ensure_one()
+        if self.resolution_documentation_state != "open":
+            return
+        if self.force_close_reason:
+            return
+        pending = self.resolution_documentation_ids.filtered(
+            lambda x: x.state == "open"
+        )
+        error_message = _(
+            """
+Context: %s
+Database ID: %s
+Problem: Resolution documentation of this ticket is not done yet: %s
+Solution: Complete the pending documentation, or use Force Close
+"""
+            % (
+                context,
+                self.id,
+                ", ".join(pending.mapped("name")),
+            )
+        )
+        raise UserError(error_message)
 
     def _check_communications_done(self, context):
         """Ensure every communication but the finishing one is done.

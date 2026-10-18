@@ -4,5 +4,6 @@
 
 from . import (
     create_ticket_from_communication,
+    helpdesk_ticket_force_close,
     split_helpdesk_ticket,
 )

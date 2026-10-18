@@ -38,6 +38,7 @@
         "menu.xml",
         "wizards/create_ticket_from_communication_views.xml",
         "wizards/split_helpdesk_ticket_views.xml",
+        "wizards/helpdesk_ticket_force_close_views.xml",
         "views/helpdesk_priority_views.xml",
         "views/helpdesk_type_category_views.xml",
         "views/helpdesk_type_views.xml",
