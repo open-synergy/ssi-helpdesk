@@ -203,6 +203,11 @@ msgid "Allowed Global Tag Categories"
 msgstr ""
 
 #. module: ssi_helpdesk
+#: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_ticket_resolution_documentation__allowed_message_ids
+msgid "Allowed Messages"
+msgstr ""
+
+#. module: ssi_helpdesk
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_communication__allowed_policy_template_ids
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_ticket__allowed_policy_template_ids
 msgid "Allowed Policy Templates"
@@ -263,6 +268,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_type__message_attachment_count
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_type_category__message_attachment_count
 msgid "Attachment Count"
+msgstr ""
+
+#. module: ssi_helpdesk
+#: model:ir.model.fields,help:ssi_helpdesk.field_helpdesk_ticket_resolution_documentation__evidence_partner_id
+msgid "Author of the evidence message."
 msgstr ""
 
 #. module: ssi_helpdesk
@@ -378,6 +388,11 @@ msgid "Channel"
 msgstr ""
 
 #. module: ssi_helpdesk
+#: model:ir.model.fields,help:ssi_helpdesk.field_helpdesk_ticket_resolution_documentation__evidence_channel_id
+msgid "Channel of the communication that holds the evidence message."
+msgstr ""
+
+#. module: ssi_helpdesk
 #: model:ir.ui.menu,name:ssi_helpdesk.helpdesk_channel_menu
 msgid "Channels"
 msgstr ""
@@ -395,6 +410,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_resolution_documentation_type__code
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_type__code
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_type_category__code
+#: model:ir.model.fields.selection,name:ssi_helpdesk.selection__helpdesk_ticket_resolution_documentation__evidence_kind__code
 msgid "Code"
 msgstr ""
 
@@ -476,6 +492,11 @@ msgstr ""
 #. module: ssi_helpdesk
 #: model:ir.model.fields.selection,name:ssi_helpdesk.selection__helpdesk_communication__waiting_for__confirmation
 msgid "Confirmation"
+msgstr ""
+
+#. module: ssi_helpdesk
+#: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_ticket_resolution_documentation__evidence_partner_id
+msgid "Confirmed By"
 msgstr ""
 
 #. module: ssi_helpdesk
@@ -565,8 +586,26 @@ msgid "Date Submit"
 msgstr ""
 
 #. module: ssi_helpdesk
+#: model:ir.model.fields,help:ssi_helpdesk.field_helpdesk_ticket_resolution_documentation__evidence_date
+msgid ""
+"Date of the evidence. It follows the message date for message evidence, and "
+"is filled manually otherwise."
+msgstr ""
+
+#. module: ssi_helpdesk
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_ticket__date_deadline
 msgid "Deadline"
+msgstr ""
+
+#. module: ssi_helpdesk
+#: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_ticket_resolution_documentation__decision_note
+#: model:ir.model.fields.selection,name:ssi_helpdesk.selection__helpdesk_ticket_resolution_documentation__evidence_kind__decision
+msgid "Decision"
+msgstr ""
+
+#. module: ssi_helpdesk
+#: model:ir.model.fields,help:ssi_helpdesk.field_helpdesk_ticket_resolution_documentation__decision_note
+msgid "Decision that proves this documentation."
 msgstr ""
 
 #. module: ssi_helpdesk
@@ -644,6 +683,33 @@ msgstr ""
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_ticket__duration_id
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_type__duration_id
 msgid "Duration"
+msgstr ""
+
+#. module: ssi_helpdesk
+#: model:ir.model.fields,help:ssi_helpdesk.field_helpdesk_ticket_resolution_documentation__message_id
+msgid ""
+"Email or comment of the ticket or of one of its communications that proves "
+"this documentation."
+msgstr ""
+
+#. module: ssi_helpdesk
+#: model_terms:ir.ui.view,arch_db:ssi_helpdesk.helpdesk_ticket_view_form
+msgid "Evidence"
+msgstr ""
+
+#. module: ssi_helpdesk
+#: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_ticket_resolution_documentation__evidence_channel_id
+msgid "Evidence Channel"
+msgstr ""
+
+#. module: ssi_helpdesk
+#: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_ticket_resolution_documentation__evidence_date
+msgid "Evidence Date"
+msgstr ""
+
+#. module: ssi_helpdesk
+#: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_ticket_resolution_documentation__evidence_kind
+msgid "Evidence Kind"
 msgstr ""
 
 #. module: ssi_helpdesk
@@ -940,6 +1006,13 @@ msgid "Is Follower"
 msgstr ""
 
 #. module: ssi_helpdesk
+#: model:ir.model.fields,help:ssi_helpdesk.field_helpdesk_ticket_resolution_documentation__evidence_kind
+msgid ""
+"Kind of evidence that proves this documentation. Leave empty to prove it "
+"with the URL only."
+msgstr ""
+
+#. module: ssi_helpdesk
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_create_ticket_from_communication____last_update
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_channel____last_update
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_communication____last_update
@@ -1076,6 +1149,12 @@ msgstr ""
 #. module: ssi_helpdesk
 #: model:helpdesk_priority,name:ssi_helpdesk.helpdesk_priority_medium
 msgid "Medium"
+msgstr ""
+
+#. module: ssi_helpdesk
+#: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_ticket_resolution_documentation__message_id
+#: model:ir.model.fields.selection,name:ssi_helpdesk.selection__helpdesk_ticket_resolution_documentation__evidence_kind__message
+msgid "Message"
 msgstr ""
 
 #. module: ssi_helpdesk
@@ -1279,6 +1358,17 @@ msgstr ""
 #: model:ir.model.fields,help:ssi_helpdesk.field_helpdesk_type__message_unread_counter
 #: model:ir.model.fields,help:ssi_helpdesk.field_helpdesk_type_category__message_unread_counter
 msgid "Number of unread messages"
+msgstr ""
+
+#. module: ssi_helpdesk
+#: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_ticket_resolution_documentation__evidence_record_ref
+#: model:ir.model.fields.selection,name:ssi_helpdesk.selection__helpdesk_ticket_resolution_documentation__evidence_kind__record
+msgid "Odoo Record"
+msgstr ""
+
+#. module: ssi_helpdesk
+#: model:ir.model.fields,help:ssi_helpdesk.field_helpdesk_ticket_resolution_documentation__evidence_record_ref
+msgid "Odoo record that proves this documentation."
 msgstr ""
 
 #. module: ssi_helpdesk
@@ -1597,6 +1687,7 @@ msgstr ""
 #. module: ssi_helpdesk
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_ticket_data_requirement__url
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_ticket_resolution_documentation__url
+#: model:ir.model.fields.selection,name:ssi_helpdesk.selection__helpdesk_ticket_resolution_documentation__evidence_kind__url
 msgid "URL"
 msgstr ""
 
