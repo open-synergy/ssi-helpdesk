@@ -343,7 +343,58 @@ odoo.define("ssi_helpdesk.helpdesk_ticket_tour", function (require) {
                     },
                 },
 
-                // Flow 10 -- Click Save.
+                // Flow 10 -- Add a second line and mark it Not Applicable.
+                // Wait for the dialog before filling its fields.
+                {
+                    content: "Click Add a line again",
+                    trigger: ".tab-pane.active .o_field_x2many_list_row_add a",
+                },
+                {
+                    content: "The second Resolution Documentation dialog is displayed",
+                    trigger: ".modal-title:contains(Create Resolution Documentations)",
+                    in_modal: false,
+                    run: function () {
+                        // Assertion only.
+                    },
+                },
+                {
+                    content: "Fill the Documentation of the second line",
+                    trigger: ".o_field_widget[name='name']",
+                    run: "text Tour HD Dropped",
+                },
+                {
+                    content: "Tick Not Applicable",
+                    trigger: ".o_field_widget[name='cancelled'] input",
+                },
+                {
+                    content: "Fill the Not Applicable Reason",
+                    trigger: ".o_field_widget[name='cancel_reason']",
+                    run: "text Dropped by the customer",
+                },
+                {
+                    content: "Save the second line",
+                    trigger: ".modal-footer button.btn-primary",
+                    run: function () {
+                        var $btn = $(".modal:visible")
+                            .last()
+                            .find(".modal-footer button.btn-primary")
+                            .filter(function () {
+                                var t = $(this).text().trim();
+                                return t === "Save & Close" || t === "Save";
+                            });
+                        $btn[0].click();
+                    },
+                },
+                {
+                    content: "The second line shows the Not Applicable state",
+                    trigger:
+                        ".tab-pane.active .o_data_row:contains(Tour HD Dropped):contains(Not Applicable)",
+                    run: function () {
+                        // Assertion only; do not trigger the default click.
+                    },
+                },
+
+                // Flow 11 -- Click Save.
                 {
                     content: "Save the record",
                     trigger: ".o_form_button_save",

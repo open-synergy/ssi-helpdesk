@@ -1,0 +1,173 @@
+options:
+  auto_refresh: true
+
+scenarios:
+  - name: "Resolution Documentation - Not Applicable Lines"
+    steps:
+      - step: "Setup - create company partner"
+        action: "create"
+        model: "res.partner"
+        save_as: "company"
+        values:
+          name: "Evidence Company HDC"
+          is_company: true
+
+      - step: "Setup - create contact person"
+        action: "create"
+        model: "res.partner"
+        save_as: "contact"
+        values:
+          name: "Evidence Contact HDC"
+          is_company: false
+          parent_id: "EVAL: registry['company'].id"
+
+      - step: "Setup - create helpdesk type category"
+        action: "create"
+        model: "helpdesk_type_category"
+        save_as: "type_category"
+        values:
+          name: "Evidence Category HDC"
+          code: "CNCATHDC"
+
+      - step: "Setup - create helpdesk type"
+        action: "create"
+        model: "helpdesk_type"
+        save_as: "ticket_type"
+        values:
+          name: "Evidence Type HDC"
+          code: "CNTYPEHDC"
+          category_id: "EVAL: registry['type_category'].id"
+
+      - step: "Setup - create channel"
+        action: "create"
+        model: "helpdesk_channel"
+        save_as: "channel"
+        values:
+          name: "Evidence Channel HDC"
+          code: "CNCHHDC"
+
+      - step: "Setup - create ticket"
+        action: "create"
+        model: "helpdesk_ticket"
+        save_as: "ticket"
+        as_user: "base.user_admin"
+        values:
+          title: "Evidence Ticket HDC"
+          partner_id: "EVAL: registry['contact'].id"
+          commercial_partner_id: "EVAL: registry['company'].id"
+          type_id: "EVAL: registry['ticket_type'].id"
+          type_category_id: "EVAL: registry['type_category'].id"
+
+      - step: "Not applicable without a reason is rejected"
+        action: "create"
+        model: "helpdesk_ticket.resolution_documentation"
+        as_user: "base.user_admin"
+        expect_error:
+          type: "ValidationError"
+          message_contains: "Not applicable reason is empty"
+        values:
+          ticket_id: "EVAL: registry['ticket'].id"
+          name: "Cancel Line No Reason HDC"
+          cancelled: true
+
+      - step: "Ticket without lines needs no documentation"
+        action: "assert"
+        target: "ticket"
+        asserts:
+          resolution_documentation_state:
+            type: "value"
+            expected: "no_need"
+
+      - step: "Not applicable line with a reason has the cancel state"
+        action: "create"
+        model: "helpdesk_ticket.resolution_documentation"
+        save_as: "line_cancel"
+        as_user: "base.user_admin"
+        values:
+          ticket_id: "EVAL: registry['ticket'].id"
+          name: "Cancel Line HDC"
+          cancelled: true
+          cancel_reason: "The customer dropped this deliverable"
+        asserts:
+          state:
+            type: "value"
+            expected: "cancel"
+
+      - step: "Only not applicable lines give no_need"
+        action: "assert"
+        target: "ticket"
+        asserts:
+          resolution_documentation_state:
+            type: "value"
+            expected: "no_need"
+
+      - step: "Open line plus not applicable line gives open"
+        action: "create"
+        model: "helpdesk_ticket.resolution_documentation"
+        save_as: "line_open"
+        as_user: "base.user_admin"
+        values:
+          ticket_id: "EVAL: registry['ticket'].id"
+          name: "Open Line HDC"
+          evidence_kind: "decision"
+        asserts:
+          state:
+            type: "value"
+            expected: "open"
+
+      - step: "Ticket is open"
+        action: "assert"
+        target: "ticket"
+        asserts:
+          resolution_documentation_state:
+            type: "value"
+            expected: "open"
+
+      - step: "Prove the open line"
+        action: "write"
+        target: "line_open"
+        as_user: "base.user_admin"
+        values:
+          decision_note: "Agreed with the customer"
+
+      - step: "Done line plus not applicable line gives done"
+        action: "assert"
+        target: "ticket"
+        asserts:
+          resolution_documentation_state:
+            type: "value"
+            expected: "done"
+
+      - step: "Marking the done line not applicable keeps its reason rule"
+        action: "write"
+        target: "line_open"
+        as_user: "base.user_admin"
+        expect_error:
+          type: "ValidationError"
+          message_contains: "Not applicable reason is empty"
+        values:
+          cancelled: true
+
+      - step: "Mark the done line not applicable with a reason"
+        action: "write"
+        target: "line_open"
+        as_user: "base.user_admin"
+        values:
+          cancelled: true
+          cancel_reason: "Replaced by another deliverable"
+
+      - step: "The line has the cancel state"
+        action: "assert"
+        target: "line_open"
+        asserts:
+          state:
+            type: "value"
+            expected: "cancel"
+
+      - step: "All lines not applicable gives no_need"
+        action: "assert"
+        target: "ticket"
+        asserts:
+          resolution_documentation_state:
+            type: "value"
+            expected: "no_need"

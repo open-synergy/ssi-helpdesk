@@ -32,7 +32,10 @@
    - **Decision**: write the **Decision**.
    - **URL** or **Code**: fill the **URL** (for example the link of a pull request).
 9. Click **Save & Close** on the line.
-10. Click **Save**.
+10. To mark a documentation as not applicable, click **Add a line** again, fill
+    **Documentation**, tick **Not Applicable** and fill **Not Applicable Reason**
+    (required), then click **Save & Close** on the line.
+11. Click **Save**.
 
 ## Post-Condition
 
@@ -44,5 +47,10 @@
   **Requires Customer Confirmation** the evidence is a **Message** whose author
   (**Confirmed By**) is not a company partner; with **Requires Root Cause** the **Root
   Cause** is filled. Otherwise the line stays **In Progress**.
+- A line marked **Not Applicable** has the state **Not Applicable**, whatever its
+  evidence, and a **Not Applicable Reason** is required for it.
+- The **Resolution Documentation Status** of the ticket ignores the **Not Applicable**
+  lines: **In Progress** while an applicable line is open, **Done** when all applicable
+  lines are done, and **Not Needed** when no applicable line remains.
 - Changing the evidence of a line posts a note on the ticket chatter with the old and
   the new evidence.
