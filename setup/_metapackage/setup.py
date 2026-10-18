@@ -9,6 +9,7 @@ setuptools.setup(
     version=version,
     install_requires=[
         'odoo14-addon-ssi_helpdesk',
+        'odoo14-addon-ssi_helpdesk_ai_trace',
         'odoo14-addon-ssi_helpdesk_appointment',
         'odoo14-addon-ssi_helpdesk_data_requirement',
         'odoo14-addon-ssi_helpdesk_elearning',
