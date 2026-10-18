@@ -50,6 +50,24 @@
                 <field name="duration_id" />
                 <field name="priority_id" />
             </xpath>
+            <xpath expr="//notebook" position="inside">
+                <page name="resolution" string="Resolution Documentation(s)">
+                    <field name="resolution_documentation_template_ids">
+                        <tree editable="bottom">
+                            <field name="sequence" widget="handle" />
+                            <field name="documentation_type_id" />
+                            <field name="name" />
+                        </tree>
+                        <form>
+                            <group name="resolution_main" colspan="4" col="2">
+                                <field name="sequence" />
+                                <field name="documentation_type_id" />
+                                <field name="name" />
+                            </group>
+                        </form>
+                    </field>
+                </page>
+            </xpath>
         </data>
     </field>
 </record>

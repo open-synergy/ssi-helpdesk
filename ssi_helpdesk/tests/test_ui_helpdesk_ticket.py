@@ -42,6 +42,32 @@ class TestUiHelpdeskTicket(HttpSavepointCase):
             "Tour HD Create Contact", cls.create_company
         )
 
+        # Category, type and required documentation picked by the create
+        # tour. The type carries one required resolution documentation.
+        create_category = cls.env["helpdesk_type_category"].create(
+            {"name": "Tour HD Create Category", "code": "TOURHDCCAT"}
+        )
+        create_doc_type = cls.env["helpdesk_resolution_documentation_type"].create(
+            {"name": "Tour HD Create Doc", "code": "TOURHDCDOC"}
+        )
+        cls.env["helpdesk_type"].create(
+            {
+                "name": "Tour HD Create Type",
+                "code": "TOURHDCTYPE",
+                "category_id": create_category.id,
+                "resolution_documentation_template_ids": [
+                    (
+                        0,
+                        0,
+                        {
+                            "documentation_type_id": create_doc_type.id,
+                            "name": create_doc_type.name,
+                        },
+                    )
+                ],
+            }
+        )
+
         # Partners shared by every other fixture ticket.
         cls.company = cls._create_company("Tour HD Shared Company")
         cls.contact = cls._create_contact("Tour HD Shared Contact", cls.company)

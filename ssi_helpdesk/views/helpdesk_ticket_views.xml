@@ -212,6 +212,7 @@
                         <field name="resolution_documentation_ids">
                             <tree>
                                 <field name="sequence" widget="handle" />
+                                <field name="type_id" />
                                 <field name="name" />
                                 <field name="url" />
                                 <field name="evidence_kind" />
