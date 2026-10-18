@@ -23,6 +23,10 @@ class TestUiHelpdeskType(HttpSavepointCase):
         category = cls.env["helpdesk_type_category"].create(
             {"name": "TOUR HDT Category", "code": "TOURHDTCAT"}
         )
+        # Documentation type picked by the edit tour.
+        cls.env["helpdesk_resolution_documentation_type"].create(
+            {"name": "TOUR HDT Doc", "code": "TOURHDTDOC"}
+        )
         Type = cls.env["helpdesk_type"]
         for token, code in (
             ("EDIT", "TOURHDTEDIT"),

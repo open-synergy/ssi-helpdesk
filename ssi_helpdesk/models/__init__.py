@@ -6,6 +6,7 @@ from . import (
     helpdesk_priority,
     helpdesk_type_category,
     helpdesk_type,
+    helpdesk_type_resolution_documentation,
     helpdesk_contact_group,
     helpdesk_channel,
     helpdesk_communication,

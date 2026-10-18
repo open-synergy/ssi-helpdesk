@@ -168,10 +168,39 @@ odoo.define("ssi_helpdesk.helpdesk_type_tour", function (require) {
                 run: "text TOUR-HDT-EDIT-UPDATED",
             },
 
-            // Flow 4 — Click Save.
+            // Flow 4 — Add a required resolution documentation line.
+            {
+                content: "Open the Resolution Documentation(s) tab",
+                trigger: ".o_notebook .nav-link:contains(Resolution Documentation)",
+            },
+            {
+                content: "Add a line",
+                trigger: ".tab-pane.active .o_field_x2many_list_row_add a",
+            },
+            {
+                content: "Select the Documentation Type",
+                trigger:
+                    ".o_selected_row .o_field_many2one[name='documentation_type_id'] input",
+                run: "text TOUR HDT Doc",
+            },
+            {
+                content: "Pick the Documentation Type from the dropdown",
+                trigger: ".ui-autocomplete .ui-menu-item a:contains(TOUR HDT Doc)",
+                in_modal: false,
+            },
+
+            // Flow 5 — Click Save.
             {
                 content: "Save the record",
                 trigger: ".o_form_button_save",
+            },
+            {
+                content: "The documentation line is listed on the saved record",
+                trigger:
+                    ".o_form_view.o_form_readonly .tab-pane.active .o_data_row:contains(TOUR HDT Doc)",
+                run: function () {
+                    // Assertion only.
+                },
             },
 
             // Post-Condition — The record is updated with the new values.

@@ -417,6 +417,40 @@ class HelpdeskTicket(models.Model):
             self.priority_id = self.type_id.priority_id
 
     @api.onchange(
+        "type_id",
+    )
+    def onchange_resolution_documentation_ids(self):
+        """Add the required documentations of the type to the ticket.
+
+        Every template line of the selected type becomes a resolution
+        documentation line. Existing lines are kept, and a template
+        whose documentation type is already on the ticket is skipped,
+        so selecting the type again never duplicates a line.
+        """
+        if not self.type_id:
+            return
+        existing = self.resolution_documentation_ids.mapped("type_id")
+        commands = []
+        for template in self.type_id.resolution_documentation_template_ids:
+            doc_type = template.documentation_type_id
+            if doc_type in existing:
+                continue
+            existing |= doc_type
+            commands.append(
+                (
+                    0,
+                    0,
+                    {
+                        "type_id": doc_type.id,
+                        "name": template.name,
+                        "sequence": template.sequence,
+                    },
+                )
+            )
+        if commands:
+            self.resolution_documentation_ids = commands
+
+    @api.onchange(
         "duration_id",
         "date",
     )

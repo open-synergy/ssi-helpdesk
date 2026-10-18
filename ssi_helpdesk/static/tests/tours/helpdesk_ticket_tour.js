@@ -170,6 +170,37 @@ odoo.define("ssi_helpdesk.helpdesk_ticket_tour", function (require) {
                     },
                 },
 
+                // Flow 4 -- Select the Category and the Type. Selecting a Type
+                // resets the Title (the Category does not build it), so the
+                // Title is filled in again right after.
+                {
+                    content: "Select the Category",
+                    trigger: ".o_field_many2one[name='type_category_id'] input",
+                    run: "text Tour HD Create Category",
+                },
+                {
+                    content: "Pick the Category from the dropdown",
+                    trigger:
+                        ".ui-autocomplete .ui-menu-item a:contains(Tour HD Create Category)",
+                    in_modal: false,
+                },
+                {
+                    content: "Select the Type",
+                    trigger: ".o_field_many2one[name='type_id'] input",
+                    run: "text Tour HD Create Type",
+                },
+                {
+                    content: "Pick the Type from the dropdown",
+                    trigger:
+                        ".ui-autocomplete .ui-menu-item a:contains(Tour HD Create Type)",
+                    in_modal: false,
+                },
+                {
+                    content: "Fill in the Title again after selecting the Type",
+                    trigger: ".o_field_widget[name='title']",
+                    run: "text Tour HD Create Ticket",
+                },
+
                 // Flow 6 -- Click Save.
                 {
                     content: "Save the record",
@@ -183,7 +214,23 @@ odoo.define("ssi_helpdesk.helpdesk_ticket_tour", function (require) {
                     },
                 },
             ],
-            assertStatus("draft", "Draft")
+            assertStatus("draft", "Draft"),
+            [
+                // Post-Condition -- The required documentations of the
+                // Type are listed on the Resolution Documentation(s) tab.
+                {
+                    content: "Open the Resolution Documentation(s) tab",
+                    trigger: ".o_notebook .nav-link:contains(Resolution Documentation)",
+                },
+                {
+                    content: "The required documentation of the Type is listed",
+                    trigger:
+                        ".tab-pane.active .o_data_row:contains(Tour HD Create Doc)",
+                    run: function () {
+                        // Assertion only.
+                    },
+                },
+            ]
         )
     );
 

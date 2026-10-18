@@ -1,0 +1,242 @@
+scenarios:
+  - name: "Helpdesk Type Resolution Documentation - type fills the ticket"
+    steps:
+      - step: "Setup - create company partner"
+        action: "create"
+        model: "res.partner"
+        save_as: "company"
+        values:
+          name: "RD1 Company"
+          is_company: true
+
+      - step: "Setup - create ticket contact"
+        action: "create"
+        model: "res.partner"
+        save_as: "contact"
+        values:
+          name: "RD1 Contact"
+          is_company: false
+          parent_id: "REC: company"
+
+      - step: "Setup - create category"
+        action: "create"
+        model: "helpdesk_type_category"
+        save_as: "category"
+        values:
+          name: "RD1 Category"
+          code: "RD1CAT"
+
+      - step: "Setup - create documentation type A"
+        action: "create"
+        model: "helpdesk_resolution_documentation_type"
+        save_as: "doc_a"
+        values:
+          name: "RD1 Doc A"
+          code: "RD1DOCA"
+
+      - step: "Setup - create documentation type B"
+        action: "create"
+        model: "helpdesk_resolution_documentation_type"
+        save_as: "doc_b"
+        values:
+          name: "RD1 Doc B"
+          code: "RD1DOCB"
+
+      - step: "Setup - create type with two template lines"
+        action: "create"
+        model: "helpdesk_type"
+        save_as: "type_two"
+        values:
+          name: "RD1 Type Two"
+          code: "RD1TWO"
+          category_id: "REC: category"
+          resolution_documentation_template_ids:
+            - - 0
+              - 0
+              - sequence: 10
+                documentation_type_id: "REC: doc_a"
+                name: "RD1 Doc A"
+            - - 0
+              - 0
+              - sequence: 20
+                documentation_type_id: "REC: doc_b"
+                name: "RD1 Doc B"
+
+      - step: "Setup - create type without template"
+        action: "create"
+        model: "helpdesk_type"
+        save_as: "type_none"
+        values:
+          name: "RD1 Type None"
+          code: "RD1NONE"
+          category_id: "REC: category"
+
+      - step: "Select the type on a new ticket"
+        action: "form"
+        model: "helpdesk_ticket"
+        as_user: "base.user_admin"
+        save: true
+        save_as: "ticket"
+        ops:
+          - set: {commercial_partner_id: "REC: company"}
+          - set: {partner_id: "REC: contact"}
+          - set: {type_category_id: "REC: category"}
+          - set: {type_id: "REC: type_two"}
+          - set: {title: "RD1 Ticket"}
+
+      - step: "Ticket has two lines"
+        action: "search"
+        model: "helpdesk_ticket.resolution_documentation"
+        domain:
+          - ["ticket_id", "=", "REC: ticket.id"]
+        save_as: "lines"
+        expect_count: 2
+
+      - step: "Line typed A exists"
+        action: "search"
+        model: "helpdesk_ticket.resolution_documentation"
+        domain:
+          - ["ticket_id", "=", "REC: ticket.id"]
+          - ["type_id", "=", "REC: doc_a.id"]
+          - ["name", "=", "RD1 Doc A"]
+        save_as: "line_a"
+        expect_count: 1
+
+      - step: "Line typed B exists"
+        action: "search"
+        model: "helpdesk_ticket.resolution_documentation"
+        domain:
+          - ["ticket_id", "=", "REC: ticket.id"]
+          - ["type_id", "=", "REC: doc_b.id"]
+        save_as: "line_b"
+        expect_count: 1
+
+      - step: "Type without template keeps the lines"
+        action: "form"
+        target: "ticket"
+        as_user: "base.user_admin"
+        save: true
+        ops:
+          - set: {type_id: "REC: type_none"}
+          - set: {title: "RD1 Ticket"}
+
+      - step: "Still two lines after selecting a type without template"
+        action: "search"
+        model: "helpdesk_ticket.resolution_documentation"
+        domain:
+          - ["ticket_id", "=", "REC: ticket.id"]
+        save_as: "lines_after_none"
+        expect_count: 2
+
+      - step: "Select the same type again"
+        action: "form"
+        target: "ticket"
+        as_user: "base.user_admin"
+        save: true
+        ops:
+          - set: {type_id: "REC: type_two"}
+          - set: {title: "RD1 Ticket"}
+
+      - step: "Still two lines after selecting the type again"
+        action: "search"
+        model: "helpdesk_ticket.resolution_documentation"
+        domain:
+          - ["ticket_id", "=", "REC: ticket.id"]
+        save_as: "lines_after_again"
+        expect_count: 2
+
+      - step: "Add a manual line and select the type again"
+        action: "form"
+        target: "ticket"
+        as_user: "base.user_admin"
+        save: true
+        ops:
+          - new:
+              field: "resolution_documentation_ids"
+              values:
+                name: "RD1 Manual"
+          - set: {type_id: "REC: type_none"}
+          - set: {type_id: "REC: type_two"}
+          - set: {title: "RD1 Ticket"}
+
+      - step: "Manual line is kept and nothing is duplicated"
+        action: "search"
+        model: "helpdesk_ticket.resolution_documentation"
+        domain:
+          - ["ticket_id", "=", "REC: ticket.id"]
+        save_as: "lines_with_manual"
+        expect_count: 3
+
+  - name: "Helpdesk Type Resolution Documentation - template line CRUD"
+    steps:
+      - step: "Setup - create category"
+        action: "create"
+        model: "helpdesk_type_category"
+        save_as: "category"
+        values:
+          name: "RD2 Category"
+          code: "RD2CAT"
+
+      - step: "Setup - create documentation type"
+        action: "create"
+        model: "helpdesk_resolution_documentation_type"
+        save_as: "doc"
+        values:
+          name: "RD2 Doc"
+          code: "RD2DOC"
+
+      - step: "Setup - create type"
+        action: "create"
+        model: "helpdesk_type"
+        save_as: "type_crud"
+        values:
+          name: "RD2 Type"
+          code: "RD2TYPE"
+          category_id: "REC: category"
+
+      - step: "Create a template line"
+        action: "create"
+        model: "helpdesk_type.resolution_documentation"
+        save_as: "template"
+        values:
+          type_id: "REC: type_crud"
+          documentation_type_id: "REC: doc"
+          name: "RD2 Doc"
+
+      - step: "Template line is listed on the type"
+        action: "assert"
+        target: "type_crud"
+        refresh: true
+        asserts:
+          resolution_documentation_template_ids:
+            type: "o2m"
+            check: "exact"
+            expected_records:
+              - "REC: template"
+
+      - step: "Name is filled from the documentation type"
+        action: "form"
+        model: "helpdesk_type.resolution_documentation"
+        as_user: "base.user_admin"
+        save: false
+        ops:
+          - set: {type_id: "REC: type_crud"}
+          - set: {documentation_type_id: "REC: doc"}
+          - assert:
+              name:
+                type: "value"
+                expected: "RD2 Doc"
+
+      - step: "Delete the template line"
+        action: "unlink"
+        target: "template"
+
+      - step: "Type has no template line"
+        action: "assert"
+        target: "type_crud"
+        refresh: true
+        asserts:
+          resolution_documentation_template_ids:
+            type: "o2m"
+            check: "count"
+            expected_count: 0

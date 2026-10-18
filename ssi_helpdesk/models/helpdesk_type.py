@@ -32,3 +32,13 @@ class HelpdeskType(models.Model):
 * Leave empty if this type does not set a default priority
 * Selecting this type on a ticket fills the ticket priority""",
     )
+    resolution_documentation_template_ids = fields.One2many(
+        string="Required Resolution Documentations",
+        comodel_name="helpdesk_type.resolution_documentation",
+        inverse_name="type_id",
+        help="""Required resolution documentations of this type
+
+* Only required documentations are listed here
+* Selecting this type on a ticket adds them to the ticket
+* Optional documentations are written manually on the ticket""",
+    )
