@@ -25,6 +25,8 @@
 4. Optionally fill in the other header fields:
    - **Responsible**: Automatically filled with the current user. Change if needed.
    - **Channel**: Select the channel through which the communication happens.
+   - **Tags**: Select one or more tags. Available options are the tags of the categories
+     that are enabled for all documents or linked to the communication model.
    - **# Ticket**: Select an existing ticket of the same **Commercial Contact**. Leave
      empty to create a ticket later (see `15-create-ticket`).
 5. Optionally, on the **Description** tab, describe the communication.

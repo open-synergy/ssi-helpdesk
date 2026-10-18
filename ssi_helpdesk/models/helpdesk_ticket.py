@@ -25,6 +25,7 @@ class HelpdeskTicket(models.Model):
         "mixin.transaction_confirm",
         "mixin.transaction_open",
         "mixin.transaction_ready",
+        "mixin.tag",
     ]
     _description = "Helpdesk Ticket"
     _order = "priority_id, id desc"

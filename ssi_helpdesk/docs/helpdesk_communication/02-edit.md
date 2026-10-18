@@ -17,7 +17,7 @@
 2. Open the record to edit.
 3. Click the **Edit** button.
 4. Change the fields as needed. In **Draft** status the **Title**, **Contact**,
-   **Date**, **Channel** and **Responsible** can be changed; **# Ticket** and
+   **Date**, **Channel** and **Responsible** can be changed; **# Ticket**, **Tags** and
    **Description** can be changed in any status.
 5. Click **Save**.
 
