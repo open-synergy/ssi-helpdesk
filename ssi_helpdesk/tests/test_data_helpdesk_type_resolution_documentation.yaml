@@ -54,12 +54,12 @@ scenarios:
             - - 0
               - 0
               - sequence: 10
-                documentation_type_id: "REC: doc_a"
+                documentation_type_id: "REC: doc_a.id"
                 name: "RD1 Doc A"
             - - 0
               - 0
               - sequence: 20
-                documentation_type_id: "REC: doc_b"
+                documentation_type_id: "REC: doc_b.id"
                 name: "RD1 Doc B"
 
       - step: "Setup - create type without template"
