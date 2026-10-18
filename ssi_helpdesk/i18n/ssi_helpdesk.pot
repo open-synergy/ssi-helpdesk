@@ -546,6 +546,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_ticket_resolution_documentation__create_uid
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_type__create_uid
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_type_category__create_uid
+#: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_type_resolution_documentation__create_uid
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_split_helpdesk_ticket__create_uid
 msgid "Created by"
 msgstr ""
@@ -563,6 +564,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_ticket_resolution_documentation__create_date
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_type__create_date
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_type_category__create_date
+#: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_type_resolution_documentation__create_date
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_split_helpdesk_ticket__create_date
 msgid "Created on"
 msgstr ""
@@ -644,13 +646,20 @@ msgstr ""
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_ticket_resolution_documentation__display_name
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_type__display_name
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_type_category__display_name
+#: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_type_resolution_documentation__display_name
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_split_helpdesk_ticket__display_name
 msgid "Display Name"
 msgstr ""
 
 #. module: ssi_helpdesk
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_ticket_resolution_documentation__name
+#: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_type_resolution_documentation__name
 msgid "Documentation"
+msgstr ""
+
+#. module: ssi_helpdesk
+#: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_type_resolution_documentation__documentation_type_id
+msgid "Documentation Type"
 msgstr ""
 
 #. module: ssi_helpdesk
@@ -898,6 +907,11 @@ msgid "Helpdesk Type Category"
 msgstr ""
 
 #. module: ssi_helpdesk
+#: model:ir.model,name:ssi_helpdesk.model_helpdesk_type_resolution_documentation
+msgid "Helpdesk Type Resolution Documentation"
+msgstr ""
+
+#. module: ssi_helpdesk
 #: model:helpdesk_priority,name:ssi_helpdesk.helpdesk_priority_high
 msgid "High"
 msgstr ""
@@ -915,6 +929,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_ticket_resolution_documentation__id
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_type__id
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_type_category__id
+#: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_type_resolution_documentation__id
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_split_helpdesk_ticket__id
 msgid "ID"
 msgstr ""
@@ -1025,6 +1040,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_ticket_resolution_documentation____last_update
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_type____last_update
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_type_category____last_update
+#: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_type_resolution_documentation____last_update
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_split_helpdesk_ticket____last_update
 msgid "Last Modified on"
 msgstr ""
@@ -1042,6 +1058,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_ticket_resolution_documentation__write_uid
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_type__write_uid
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_type_category__write_uid
+#: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_type_resolution_documentation__write_uid
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_split_helpdesk_ticket__write_uid
 msgid "Last Updated by"
 msgstr ""
@@ -1059,6 +1076,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_ticket_resolution_documentation__write_date
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_type__write_date
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_type_category__write_date
+#: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_type_resolution_documentation__write_date
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_split_helpdesk_ticket__write_date
 msgid "Last Updated on"
 msgstr ""
@@ -1452,6 +1470,21 @@ msgid "Reporting"
 msgstr ""
 
 #. module: ssi_helpdesk
+#: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_type__resolution_documentation_template_ids
+msgid "Required Resolution Documentations"
+msgstr ""
+
+#. module: ssi_helpdesk
+#: model:ir.model.fields,help:ssi_helpdesk.field_helpdesk_type__resolution_documentation_template_ids
+msgid ""
+"Required resolution documentations of this type\n"
+"\n"
+"* Only required documentations are listed here\n"
+"* Selecting this type on a ticket adds them to the ticket\n"
+"* Optional documentations are written manually on the ticket"
+msgstr ""
+
+#. module: ssi_helpdesk
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_ticket_data_requirement__name
 msgid "Requirement"
 msgstr ""
@@ -1474,6 +1507,7 @@ msgstr ""
 
 #. module: ssi_helpdesk
 #: model_terms:ir.ui.view,arch_db:ssi_helpdesk.helpdesk_ticket_view_form
+#: model_terms:ir.ui.view,arch_db:ssi_helpdesk.helpdesk_type_view_form
 msgid "Resolution Documentation(s)"
 msgstr ""
 
@@ -1528,6 +1562,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_priority__sequence
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_ticket_data_requirement__sequence
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_ticket_resolution_documentation__sequence
+#: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_type_resolution_documentation__sequence
 msgid "Sequence"
 msgstr ""
 
@@ -1655,6 +1690,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_ticket__type_id
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_ticket_data_requirement__type_id
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_ticket_resolution_documentation__type_id
+#: model:ir.model.fields,field_description:ssi_helpdesk.field_helpdesk_type_resolution_documentation__type_id
 #: model:ir.model.fields,field_description:ssi_helpdesk.field_split_helpdesk_ticket__type_id
 #: model_terms:ir.ui.view,arch_db:ssi_helpdesk.helpdesk_ticket_view_search
 msgid "Type"
